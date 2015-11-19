@@ -35,7 +35,7 @@ App.init = function() {
   // Set properties of the whiteboard.
   App.canvas = $('#whiteboard');
   App.canvas[0].width = window.innerWidth;
-  App.canvas[0].height = window.innerHeight * 0.7;
+  App.canvas[0].height = window.innerHeight;
   App.context = App.canvas[0].getContext("2d");
 
   // Set properties of the mouse click.
