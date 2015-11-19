@@ -51,9 +51,9 @@ grunt docco
 
 ## Team
 
-  - __Product Owner__: Clayton
-  - __Scrum Master__: Stephen
-  - __Development Team Members__: Mitchell, Michelle
+  - __Product Owner__: [Charlie](https://github.com/whatrocks)
+  - __Scrum Master__: [Way](https://github.com/way0750)
+  - __Development Team Members__: [Banun](https://github.com/banunatina), [Jason](https://github.com/gh-jason)
 
 
 ## Contributing
