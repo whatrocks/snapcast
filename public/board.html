@@ -11,7 +11,7 @@
   </head>
   <body>
    <header>
-    <h1>Coderboard.</h1>
+    <h1>Snapcast.</h1>
   </header>
 
       <div class='whiteboard container'>
@@ -20,22 +20,24 @@
           <canvas id='whiteboard' ng-controller='canvas'>
           </canvas>
         </div>
+  </div>
 
-    <div class="videos" id="localScreenContainer"></div>
-      
-      <div class="videos" id="remoteVideos">
-        <div class='videoContainer'>
-          <video id='localVideo'></video>
-        </div>
-        <!-- <div id='remoteVideos'></div> -->
+  <div class="videosContainer">
+    
+    <div class="remote-vids" id="remoteVideos">
+<!--       Local video stream : 
+      <div class='videoContainer'>
+        <video id='localVideo'></video>
       </div>
+ -->     
+    </div>
 
-      </div>
-      <div class='toolbar' ng-controller='toolbar'>
+  </div>
+  <!-- Uncomment below for the toolbar -->
+<!--       <div class='toolbar' ng-controller='toolbar'>
         <div class='btn-erase' ng-click="changePen('eraser')">
           <img src="images/pinkeraser.png">
         </div>
-  
             
         <div class='pens'>
         <button id="screenShareButton"></button>
@@ -54,8 +56,7 @@
         </div>
         <button class="pure-button new"><a href="/new">New Board</a></button>
         
-        <!-- <button class='btn-tool btn-undo'>Undo</button> -->
-      </div>
+      </div> -->
     
   </div>
 </body>
