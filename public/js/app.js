@@ -80,20 +80,20 @@ App.init = function() {
   setButton(true);
 
   $('#screenShareButton').on('click', function () {
- 
     if ( webrtc.getLocalScreen() ) {
       webrtc.stopScreenShare();
       setButton(true);
     } else {
-      webrtc.shareScreen( function(err, data) {
+      webrtc.shareScreen(function (err) {
         if (err) {
           setButton(true);
         } else {
+          console.log("screen sharing");
           setButton(false);
         }
       });
     }
-    
+
   });
 
   webrtc.on('localScreenAdded', function (video) {
