@@ -16,86 +16,35 @@ body {
 
 
 body {
-  background: #fff;
+  background: url('../assets/polygon-7.jpg') repeat;
   overflow: hidden;
   position: absolute;
   width: 100%;
   height: 100%;
+  animation: parallax 15s ease-in-out infinite;
 }
 
-video { 
-/*  position: fixed;
-  /*-webkit-transform: translateX(-50%) translateY(-50%);*/
-  top: 0;
-  z-index: -100;
-  left: 0; 
-  min-height: 104%;
-  min-width: 100%;
-  position: absolute;
-  margin: 0;
-  padding: 0;
-  background-size: cover;*/
-  -webkit-transition: 1.1s opacity;
-  transition: 1.1s opacity;
-  /*opacity: 0.3;*/
-  -webkit-animation: video 1.1s 1.1s forwards;
-  animation: video 1.1s 1.1s forwards;
+@keyframes parallax {
+  from { background-size: 100%;}
+  to { background-size: 110%;}
 }
-
-@keyframes video {
-  0% {
-    opacity: 0.8;
-  }
-
-  100% {
-    opacity: 0.3;
-  }
-}
-
-.stopfade { 
- opacity: .5;
-}
-
-
-@keyframes header {
-  0% {
-    -moz-transform: translate3d(0,1em,0);
-    -webkit-transform: translate3d(0,1em,0);
-    -ms-transform: translate3d(0,1em,0);
-    transform: translate3d(0,1em,0);
-    opacity: 0;
-  }
-
-  100% {
-    -moz-transform: translate3d(0,0,0);
-    -webkit-transform: translate3d(0,0,0);
-    -ms-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-    opacity: 1;
-  }
-}
-
 #header {
-  -webkit-animation: header 1.1s 1.1s forwards;
-  animation: header 1.1s 1.1s forwards;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  opacity: 0;
   text-align: center;
 }
 
 #header {
-  margin-top: 14%;
+  margin-top: 15%;
 }
 
 #header h1 {
   font-size: 4.35em;
   font-weight: 900;
-  margin: 0 0 0.5em 0;
+  margin: 0 0 0.2em 0;
   line-height: 1em;
-
+  color:#fff;
 }
 
+/* We have removed this */
 #header p {
   font-size: 1.25em;
   margin: 0.75em 0 1.5em 0;
@@ -103,31 +52,23 @@ video {
 }
 
 
-/*button {
-  width: 341px;
-  height: 50px;
-  background-color: white;
-  border-width: 2px;
-  border-color: white;
-  box-shadow: none;
-}*/
-
 button {
-  background-color:#ffffff;
+  background: none;
   -moz-border-radius:26px;
   -webkit-border-radius:26px;
   border-radius:26px;
   border:2px solid #ededed;
   display:inline-block;
   cursor:pointer;
-  /*color:#387ae3;*/
+  color: #fff;
   font-size:15px;
   padding:8px 56px;
   text-decoration:none;
   font-family: 'Montserrat', sans-serif;
 }
 button:hover {
-  background-color:#ffffff;
+  background-color:#fff;
+  color: #1C2546;
 }
 button:active {
   position:relative;
@@ -136,4 +77,61 @@ button:active {
 
 div.buttons {
   margin-top: 0.4em;
+}
+
+#forkongithub a {
+    background: #fff;
+    color: #1C2546;
+    text-decoration: none;
+    font-family: arial, sans-serif;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px 40px;
+    font-size: 1rem;
+    line-height: 2rem;
+    display: block;
+    transition: 0.5s;
+}
+#forkongithub a:hover {
+    background: #1C2546;
+    color: #fff;
+}
+#forkongithub a::before,
+#forkongithub a::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 1px;
+    background: #1C2546;
+}
+#forkongithub a::after {
+    bottom: 1px;
+    top: auto;
+}
+@media screen and (min-width: 700px) {
+    #forkongithub {
+        position: fixed;
+        display: block;
+        top: 0;
+        right: 0;
+        width: 200px;
+        overflow: hidden;
+        height: 200px;
+        z-index: 9999;
+    }
+    #forkongithub a {
+        width: 200px;
+        position: absolute;
+        top: 60px;
+        right: -60px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+    }
 }
