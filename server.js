@@ -5,11 +5,31 @@
 // ## Dependencies
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var Board = require('./db/board');
 var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
+
+// ## Toggle HTTP / HTTPS for local testing
+// ** Set 'secure' to true if you want to use HTTPS mode locally
+// ** Note, when deploying to Heroku, secure should be set to 'false'
+var secure = false;
+
+var io;
+
+if ( secure ) {
+  io = require('socket.io')(https);  
+} else {
+  io = require('socket.io')(http);
+}
+
+// ## HTTPS Configuration
+var privateKey = fs.readFileSync('./server/ssl/server.key', 'utf8');
+var certificate = fs.readFileSync('./server/ssl/server.crt', 'utf8');
+var credentials = { key: privateKey, cert: certificate };
+
 
 // ## Routes
 
@@ -65,6 +85,16 @@ app.get('/*', function(req, res) {
 });
 
 // **Start the server.**
-http.listen(port, function() {
-  console.log('server listening on', port, 'at', new Date());
-});
+if ( secure ) {
+  var httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(port, function() {
+    console.log("listening at port: " + port);
+  });
+} else {
+  var httpServer = http.createServer(app);
+  httpServer.listen(port, function() {
+    console.log('server listening on', port, 'at', new Date());
+  });
+}
+
+

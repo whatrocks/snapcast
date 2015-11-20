@@ -14,14 +14,13 @@
     <h1>Coderboard.</h1>
   </header>
 
-
       <div class='whiteboard container'>
           <!-- render this in ng-view probably -->
         <div class='board-frame'>
           <canvas id='whiteboard' ng-controller='canvas'>
           </canvas>
         </div>
-
+    <div id="localScreenContainer"></div>
       
       <div class="videos" id="remoteVideos">
         <div class='videoContainer'>
@@ -35,8 +34,10 @@
         <div class='btn-erase' ng-click="changePen('eraser')">
           <img src="images/pinkeraser.png">
         </div>
-
+  
+            
         <div class='pens'>
+        <button id="screenShareButton"></button>
           <div class='palette'>
             <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click='changePen(\'black\')'/>
             <label for='black'></label>
@@ -61,7 +62,7 @@
 <!-- <script src='public/lib/jquery-ui/jquery-ui.min.js'></script> -->
 <!-- <script src="lib/angular-route/angular-route.js"></script> -->
 <!-- <script src="lib/angular-dragdrop/src/angular-dragdrop.min.js"></script> -->
-<script src="http://simplewebrtc.com/latest.js"></script>
+<script src="https://simplewebrtc.com/latest.js"></script>
 <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
 <script src="lib/jquery.event.drag-2.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
