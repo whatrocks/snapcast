@@ -1,21 +1,27 @@
 /****** VIDEO CHAT ******/
-video#localVideo {
-  height: 150px;
+#localVideo {
+ /* height: 150px;
   top: 200px;
-  left: 80%;
-  display: inline;
+  left: 80%;*/
+  /*display: inline;*/
   position: absolute;
 }
 
 
 /**** FLEX BOX ****/
+/*.videocontainer {*/
+/*  width: 100%;
+  display: block;*/
+/*}*/
+
 #remoteVideos {
   display: flex;
   width: 100%;
 }
 
-#remoteVideos video {
-  flex: 1;
+#remoteVideos video{
+  flex: 1 0 0;
+  width: 100%;
 }
 
 /*** PAGE STYLING ***/
@@ -28,9 +34,12 @@ html {
 
 
 body {
- background: #000;
+ /*background: #000;*/
 }
 
+header {
+  background: #000;
+}
 h1 {
   font-family: 'Open Sans';
   font-weight: 700;
@@ -44,7 +53,7 @@ h1 {
 }
 
 
-.whiteboard.container { 
+/*.whiteboard.container { 
   background-color: #fff;
   /*position: relative;*/
 /*  margin: 10% 10%;
@@ -53,11 +62,11 @@ h1 {
   padding: 10px;
   height: 80%;
   width: 80%;*/
-  /**/
-}
+  /*
+} */
 
 .toolbar {
-  background-color: #000;
+  /*background-color: #000;*/
   width: 100%;
   margin: 0 auto;
   position: absolute;
@@ -65,12 +74,11 @@ h1 {
 }
 
 .board-frame {
-
 }
 
 #whiteboard {
-  /*position: absolute;*/
-  margin: auto;
+  position: absolute;ute;
+  /*margin: auto;*/
 }
 
 

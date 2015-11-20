@@ -18,17 +18,34 @@ App.init = function() {
   // Create a video chat Object.
   var webrtc = new SimpleWebRTC({
     // **localVideoEl**: the ID/element DOM element that will hold the current user's video
-    localVideoEl: 'localVideo',
+    // localVideoEl: 'localVideo',
     // **remoteVideosEl**: the ID/element DOM element that will hold remote videos
-    remoteVideosEl: 'remoteVideos',
+    remoteVideosEl: '',
     // **autoRequestMedia**: immediately ask for camera access
     autoRequestMedia: true
   });
 
+  // a peer video has been added - adds to remoteVideos div
+  webrtc.on('videoAdded', function (video, peer) {
+      console.log('video added', peer);
+      var remotes = document.getElementById('remoteVideos');
+      if (remotes) {
+          var container = document.createElement('div');
+          container.className = 'videoContainer';
+          container.id = 'container_' + webrtc.getDomId(peer);
+          container.appendChild(video);
+
+          // suppress contextmenu
+          video.oncontextmenu = function () { return false; };
+
+          remotes.appendChild(container);
+      }
+  });
   // The room name is the same as our socket connection.
   webrtc.on('readyToCall', function() {
     webrtc.joinRoom(ioRoom);
   });
+
 
   // **Whiteboard**
 

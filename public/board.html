@@ -10,7 +10,9 @@
 
   </head>
   <body>
+   <header>
     <h1>Coderboard.</h1>
+  </header>
 
 
       <div class='whiteboard container'>
@@ -20,15 +22,15 @@
           </canvas>
         </div>
 
-      </div>
       
-      <div class='video container'>
+      <div class="videocontainer">
         <div class='localVideo'>
           <video id='localVideo'></video>
         </div>
         <div id='remoteVideos'></div>
       </div>
 
+      </div>
       <div class='toolbar' ng-controller='toolbar'>
         <div class='btn-erase' ng-click="changePen('eraser')">
           <img src="images/pinkeraser.png">

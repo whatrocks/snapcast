@@ -11,8 +11,8 @@ $(function() {
   App.init();
 
   // Set up video to be draggable.
-  $('#localVideo').draggable();
-  $('#remoteVideos').draggable();
+  // $('#localVideo').draggable();
+  // $('#remoteVideos').draggable();
 
   // **Mouse Events**
 
