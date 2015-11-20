@@ -3,6 +3,7 @@
 // ##### [Back to Table of Contents](./tableofcontents.html)
 var mongoose = require('mongoose');
 
+// connection to db
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://127.0.0.1' );
 
 var db = mongoose.connection;
