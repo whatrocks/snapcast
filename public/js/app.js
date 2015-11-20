@@ -21,6 +21,7 @@ App.init = function() {
     localVideoEl: 'localVideo',
     // **remoteVideosEl**: the ID/element DOM element that will hold remote videos
     remoteVideosEl: '',
+    
     // **autoRequestMedia**: immediately ask for camera access
     autoRequestMedia: true
   });
@@ -44,12 +45,20 @@ App.init = function() {
 
   // a peer video was removed - remove element from DOM
   webrtc.on('videoRemoved', function (video, peer) {
+    
+    // Remove screen share video
+    if ( video.id === 'localScreen' ) {
+      document.getElementById('localScreenContainer').removeChild(video);
+      $('#localScreenContainer').hide();
+
+    } else {
       console.log('video removed ', peer);
       var remotes = document.getElementById('remoteVideos');
       var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
       if (remotes && el) {
           remotes.removeChild(el);
       }
+    }
   });
   // The room name is the same as our socket connection.
   webrtc.on('readyToCall', function() {
@@ -58,48 +67,50 @@ App.init = function() {
 
   // **Screenshare Functionality**
 
-  // var button = document.getElementById('screenShareButton'),
-  //   setButton = function (bool) {
-  //     button.innerText = bool ? 'share screen' : 'stop sharing';
-  //   };
+  var button = document.getElementById('screenShareButton'),
+    setButton = function (bool) {
+      button.innerText = bool ? 'share screen' : 'stop sharing';
+    };
 
-  // if ( !webtrc.capabilities.screenSharing) {
-  //   button.disabled = 'disabled';
-  // }
+  webrtc.on('localScreenRemoved', function() {
+    console.log('local screen removed');
+    setButton(true);
+  });
 
-  // webrtc.on('localScreenRemoved', function() {
-  //   setButton(true);
-  // });
+  setButton(true);
 
-  // setButton(true);
+  $('#screenShareButton').on('click', function () {
+ 
+    if ( webrtc.getLocalScreen() ) {
+      webrtc.stopScreenShare();
+      setButton(true);
+    } else {
+      webrtc.shareScreen( function(err, data) {
+        if (err) {
+          setButton(true);
+        } else {
+          setButton(false);
+        }
+      });
+    }
+    
+  });
 
-  // button.click(function () {
-  //   if ( webrtc.getLocalScreen() ) {
-  //     webrtc.stopScreenShare();
-  //     setButton(true);
-  //   } else {
-  //     webrtc.shareScreen(function (err) {
-  //       if (err) {
-  //         setButton(true);
-  //       } else {
-  //         console.log("screen sharing");
-  //         setButton(false);
-  //       }
-  //     });
-  //   }
-  // });
+  webrtc.on('localScreenAdded', function (video) {
+    console.log(" local screen was added ");
+    video.onclick = function () {
+      video.style.width = video.videoWidth + 'px';
+      video.style.height = video.videoHeight + 'px';
+    };
+    document.getElementById('localScreenContainer').appendChild(video);
+    $('#localScreenContainer').show();
+  });
 
-  // webrtc.on('localScreenAdded', function (video) {
-  //   console.log(" local screen was added ");
-  //   video.onclick = function () {
-  //     video.style.width = video.videoWidth + 'px';
-  //     video.style.height = video.videoHeight + 'px';
-  //   };
-  //   document.getElementById('localScreenContainer').appendChild(video);
-  //   $('#localScreenContainer').show();
-  // });
-
+  // Event is not getting fired for some reason..?
+  // Had to move up to the 'videoRemoved' event 
+  //
   // webrtc.on('localScreenRemoved', function (video) {
+  //   console.log(video);
   //   document.getElementById('localScreenContainer').removeChild(video);
   //   $('#localScreenContainer').hide();
   // });
