@@ -56,6 +56,53 @@ App.init = function() {
     webrtc.joinRoom(ioRoom);
   });
 
+  // **Screenshare Functionality**
+
+  // var button = document.getElementById('screenShareButton'),
+  //   setButton = function (bool) {
+  //     button.innerText = bool ? 'share screen' : 'stop sharing';
+  //   };
+
+  // if ( !webtrc.capabilities.screenSharing) {
+  //   button.disabled = 'disabled';
+  // }
+
+  // webrtc.on('localScreenRemoved', function() {
+  //   setButton(true);
+  // });
+
+  // setButton(true);
+
+  // button.click(function () {
+  //   if ( webrtc.getLocalScreen() ) {
+  //     webrtc.stopScreenShare();
+  //     setButton(true);
+  //   } else {
+  //     webrtc.shareScreen(function (err) {
+  //       if (err) {
+  //         setButton(true);
+  //       } else {
+  //         console.log("screen sharing");
+  //         setButton(false);
+  //       }
+  //     });
+  //   }
+  // });
+
+  // webrtc.on('localScreenAdded', function (video) {
+  //   console.log(" local screen was added ");
+  //   video.onclick = function () {
+  //     video.style.width = video.videoWidth + 'px';
+  //     video.style.height = video.videoHeight + 'px';
+  //   };
+  //   document.getElementById('localScreenContainer').appendChild(video);
+  //   $('#localScreenContainer').show();
+  // });
+
+  // webrtc.on('localScreenRemoved', function (video) {
+  //   document.getElementById('localScreenContainer').removeChild(video);
+  //   $('#localScreenContainer').hide();
+  // });
 
   // **Whiteboard**
 
