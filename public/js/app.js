@@ -13,7 +13,7 @@ App.init = function() {
   App.socket = io(ioRoom);
 
 
-  //**Video Chat Functionality** 
+  //** Video Chat Functionality ** 
 
   // Create a video chat Object.
   var webrtc = new SimpleWebRTC({
@@ -39,6 +39,16 @@ App.init = function() {
           video.oncontextmenu = function () { return false; };
 
           remotes.appendChild(container);
+      }
+  });
+
+  // a peer video was removed - remove element from DOM
+  webrtc.on('videoRemoved', function (video, peer) {
+      console.log('video removed ', peer);
+      var remotes = document.getElementById('remoteVideos');
+      var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
+      if (remotes && el) {
+          remotes.removeChild(el);
       }
   });
   // The room name is the same as our socket connection.

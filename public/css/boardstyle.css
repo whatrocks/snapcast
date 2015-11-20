@@ -9,10 +9,6 @@
 
 
 /**** FLEX BOX ****/
-/*.videocontainer {*/
-/*  width: 100%;
-  display: block;*/
-/*}*/
 
 .videos {
   display: flex;
@@ -23,6 +19,7 @@
   flex: 1 0 0;
   width: 100%;
 }
+
 
 /*** PAGE STYLING ***/
 html {
