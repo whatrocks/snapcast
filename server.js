@@ -14,7 +14,7 @@ var handleSocket = require('./server/sockets');
 
 // ## Toggle HTTP / HTTPS
 // ** Set 'secure' to true if you want to use HTTPS mode
-var secure = true;
+var secure = false;
 
 var io;
 
