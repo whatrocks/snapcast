@@ -1,22 +1,27 @@
-/**********VIDEO CHAT**********/
-video#localVideo {
-  height: 150px;
-  border-radius: 100%;
-  top: 200px;
-  left: 80%;
-  display: inline;
-  position: absolute;
+/****** VIDEO CHAT ******/
+/*#localVideo {*/
+  /*height: 100%;*/
+/*  top: 200px;
+  left: 80%;*/
+  /*display: inline;*/
+  /*position: absolute;*/
+/*}*/
+
+
+/**** FLEX BOX ****/
+
+.videos {
+  display: flex;
+  width: 100%;
 }
 
-div#remoteVideos video {
-  height: 150px;
-  border-radius: 100%;
-  top: 400px;
-  left: 80%;
-  display: inline;
-  position: absolute;
+.videos video{
+  flex: 1 0 0;
+  width: 100%;
 }
 
+
+/*** PAGE STYLING ***/
 html {
   width: 100%;
   height: 100%;
@@ -26,27 +31,18 @@ html {
 
 
 body {
-  background-color: black;
-  position: relative;
-  background-color: #00BB9C;
-  /*background-image: url('../images/whiteboard.jpg');*/
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  min-width: 100%;
-  min-height: 100%;
+ /*background: #000;*/
 }
 
+header {
+  background: #000;
+}
 h1 {
   font-family: 'Open Sans';
   font-weight: 700;
-  font-size: 5em;
+  font-size: 2em;
   color: white;
-  margin-left: 10%;
+  margin-left: 1em;
   margin-top: 0;
   margin-bottom: 0;
   z-index: -100;
@@ -54,7 +50,7 @@ h1 {
 }
 
 
-.whiteboard.container { 
+/*.whiteboard.container { 
   background-color: #fff;
   /*position: relative;*/
 /*  margin: 10% 10%;
@@ -63,32 +59,24 @@ h1 {
   padding: 10px;
   height: 80%;
   width: 80%;*/
-  /**/
-}
+  /*
+} */
 
 .toolbar {
-  background-color: #00BB9C;
+  /*background-color: #000;*/
   width: 100%;
   margin: 0 auto;
   position: absolute;
+  bottom: 0;
 }
 
 .board-frame {
- /*background-image: url('../images/Whiteboard_Frame2.jpg');*/
-
-
- /*background-size: 908px 680px;*/
- /*padding: 45px 40px;*/
- /*width: 828px;*/
- /*height: 590px;*/
-
 }
 
 #whiteboard {
-  /*position: absolute;*/
-  margin: auto;
-  /*top: 40px;*/
-  /*left: 40px;*/
+  position: absolute;
+  /*margin: auto;*/
+  /*z-index: -2000;*/
 }
 
 
@@ -124,7 +112,7 @@ div.btn-erase {
 
 .btn-erase img {
   position: absolute;
-  height: 100%;
+  height: 80%;
 }
 
 

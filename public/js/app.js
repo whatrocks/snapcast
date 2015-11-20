@@ -13,29 +13,56 @@ App.init = function() {
   App.socket = io(ioRoom);
 
 
-  //**Video Chat Functionality** 
+  //** Video Chat Functionality ** 
 
   // Create a video chat Object.
   var webrtc = new SimpleWebRTC({
     // **localVideoEl**: the ID/element DOM element that will hold the current user's video
     localVideoEl: 'localVideo',
     // **remoteVideosEl**: the ID/element DOM element that will hold remote videos
-    remoteVideosEl: 'remoteVideos',
+    remoteVideosEl: '',
     // **autoRequestMedia**: immediately ask for camera access
     autoRequestMedia: true
   });
 
+  // a peer video has been added - adds to remoteVideos div
+  webrtc.on('videoAdded', function (video, peer) {
+      console.log('video added', peer);
+      var remotes = document.getElementById('remoteVideos');
+      if (remotes) {
+          var container = document.createElement('div');
+          container.className = 'videoContainer';
+          container.id = 'container_' + webrtc.getDomId(peer);
+          container.appendChild(video);
+
+          // suppress contextmenu
+          video.oncontextmenu = function () { return false; };
+
+          remotes.appendChild(container);
+      }
+  });
+
+  // a peer video was removed - remove element from DOM
+  webrtc.on('videoRemoved', function (video, peer) {
+      console.log('video removed ', peer);
+      var remotes = document.getElementById('remoteVideos');
+      var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
+      if (remotes && el) {
+          remotes.removeChild(el);
+      }
+  });
   // The room name is the same as our socket connection.
   webrtc.on('readyToCall', function() {
     webrtc.joinRoom(ioRoom);
   });
+
 
   // **Whiteboard**
 
   // Set properties of the whiteboard.
   App.canvas = $('#whiteboard');
   App.canvas[0].width = window.innerWidth;
-  App.canvas[0].height = window.innerHeight * 0.7;
+  App.canvas[0].height = window.innerHeight;
   App.context = App.canvas[0].getContext("2d");
 
   // Set properties of the mouse click.

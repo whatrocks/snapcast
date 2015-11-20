@@ -10,20 +10,27 @@
 
   </head>
   <body>
+   <header>
     <h1>Coderboard.</h1>
+  </header>
 
-    <video id="localVideo"></video>
-    <div id="remoteVideos"></div>
 
-    <div class='whiteboard container'>
+      <div class='whiteboard container'>
+          <!-- render this in ng-view probably -->
+        <div class='board-frame'>
+          <canvas id='whiteboard' ng-controller='canvas'>
+          </canvas>
+        </div>
 
-      <!-- render this in ng-view probably -->
-      <div class='board-frame'>
-
-        <canvas id='whiteboard' ng-controller='canvas'>
-        </canvas>
+      
+      <div class="videos" id="remoteVideos">
+        <div class='videoContainer'>
+          <video id='localVideo'></video>
+        </div>
+        <!-- <div id='remoteVideos'></div> -->
       </div>
-    </div>
+
+      </div>
       <div class='toolbar' ng-controller='toolbar'>
         <div class='btn-erase' ng-click="changePen('eraser')">
           <img src="images/pinkeraser.png">
@@ -31,8 +38,8 @@
 
         <div class='pens'>
           <div class='palette'>
-            <input type="checkbox" value="None" id="black" name="check" checked="checked" ng-click="changePen('black')"/>
-            <label for="black"></label>
+            <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click='changePen(\'black\')'/>
+            <label for='black'></label>
           </div>
           <div class='palette'>
             <input type="checkbox" value="None" id="red" name="check" ng-click="changePen('red')"/>
