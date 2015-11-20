@@ -9,15 +9,16 @@
 
 
 /**** FLEX BOX ****/
-
+/*TODO : leave whiteboard/localvid as large left column, flex the rest*/
 .videos {
   display: flex;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .videos video{
   flex: 1 0 0;
-  width: 100%;
+  /*width: 100%;*/
+  height: 100%;
 }
 
 
@@ -31,7 +32,6 @@ html {
 
 
 body {
- /*background: #000;*/
 }
 
 header {
@@ -49,19 +49,6 @@ h1 {
   display: inline;
 }
 
-
-/*.whiteboard.container { 
-  background-color: #fff;
-  /*position: relative;*/
-/*  margin: 10% 10%;
-  left: 30px;
-  margin: 10px;
-  padding: 10px;
-  height: 80%;
-  width: 80%;*/
-  /*
-} */
-
 .toolbar {
   /*background-color: #000;*/
   width: 100%;
@@ -69,9 +56,9 @@ h1 {
   position: absolute;
   bottom: 0;
 }
-
+/*
 .board-frame {
-}
+}*/
 
 #whiteboard {
   position: absolute;
