@@ -18,7 +18,7 @@ App.init = function() {
   // Create a video chat Object.
   var webrtc = new SimpleWebRTC({
     // **localVideoEl**: the ID/element DOM element that will hold the current user's video
-    // localVideoEl: 'localVideo',
+    localVideoEl: 'localVideo',
     // **remoteVideosEl**: the ID/element DOM element that will hold remote videos
     remoteVideosEl: '',
     // **autoRequestMedia**: immediately ask for camera access
