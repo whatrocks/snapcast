@@ -66,6 +66,7 @@ App.init = function() {
 
   // **Screenshare Functionality**
 
+<<<<<<< 49946d45caa82b7c5c1843fa90ed37c3378823b6
   var shareButton = document.getElementById('screenShareButton'),
     setButton = function (bool) {
       shareButton.innerText = bool ? 'share screen' : 'stop sharing';
@@ -92,7 +93,6 @@ App.init = function() {
         }
       });
     }
-
   });
 
   webrtc.on('localScreenAdded', function (video) {
