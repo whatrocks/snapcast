@@ -12,8 +12,9 @@ var Board = require('./db/board');
 var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
 
-// ## Toggle HTTP / HTTPS
-// ** Set 'secure' to true if you want to use HTTPS mode
+// ## Toggle HTTP / HTTPS for local testing
+// ** Set 'secure' to true if you want to use HTTPS mode locally
+// ** Note, when deploying to Heroku, secure should be set to 'false'
 var secure = false;
 
 var io;
