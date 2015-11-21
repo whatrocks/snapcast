@@ -18,7 +18,7 @@ View the documentation [here](http://hidden-castle-8290.herokuapp.com/documentat
 
 ## Usage
 
-> Cast your screen in a snap. Snapcast is a simple-to-use, responsive screencast app.
+> Screencast with friends. Snapcast is a simple-to-use, responsive screencast app.
 
 ## Requirements
 
