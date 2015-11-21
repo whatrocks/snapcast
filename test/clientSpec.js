@@ -1,6 +1,5 @@
 (function() {
   // Basic Integration testing, with some mock user activity.
-
   var expect = chai.expect;
 
 //fakeDraw simulates an event of clicking and dragging on the canvas.
