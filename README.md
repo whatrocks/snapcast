@@ -1,5 +1,5 @@
-# Coderboard
-[See it live here!](http://hidden-castle-8290.herokuapp.com)
+# Snapcast
+[See it live here!](https://icicle-kindling.herokuapp.com)
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ View the documentation [here](http://hidden-castle-8290.herokuapp.com/documentat
 
 ## Usage
 
-> Simple-to-use, responsive, real-time whiteboard app. Play pictionary with your friends, or conduct a grueling 2-hour algorithm interview. The choice is yours.
+> Cast your screen in a snap. Snapcast is a simple-to-use, responsive screencast app.
 
 ## Requirements
 
@@ -29,7 +29,8 @@ View the documentation [here](http://hidden-castle-8290.herokuapp.com/documentat
 - Socket.io 1.3.7
 - Grunt-Docco 0.4.0
 - Body-Parser 1.14.1
-
+- GetScreenMedia: 1.5.3
+- GetUserMedia: 1.3.5
 
 ## Development
 
@@ -51,9 +52,9 @@ grunt docco
 
 ## Team
 
-  - __Product Owner__: [Charlie](https://github.com/whatrocks)
-  - __Scrum Master__: [Way](https://github.com/way0750)
-  - __Development Team Members__: [Banun](https://github.com/banunatina), [Jason](https://github.com/gh-jason)
+  - __Product Owner__: [Charlie Harrington](https://github.com/whatrocks)
+  - __Scrum Master__: [Huiqiang (Way) Huang](https://github.com/way0750)
+  - __Development Team Members__: [Banun Idris](https://github.com/banunatina), [Jason Matsui](https://github.com/gh-jason)
 
 
 ## Contributing

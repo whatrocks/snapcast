@@ -102,12 +102,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Currently configured for deployment. Change to this for development: 
-<code>mongoose.connect(&#39;mongodb://127.0.0.1&#39;);</code></p>
+              <p>connection to db</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>mongoose.connect(process.env.MONGOLAB_URI);
+            <div class="content"><div class='highlight'><pre>mongoose.connect(process.env.MONGOLAB_URI || <span class="hljs-string">'mongodb://127.0.0.1'</span> );
 
 <span class="hljs-keyword">var</span> db = mongoose.connection;
 
