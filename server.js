@@ -11,11 +11,66 @@ var fs = require('fs');
 var Board = require('./db/board');
 var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+
+app.use(bodyParser.json());
+
+
+//------------passport authentication with twitter-------------//
+//
+//all of these just for using OAuth with passport:
+app.use(cookieParser());
+app.use(session({ secret: 'what is going on' }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+//test session:
+app.use('/session', function(req, res, next){
+  console.log('the session is', req.session);
+  res.send(200);
+});
+
+
+//configuring the strategy:
+passport.use(new TwitterStrategy({
+    consumerKey: "mExebuSVx9OXrCHMWfGu8ZcqH",
+    consumerSecret: "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ",
+    callbackURL: "http://c70d3a67.ngrok.io/auth/twitter/callback"
+  },
+
+  function(token, tokenSecret, profile, done) {
+
+    console.log('this is the function inside of the new strategy',token, tokenSecret, profile, done);
+    done(null, {fakeUser : 'fakefake'});
+  }
+));
+
+
+app.get('/waytest', passport.authenticate('twitter'));
+
+//testing twitter's callback:
+app.all("/auth/twitter/callback", passport.authenticate('twitter', {
+  successRedirect: '/564ff12da00416df659a4a86'
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+
 
 // ## Toggle HTTP / HTTPS for local testing
 // ** Set 'localMode' to true if you want to use HTTPS mode locally (required for locally testing screen sharing)
 // ** Set 'localMode' to false when deploying to Heroku
-var localMode = true;
+var localMode = false;
 
 var io;
 
