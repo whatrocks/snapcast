@@ -63,12 +63,16 @@ app.use('/update', function(req, res, next){
         access_token_secret: req.session.passport.user.tokenSecret
       });
 
-      client.post('direct_messages/new', {screen_name : 'whatrocks', text : 'can you see this: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'},  function(error, tweet, response){
-        if(error) console.log(error);
-        console.log(tweet);  // Tweet body. 
-        console.log(response);  // Raw response object. 
+      client.post('direct_messages/new', {screen_name : 'Brucehuang14', text : 'woirks: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'},  function(error, tweet, response){
+        if(error){
+          console.log(error);
+          res.status(400).send(error);
+        } else {
+          console.log(tweet);  // Tweet body. 
+          console.log(response);  // Raw response object. 
+          res.status(200).send('you just sent it!');
+        }
       });
-      res.status(200).send('you just sent it!');
   } else {
     res.status(400).send('you have no session set');
   }
