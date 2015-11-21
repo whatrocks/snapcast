@@ -25,7 +25,6 @@ app.use(bodyParser.json());
 
 
 //------------passport authentication with twitter-------------//
-//
 //all of these just for using OAuth with passport:
 app.use(cookieParser());
 app.use(session({ secret: 'what is going on' }));
@@ -35,7 +34,9 @@ app.use(passport.session());
 var consumerKey = "mExebuSVx9OXrCHMWfGu8ZcqH";
 var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 
-//test session:
+
+
+//-----------------------------concept proving twitter begin-----------------------------------//
 app.use('/session', function(req, res, next){
 
   //req.session.passport.user.token or req.session.passport.tokenSecret
@@ -51,11 +52,10 @@ app.use('/session', function(req, res, next){
 });
 
 
-//concept proving:
+//template on how to send twitter api
 app.use('/update', function(req, res, next){
   if (req.session.passport){
       //set all the keys for each user to make OAuth request.
-      console.log('trying to update: with these numbers:', req.session.passport.token, req.session.passport.tokenSecret);
       var client = new Twitter({
         consumer_key: consumerKey,
         consumer_secret: consumerSecret,
@@ -70,7 +70,7 @@ app.use('/update', function(req, res, next){
         } else {
           console.log(tweet);  // Tweet body. 
           console.log(response);  // Raw response object. 
-          res.status(200).send('you just sent it!');
+          res.status(200).send('you just made a request!');
         }
       });
   } else {
@@ -80,16 +80,18 @@ app.use('/update', function(req, res, next){
 });
 
 
+//-----------------------------concept proving twitter end-----------------------------------//
+
+
 //configuring the strategy:
 passport.use(new TwitterStrategy({
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
-    callbackURL: "http://c70d3a67.ngrok.io/auth/twitter/callback"
+    callbackURL: "http://8a18f53b.ngrok.io/twitter/callback"
   },
 
   function(token, tokenSecret, profile, done) {
     //pass these to serializeUser
-    console.log('this is the function inside of the new strategy',token, tokenSecret, profile, done);
     var userObj = {profile : profile, token : token, tokenSecret : tokenSecret};
     done(null, userObj);
   }
@@ -105,16 +107,8 @@ app.use('/suc', function (req, res, next) {
   res.send(200, profileObj);
 });
 
-app.get('/waytest', passport.authenticate('twitter'));
-
-//testing twitter's callback:
-app.all("/auth/twitter/callback", passport.authenticate('twitter', {
-  successRedirect: '/suc'
-}));
-
 passport.serializeUser(function(user, done) {
   //user is from the strategy;
-  console.log('--------------------------------------------------------the user is:', user);
   done(null, user);
 });
 
@@ -122,6 +116,41 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
+app.get('/twitterSignIn', passport.authenticate('twitter'));
+
+//twitter will call this afterward to update the statue on the request
+app.all("/twitter/callback", passport.authenticate('twitter', {
+  successRedirect: '/new'
+}));
+
+app.use('/sendInvite', function(req, res, next){
+  if (req.session.passport){
+      //set all the keys for each user to make OAuth request.
+      var client = new Twitter({
+        consumer_key: consumerKey,
+        consumer_secret: consumerSecret,
+        access_token_key: req.session.passport.user.token,
+        access_token_secret: req.session.passport.user.tokenSecret
+      });
+
+      client.post('direct_messages/new', {
+        screen_name : req.data.username,
+        text : 'woirks: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'
+      },  function(error, tweet, response){
+        if(error){
+          console.log(error);
+          res.status(400).send('User Not Found');
+        } else {
+          console.log(tweet);  // Tweet body. 
+          console.log(response);  // Raw response object. 
+          res.status(200).send('Invite Sent');
+        }
+      });
+  } else {
+    res.status(400).send('Sing In To Send Invite');
+  }
+
+});
 
 
 // ## Toggle HTTP / HTTPS for local testing
