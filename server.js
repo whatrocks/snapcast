@@ -15,7 +15,7 @@ var handleSocket = require('./server/sockets');
 // ## Toggle HTTP / HTTPS for local testing
 // ** Set 'localMode' to true if you want to use HTTPS mode locally (required for locally testing screen sharing)
 // ** Set 'localMode' to false when deploying to Heroku
-var localMode = false;
+var localMode = true;
 
 var io;
 
