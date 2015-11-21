@@ -39,7 +39,9 @@ describe("Server side socket handler", function() {
   function ready(done, callback) {
     numReady++;
     if(numReady === 2) {
-      callback? callback(): null;
+      if ( callback ) {
+        callback();
+      }
 
       done();
     }

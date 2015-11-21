@@ -12,7 +12,7 @@ var connect = function(boardUrl, board, io) {
   // Set the Socket.io namespace to the boardUrl.
   var whiteboard = io.of(boardUrl);
 
-  whiteboard.once('connection', function(socket) {
+  whiteboard.on('connection', function(socket) {
     // Send the current state of the board to the client immediately on joining.
     socket.emit('join', board);
 

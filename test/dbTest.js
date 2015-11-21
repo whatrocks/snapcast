@@ -39,7 +39,7 @@ describe("Persistent Boards Server", function() {
 
     Board.update({_id: boardID},{$push: {strokes: stroke} },{upsert:true}, function() {
       Board.findOne({_id: boardID}, function(err, doc) {
-        expect(doc.strokes).to.not.be.empty;
+        expect(doc.strokes.length).to.be.equal(1);
         done();
       });
     });
