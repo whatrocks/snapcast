@@ -2,7 +2,6 @@
 
 // ##### [Back to Table of Contents](./tableofcontents.html)
 
-
 // Set up app properties.
 
 var App = {};

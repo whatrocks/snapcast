@@ -35,8 +35,9 @@ html {
 }
 
 header {
-  background: #000;
+  background: url('../assets/polygon-7.jpg') 100px;
 }
+
 h1 {
   font-family: 'Open Sans';
   font-weight: 700;
