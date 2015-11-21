@@ -13,7 +13,6 @@ var board = db.model('board');
 describe("Persistent Boards Server", function() {
 
   beforeEach(function(done) {
-    // var db = mongoose.createConnection('mongodb://127.0.0.1');
     newBoard = board({strokes: []});
     boardID = newBoard._id;
 

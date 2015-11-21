@@ -66,9 +66,9 @@ App.init = function() {
 
   // **Screenshare Functionality**
 
-  var button = document.getElementById('screenShareButton'),
+  var shareButton = document.getElementById('screenShareButton'),
     setButton = function (bool) {
-      button.innerText = bool ? 'share screen' : 'stop sharing';
+      shareButton.innerText = bool ? 'share screen' : 'stop sharing';
     };
 
   webrtc.on('localScreenRemoved', function() {
@@ -104,15 +104,6 @@ App.init = function() {
     document.getElementById('localScreenContainer').appendChild(video);
     $('#localScreenContainer').show();
   });
-
-  // Event is not getting fired for some reason..?
-  // Had to move up to the 'videoRemoved' event 
-  //
-  // webrtc.on('localScreenRemoved', function (video) {
-  //   console.log(video);
-  //   document.getElementById('localScreenContainer').removeChild(video);
-  //   $('#localScreenContainer').hide();
-  // });
 
   // **Whiteboard**
 
