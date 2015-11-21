@@ -4,6 +4,7 @@
 
 // ## Dependencies
 var express = require('express');
+var request = require('request');
 var app = express();
 var http = require('http');
 var https = require('https');
@@ -17,6 +18,9 @@ var session = require('express-session');
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 
+//use Twitter to make OAuth api calls. for more info: https://www.npmjs.com/package/twitter
+var Twitter = require('twitter');
+
 app.use(bodyParser.json());
 
 
@@ -28,36 +32,85 @@ app.use(session({ secret: 'what is going on' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+var consumerKey = "mExebuSVx9OXrCHMWfGu8ZcqH";
+var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
+
 //test session:
 app.use('/session', function(req, res, next){
-  console.log('the session is', req.session);
-  res.send(200);
+
+  //req.session.passport.user.token or req.session.passport.tokenSecret
+  //make sure to check and see if req.session.passport even exist
+  //if not then no authenticate session is set
+  if (req.session.passport){
+    res.status(200).send('found you!');
+    //the session obj format: req.session.passport, then there are: profile and user.
+    console.log('the session object Contents', req.session.passport.user.token);
+  } else {
+    res.status(400).send('no session found');
+  }
+});
+
+
+//concept proving:
+app.use('/update', function(req, res, next){
+  if (req.session.passport){
+      //set all the keys for each user to make OAuth request.
+      console.log('trying to update: with these numbers:', req.session.passport.token, req.session.passport.tokenSecret);
+      var client = new Twitter({
+        consumer_key: consumerKey,
+        consumer_secret: consumerSecret,
+        access_token_key: req.session.passport.user.token,
+        access_token_secret: req.session.passport.user.tokenSecret
+      });
+
+      client.post('direct_messages/new', {screen_name : 'whatrocks', text : 'can you see this: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'},  function(error, tweet, response){
+        if(error) console.log(error);
+        console.log(tweet);  // Tweet body. 
+        console.log(response);  // Raw response object. 
+      });
+      res.status(200).send('you just sent it!');
+  } else {
+    res.status(400).send('you have no session set');
+  }
+
 });
 
 
 //configuring the strategy:
 passport.use(new TwitterStrategy({
-    consumerKey: "mExebuSVx9OXrCHMWfGu8ZcqH",
-    consumerSecret: "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ",
+    consumerKey: consumerKey,
+    consumerSecret: consumerSecret,
     callbackURL: "http://c70d3a67.ngrok.io/auth/twitter/callback"
   },
 
   function(token, tokenSecret, profile, done) {
-
+    //pass these to serializeUser
     console.log('this is the function inside of the new strategy',token, tokenSecret, profile, done);
-    done(null, {fakeUser : 'fakefake'});
+    var userObj = {profile : profile, token : token, tokenSecret : tokenSecret};
+    done(null, userObj);
   }
 ));
 
+app.use('/suc', function (req, res, next) {
+  var profileObj = {
+    legalName : req.session.passport.user.profile.displayName,
+    screenName : req.session.passport.user.profile.username,
+    profilePic : req.session.passport.user.profile.photos[0].value,
+    therest : req.session.passport
+  };
+  res.send(200, profileObj);
+});
 
 app.get('/waytest', passport.authenticate('twitter'));
 
 //testing twitter's callback:
 app.all("/auth/twitter/callback", passport.authenticate('twitter', {
-  successRedirect: '/564ff12da00416df659a4a86'
+  successRedirect: '/suc'
 }));
 
 passport.serializeUser(function(user, done) {
+  //user is from the strategy;
+  console.log('--------------------------------------------------------the user is:', user);
   done(null, user);
 });
 
