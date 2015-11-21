@@ -1,5 +1,10 @@
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 services:
-  - mongodb
+- mongodb
+deploy:
+  app: icicle-kindling
+  provider: heroku
+  api_key:
+    secure: Fz98hpYd8bmWbgM61/2klGUuOsViOq6sPvPb0VzUdRRh/Gr4ktGI4dZrD+W2j32IPmf8l8HriwFiwY7f2b9wzMRMgDmJc5qifN7I+huKfCBrANH7awLVzoX1figkxQ4tCXtQDFLpE4ZKm/crwdVNZZwP/p5MsxLK3fEdcJtdnujHEYOklWuI7vRHzxZIpufO9wlEyjuJCH55wdfP32tLJdqgwzCgD4cvMidYbRdk1zrcweGm41ONk2waNUZ6DiE7CofkFvN7/++hAU3w5Dk5KR8X7KnkKYJ8nP2YNlngr+zF5aIma1ggp1dbBlaVY/a/CX8OefyCtoMvowj5LDjoMcEjQiny65qwpXiMnHNE4wq1JS/SLCaWVlIxWjG7QywXq59F52Seg8aV6dD3UImVcFVQu3yAUozAK/HHB3QqKA4O+Jn979t7UPx7hGlmb8y5miI/Tg0aULr/SB5nqDjGj9JE1aK/XroLj9SEWX8zjpgATeI114FLQ93WV+KQJedFUN3W6F+5YZvc2acuzefHFhm2mKclPhzCSUYCUdxRwUAnAmTZxlqZZmeB+mdAjR6crPb/CDFrO3U1iPsJYoTfaUoRmX32di8wgNLvwvgIinuiim6NAam9yJHcfaYUE8cpCslU0AjjeiOGlx0Vwbr0NnlgMJtG9I4jLqaZmlNS+pw=
