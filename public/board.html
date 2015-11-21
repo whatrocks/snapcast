@@ -12,28 +12,32 @@
   <body>
    <header>
     <h1>Snapcast.</h1>
+    <button id="screenShareButton"></button>
     <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a>
   </header>
 
-      <div class='whiteboard container'>
+      <div class='whiteboard container' ng-controller='canvas'>
           <!-- render this in ng-view probably -->
+        <div id="shareContainer">
         <div class='board-frame'>
-          <canvas id='whiteboard' ng-controller='canvas'>
+          <canvas id='whiteboard'>
           </canvas>
         </div>
-  </div>
+      </div>
 
+    </div>
   <div class="videosContainer">
     
     <div class="remote-vids" id="remoteVideos">
       <!-- Local video stream :  -->
-      <!-- <div class='videoContainer'> -->
-        <!-- <video id='localVideo'></video> -->
-      <!-- </div> -->
+      <div class='videoContainer'>
+        </div>
+        <video id='localVideo'></video>
+      </div>
      
-    </div>
 
   </div>
+
   <!-- Uncomment below for the toolbar -->
       <div class='toolbar' ng-controller='toolbar'>
         <div class='btn-erase' ng-click="changePen('eraser')">
@@ -45,7 +49,6 @@
 >>>>>>> (feature) enable HTTPS mode via toggle 'secure' variable
             
         <div class='pens'>
-        <button id="screenShareButton"></button>
           <div class='palette'>
             <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click='changePen(\'black\')'/>
             <label for='black'></label>

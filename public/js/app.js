@@ -42,23 +42,6 @@ App.init = function() {
       }
   });
 
-  // a peer video was removed - remove element from DOM
-  webrtc.on('videoRemoved', function (video, peer) {
-    
-    // Remove screen share video
-    if ( video.id === 'localScreen' ) {
-      document.getElementById('localScreenContainer').removeChild(video);
-      $('#localScreenContainer').hide();
-
-    } else {
-      console.log('video removed ', peer);
-      var remotes = document.getElementById('remoteVideos');
-      var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
-      if (remotes && el) {
-          remotes.removeChild(el);
-      }
-    }
-  });
   // The room name is the same as our socket connection.
   webrtc.on('readyToCall', function() {
     webrtc.joinRoom(ioRoom);
@@ -96,15 +79,33 @@ App.init = function() {
   });
 
   webrtc.on('localScreenAdded', function (video) {
-    console.log(" local screen was added ");
+    console.log("local screen was added ");
     video.onclick = function () {
       video.style.width = video.videoWidth + 'px';
       video.style.height = video.videoHeight + 'px';
     };
-    document.getElementById('localScreenContainer').appendChild(video);
-    $('#localScreenContainer').show();
+    document.getElementById('shareContainer').appendChild(video);
+    $('#shareContainer').show();
   });
 
+
+  // a peer video was removed - remove element from DOM
+  webrtc.on('videoRemoved', function (video, peer) {
+    
+    // Remove screen share video
+    if ( video.id === 'localScreen' ) {
+      document.getElementById('shareContainer').removeChild(video);
+      $('#shareContainer').css({'z-index': 199});
+
+    } else {
+      console.log('video removed ', peer);
+      var remotes = document.getElementById('remoteVideos');
+      var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
+      if (remotes && el) {
+          remotes.removeChild(el);
+      }
+    }
+  });
   // **Whiteboard**
 
   // Set properties of the whiteboard.
@@ -141,7 +142,6 @@ App.init = function() {
 
 
   // **Methods**
-
 
   // Draw according to coordinates.
   App.draw = function(x, y) {
