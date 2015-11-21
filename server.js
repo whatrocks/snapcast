@@ -11,21 +11,16 @@ var fs = require('fs');
 var Board = require('./db/board');
 var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
-
-// ## Toggle HTTP / HTTPS for local testing
-// ** Set 'localMode' to true if you want to use HTTPS mode locally (required for locally testing screen sharing)
-// ** Set 'localMode' to false when deploying to Heroku
-var localMode = true;
-
 var io;
 
-if ( localMode ) {
+// ## Toggle HTTP / HTTPS for local testing
+if ( !process.env.PORT ) {
   io = require('socket.io')(https);  
 } else {
   io = require('socket.io')(http);
 }
 
-// ## HTTPS Configuration for localhost
+// ## HTTPS Configuration for local testing
 var privateKey = fs.readFileSync('./server/ssl/server.key', 'utf8');
 var certificate = fs.readFileSync('./server/ssl/server.crt', 'utf8');
 var credentials = { key: privateKey, cert: certificate };
@@ -84,7 +79,7 @@ app.get('/*', function(req, res) {
 });
 
 // **Start the server.**
-if ( localMode ) {
+if ( !process.env.PORT ) {
   var httpsServer = https.createServer(credentials, app);
   httpsServer.listen(port, function() {
     console.log("listening at port: " + port);
