@@ -1,5 +1,5 @@
-# Snapcast
-[See it live here!](https://icicle-kindling.herokuapp.com)
+# Snapcast [![Build Status](https://travis-ci.org/KindlingIcicle/spazzinglicorice.svg?branch=master)](https://travis-ci.org/KindlingIcicle/spazzinglicorice)
+[Cast your screen in a snap!](https://icicle-kindling.herokuapp.com)
 
 ## Table of Contents
 
