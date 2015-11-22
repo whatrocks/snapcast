@@ -62,6 +62,8 @@ h1 {
 
 #whiteboard {
   position: absolute;
+  /*put whiteboard in front*/
+  z-index: 200;
 }
 
 
