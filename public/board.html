@@ -12,7 +12,7 @@
   <body>
    <header>
     <h1>Snapcast.</h1>
-    <form><input class = "inviteUser" type = 'text' placeholder = 'invite someone here now!' size = '24'><input type="submit" value = 'send invite' class = 'inviteButton'></form>>
+    <span class = "twitterAPI"></span>
   </header>
       <div class='whiteboard container'>
           <!-- render this in ng-view probably -->
@@ -77,27 +77,59 @@
 <!-- function to manage the invite button -->
 <script>
 
-  $('.inviteButton').on("click", function(event){
-    event.preventDefault();
-    
-    var targetuser = $('.inviteUser').val();
-    $('.inviteUser').val('');
+  //check user OAuth status
+  //make http request to check
+  //if false, then user has not session on server
+  //else then user has session on server
+  //
+  // if no session, then change input to button and on click, take user to twitter to OAuth
+  // 
+  var makeUserInput = function () {
+    var userInput = $('<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "get someone here quick!" size = 23 ></form>');
+    $('.twitterAPI').empty().append(userInput);
 
-    console.log('invite pressed to:', targetuser);
-    $.ajax({
-      url: '/sendInvite',
-      method : 'POST',
-      contentType: "application/json",
-      data : JSON.stringify({username : targetuser, link : window.location.href}),
-      success : function () {
-        console.log(arguments);
-      },
-      error : function(){
-        console.log(arguments);
+    $('.sendInvite').on("keypress", function(event){
+      if(event.keyCode === 13){
+        event.preventDefault();
+        var thisButton = $(this);
+        var targetuser = $(this).val();
+        thisButton.val('');
+        $.ajax({
+          url: '/sendInvite',
+          method : 'POST',
+          contentType: "application/json",
+          data : JSON.stringify({username : targetuser, link : window.location.href}),
+          success : function () {
+            thisButton.attr({placeholder: 'invite sent'});
+          },
+          error : function(){
+            thisButton.attr({placeholder: 'error! check user name'});
+          }
+        });//done setting ajax
       }
-    });
 
-  });
+    });
+  };
+
+  var makeLoginButton = function () {
+    var loginButton = $('<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><input type="submit" value="login" size="23" class="twitterLogin"></form>');
+    $('.twitterAPI').empty().append(loginButton);
+  };
+
+  var checkUserOAuth = function () {
+    $.ajax({
+      url: "/checkUserAuthSession",
+      method: "GET",
+      success: function () {
+        makeUserInput();
+      },
+      error: function () {
+        makeLoginButton();
+      }
+    });    
+  };
+
+  checkUserOAuth();
   
 </script>
 

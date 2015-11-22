@@ -111,7 +111,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-
+//
 app.get('/twitterSignIn', passport.authenticate('twitter'));
 
 //twitter will call this afterward to update the statue on the request
@@ -120,7 +120,17 @@ app.all("/twitter/callback", passport.authenticate('twitter', {
 }));
 
 
-
+app.get('/checkUserAuthSession', function (req, res, next) {
+    //should return false for not having session on the server
+    //or send the profile info back
+    console.log('in checkUserAuthSession');
+    if (req.session.passport){
+      res.status(200).send(req.session.passport);
+    } else {
+      res.status(400).send('false');
+    }
+});
+//
 app.use('/sendInvite', function(req, res, next){
   if (req.session.passport){
       //set all the keys for each user to make OAuth request.
