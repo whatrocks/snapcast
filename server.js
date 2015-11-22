@@ -4,7 +4,6 @@
 
 // ## Dependencies
 var express = require('express');
-var request = require('request');
 var app = express();
 var http = require('http');
 var https = require('https');
@@ -21,16 +20,13 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 //use Twitter to make OAuth api calls. for more info: https://www.npmjs.com/package/twitter
 var Twitter = require('twitter');
 
-app.use(bodyParser.json());
-
-
 //------------passport authentication with twitter-------------//
 //all of these just for using OAuth with passport:
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({ secret: 'what is going on' }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 var consumerKey = "mExebuSVx9OXrCHMWfGu8ZcqH";
 var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 
@@ -123,7 +119,11 @@ app.all("/twitter/callback", passport.authenticate('twitter', {
   successRedirect: '/new'
 }));
 
-app.use('/sendInvite', function(req, res, next){
+
+
+app.post('/sendInvite', function(req, res, next){
+  console.log('the req is', req.method, req.body.username);
+  res.status(200).send('should not see me');
   if (req.session.passport){
       //set all the keys for each user to make OAuth request.
       var client = new Twitter({

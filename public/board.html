@@ -12,7 +12,7 @@
   <body>
    <header>
     <h1>Snapcast.</h1>
-    <a href='/twitterSignIn'>send invites</a>
+    <form><input class = "inviteUser" type = 'text' placeholder = 'invite someone here now!' size = '24'><input type="submit" value = 'send invite' class = 'inviteButton'></form>>
   </header>
       <div class='whiteboard container'>
           <!-- render this in ng-view probably -->
@@ -73,4 +73,27 @@
 <script src="js/app.js"></script>
 <script src='js/whiteboard.js'></script>
 <script src="js/initialize.js"></script>
+
+<!-- function to manage the invite button -->
+<script>
+
+  $('.inviteButton').on("click", function(event){
+    event.preventDefault();
+    
+    var targetuser = $('.inviteUser').val();
+    $('.inviteUser').val('');
+
+    console.log('invite pressed to:', targetuser);
+    $.ajax({
+      url: '/sendInvite',
+      method : 'POST',
+      contentType: "application/json",
+      data : JSON.stringify({username : targetuser})
+    });
+
+  });
+  
+</script>
+
+
 </html>
