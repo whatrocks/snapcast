@@ -36,7 +36,7 @@ var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 passport.use(new TwitterStrategy({
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
-    callbackURL: "http://8a18f53b.ngrok.io/twitter/callback"
+    callbackURL: "https://agile-reaches-6746.herokuapp.com/twitter/callback"
   },
 
   function(token, tokenSecret, profile, done) {
