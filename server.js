@@ -36,7 +36,7 @@ var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 passport.use(new TwitterStrategy({
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
-    callbackURL: "https://agile-reaches-6746.herokuapp.com/twitter/callback"
+    callbackURL: "http://facdaedc.ngrok.io/twitter/callback"
   },
 
   function(token, tokenSecret, profile, done) {
@@ -65,7 +65,6 @@ app.all("/twitter/callback", passport.authenticate('twitter', {
 app.get('/checkUserAuthSession', function (req, res, next) {
     //should return false for not having session on the server
     //or send the profile info back
-    console.log('in checkUserAuthSession');
     if (req.session.passport){
       res.status(200).send(req.session.passport);
     } else {
@@ -83,13 +82,11 @@ app.use('/sendInvite', function(req, res, next){
         access_token_secret: req.session.passport.user.tokenSecret
       });
 
-      client.post('direct_messages/new', {screen_name : req.body.username, text : 'come check this out now!!!!! '+ req.body.link},  function(error, tweet, response){
+      var twitterMessage = 'check this out now!!!!! ';
+      client.post('direct_messages/new', {screen_name : req.body.username, text : twitterMessage + req.body.link},  function(error, tweet, response){
         if(error){
-          console.log(error);
           res.status(400).send(error);
         } else {
-          console.log(tweet);  // Tweet body. 
-          console.log(response);  // Raw response object. 
           res.status(200).send('you just made a request!');
         }
       });
@@ -117,6 +114,7 @@ app.use('/documentation', express.static(__dirname + '/docs'));
 
 // **Home Page**
 app.get('/', function(req, res) {
+  console.log('inital getting at /');
   res.sendFile(__dirname + '/public/index.html');
 });
 
@@ -160,23 +158,30 @@ app.get('/*', function(req, res) {
   });
 });
 
-// **Start the server.**
-if ( !process.env.PORT ) {
-  var httpsServer = https.createServer(credentials, app);
-  httpsServer.listen(port, function() {
-    console.log("listening at port: " + port);
-  });
-  //setting sockets
-  io = require('socket.io')(httpsServer);  
 
-} else {
-  var httpServer = http.createServer(app);
+//for some reason https doesn't work with ngrok, need to fix it later
+// **Start the server.**
+// if ( !process.env.PORT ) {
+//   var httpsServer = https.createServer(credentials, app);
+//   httpsServer.listen(port, function() {
+//     console.log("listening at port: " + port);
+//   });
+//   //setting sockets
+//   io = require('socket.io')(httpsServer);  
+
+// } else {
+//   var httpServer = http.createServer(app);
+//   httpServer.listen(port, function() {
+//     console.log('server listening on', port, 'at', new Date());
+//   });
+  
+//   io = require('socket.io')(httpServer);
+// }
+
+var httpServer = http.createServer(app);
   httpServer.listen(port, function() {
     console.log('server listening on', port, 'at', new Date());
   });
   
   io = require('socket.io')(httpServer);
-}
-
-
 
