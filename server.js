@@ -1,4 +1,6 @@
 // # Main Server
+// 
+//warning!!! must change callbackURL when deploy!!!!! other wise twitter would not be able to send tokens back!!
 
 // ##### [Back to Table of Contents](./tableofcontents.html)
 
@@ -11,6 +13,92 @@ var fs = require('fs');
 var Board = require('./db/board');
 var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var TwitterStrategy = require('passport-twitter').Strategy;
+
+//use Twitter to make OAuth api calls. for more info: https://www.npmjs.com/package/twitter
+var Twitter = require('twitter');
+
+//------------passport authentication with twitter-------------//
+//all of these just for using OAuth with passport:
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({ secret: 'what is going on' }));
+app.use(passport.initialize());
+app.use(passport.session());
+var consumerKey = "mExebuSVx9OXrCHMWfGu8ZcqH";
+var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
+
+//configuring the strategy:
+passport.use(new TwitterStrategy({
+    consumerKey: consumerKey,
+    consumerSecret: consumerSecret,
+    callbackURL: "http://8a18f53b.ngrok.io/twitter/callback"
+  },
+
+  function(token, tokenSecret, profile, done) {
+    //pass these to serializeUser
+    var userObj = {profile : profile, token : token, tokenSecret : tokenSecret};
+    done(null, userObj);
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  //user is from the strategy;
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+app.get('/twitterSignIn', passport.authenticate('twitter'));
+
+//twitter will call this afterward to update the statue on the request
+app.all("/twitter/callback", passport.authenticate('twitter', {
+  successRedirect: '/new'
+}));
+
+app.get('/checkUserAuthSession', function (req, res, next) {
+    //should return false for not having session on the server
+    //or send the profile info back
+    console.log('in checkUserAuthSession');
+    if (req.session.passport){
+      res.status(200).send(req.session.passport);
+    } else {
+      res.status(400).send('false');
+    }
+});
+
+app.use('/sendInvite', function(req, res, next){
+  if (req.session.passport){
+      //set all the keys for each user to make OAuth request.
+      var client = new Twitter({
+        consumer_key: consumerKey,
+        consumer_secret: consumerSecret,
+        access_token_key: req.session.passport.user.token,
+        access_token_secret: req.session.passport.user.tokenSecret
+      });
+
+      client.post('direct_messages/new', {screen_name : req.body.username, text : 'come check this out now!!!!! '+ req.body.link},  function(error, tweet, response){
+        if(error){
+          console.log(error);
+          res.status(400).send(error);
+        } else {
+          console.log(tweet);  // Tweet body. 
+          console.log(response);  // Raw response object. 
+          res.status(200).send('you just made a request!');
+        }
+      });
+  } else {
+    res.status(400).send('you have no session set');
+  }
+
+});
+
 var io;
 
 

@@ -12,10 +12,9 @@
   <body>
    <header>
     <h1>Snapcast.</h1>
-    <button id="screenShareButton"></button>
+    <button id="screenShareButton"></button><span class = "twitterAPI"></span>
     <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a>
   </header>
-
       <div class='whiteboard container' ng-controller='canvas'>
           <!-- render this in ng-view probably -->
         <div id="shareContainer">
@@ -77,4 +76,56 @@
 <script src="js/app.js"></script>
 <script src='js/whiteboard.js'></script>
 <script src="js/initialize.js"></script>
+
+<!-- function to manage the invite button -->
+<script>
+  var makeUserInput = function () {
+    var userInput = $('<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "get someone here quick!" size = 23 ></form>');
+    $('.twitterAPI').empty().append(userInput);
+
+    $('.sendInvite').on("keypress", function(event){
+      if(event.keyCode === 13){
+        event.preventDefault();
+        var thisButton = $(this);
+        var targetuser = thisButton.val();
+        thisButton.val('');
+        $.ajax({
+          url: '/sendInvite',
+          method : 'POST',
+          contentType: "application/json",
+          data : JSON.stringify({username : targetuser, link : window.location.href}),
+          success : function () {
+            thisButton.attr({placeholder: 'invite sent!!!!!!!!!!!'});
+          },
+          error : function(){
+            thisButton.attr({placeholder: 'error! check user name'});
+          }
+        });//done setting ajax
+      }
+    });//done event listening 
+  };//done defining makeUserInput
+
+  var makeLoginButton = function () {
+    var loginButton = $('<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><input type="submit" value="login" size="23" class="twitterLogin"></form>');
+    $('.twitterAPI').empty().append(loginButton);
+  };
+
+  var checkUserOAuth = function () {
+    $.ajax({
+      url: "/checkUserAuthSession",
+      method: "GET",
+      success: function () {
+        makeUserInput();
+      },
+      error: function () {
+        makeLoginButton();
+      }
+    });    
+  };
+
+  checkUserOAuth();
+  
+</script>
+
+
 </html>
