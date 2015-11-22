@@ -88,7 +88,7 @@
       url: '/sendInvite',
       method : 'POST',
       contentType: "application/json",
-      data : JSON.stringify({username : targetuser}),
+      data : JSON.stringify({username : targetuser, link : window.location.href}),
       success : function () {
         console.log(arguments);
       },
