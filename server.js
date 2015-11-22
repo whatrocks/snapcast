@@ -59,7 +59,7 @@ app.use('/update', function(req, res, next){
         access_token_secret: req.session.passport.user.tokenSecret
       });
 
-      client.post('direct_messages/new', {screen_name : 'Brucehuang14', text : 'woirks: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'},  function(error, tweet, response){
+      client.post('direct_messages/new', {screen_name : 'Brucehuang14', text : 'how to get the current url anyway????'},  function(error, tweet, response){
         if(error){
           console.log(error);
           res.status(400).send(error);
@@ -123,7 +123,6 @@ app.all("/twitter/callback", passport.authenticate('twitter', {
 
 app.post('/sendInvite', function(req, res, next){
   console.log('the req is', req.method, req.body.username);
-  res.status(200).send('should not see me');
   if (req.session.passport){
       //set all the keys for each user to make OAuth request.
       var client = new Twitter({
@@ -134,7 +133,7 @@ app.post('/sendInvite', function(req, res, next){
       });
 
       client.post('direct_messages/new', {
-        screen_name : req.data.username,
+        screen_name : req.body.username,
         text : 'woirks: https://icicle-kindling.herokuapp.com/5650c93673a5fa0300f29e75'
       },  function(error, tweet, response){
         if(error){

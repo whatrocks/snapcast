@@ -88,7 +88,13 @@
       url: '/sendInvite',
       method : 'POST',
       contentType: "application/json",
-      data : JSON.stringify({username : targetuser})
+      data : JSON.stringify({username : targetuser}),
+      success : function () {
+        console.log(arguments);
+      },
+      error : function(){
+        console.log(arguments);
+      }
     });
 
   });
