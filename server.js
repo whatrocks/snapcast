@@ -13,12 +13,6 @@ var port = process.env.PORT || 8080;
 var handleSocket = require('./server/sockets');
 var io;
 
-// ## Toggle HTTP / HTTPS for local testing
-if ( !process.env.PORT ) {
-  io = require('socket.io')(https);  
-} else {
-  io = require('socket.io')(http);
-}
 
 // ## HTTPS Configuration for local testing
 var privateKey = fs.readFileSync('./server/ssl/server.key', 'utf8');
@@ -84,11 +78,17 @@ if ( !process.env.PORT ) {
   httpsServer.listen(port, function() {
     console.log("listening at port: " + port);
   });
+  //setting sockets
+  io = require('socket.io')(httpsServer);  
+
 } else {
   var httpServer = http.createServer(app);
   httpServer.listen(port, function() {
     console.log('server listening on', port, 'at', new Date());
   });
+  
+  io = require('socket.io')(httpServer);
 }
+
 
 
