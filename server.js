@@ -37,7 +37,6 @@ app.get('/documentation', function(req, res) {
   res.sendFile(__dirname + '/docs/tableofcontents.html');
 });
 
-
 // **Get a new whiteboard**
 app.get('/new', function(req, res) {
   // Create a new mongoose board model.

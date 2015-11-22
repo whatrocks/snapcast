@@ -10,10 +10,28 @@
 
   </head>
   <body>
-   <header>
+   <header ng-controller='toolbar'>
     <h1>Snapcast.</h1>
     <button id="screenShareButton"></button>
     <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a>
+    <div class='btn-erase' ng-click="changePen('eraser')">
+      <img src="images/pinkeraser.png">
+    <div class='pens'>
+
+      <div class='palette'>
+
+        <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click="changePen('black')"/>
+        <label for='black'></label>
+      </div>
+      <div class='palette'>
+        <input type="checkbox" value="None" id="red" name="check" ng-click="changePen('red')"/>
+        <label for="red"></label>
+      </div>
+      <div class='palette'>
+        <input type="checkbox" value="None" id="blue" name="check" ng-click="changePen('blue')"/>
+        <label for="blue"></label>
+      </div>
+    </div>
   </header>
 
       <div class='whiteboard container' ng-controller='canvas'>
@@ -39,25 +57,7 @@
   </div>
 
   <!-- Uncomment below for the toolbar -->
-      <div class='toolbar' ng-controller='toolbar'>
-        <div class='btn-erase' ng-click="changePen('eraser')">
-          <img src="images/pinkeraser.png">
-        </div>
-            
-        <div class='pens'>
-          <div class='palette'>
-            <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click='changePen(\'black\')'/>
-            <label for='black'></label>
-          </div>
-          <div class='palette'>
-            <input type="checkbox" value="None" id="red" name="check" ng-click="changePen('red')"/>
-            <label for="red"></label>
-          </div>
-          <div class='palette'>
-            <input type="checkbox" value="None" id="blue" name="check" ng-click="changePen('blue')"/>
-            <label for="blue"></label>
-          </div>
-        </div>
+       
         <button class="pure-button new"><a href="/new">New Board</a></button>
         
       </div>

@@ -50,12 +50,12 @@ h1 {
   display: inline;
 }
 
-.toolbar {
+/*.toolbar {
   width: 100%;
   margin: 0 auto;
   position: absolute;
   bottom: 0;
-}
+}*/
 /*
 .board-frame {
 }*/
@@ -93,13 +93,12 @@ h1 {
 
 div.btn-erase {
   height: 60px;
-  margin-left: 3%;
-  margin-top: 0.5%;
 }
 
 .btn-erase img {
   position: absolute;
-  height: 80%;
+  height: 40px;
+  left: 40%;
 }
 
 
@@ -136,8 +135,8 @@ div.btn-erase {
 .pens {
   /*display: inline-block;*/
   position: absolute;
-  left: 50%;
-  top: 5%;
+  left: 45%;
+  top: 0;
   /*width: 100px;*/
 }
 
@@ -163,7 +162,7 @@ input[type=checkbox] {
   height: 28px;
   background: #fcfff4;
   display: inline-block;
-  margin: 20px 5px;
+  margin: 5px 5px;
 
   background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
   background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
