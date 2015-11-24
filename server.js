@@ -78,7 +78,7 @@ if ( !process.env.PORT ) {
     console.log("listening at port: " + port);
   });
   //setting sockets
-  io = require('socket.io')(httpsServer);  
+  io = require('socket.io')(httpsServer); 
 
 } else {
   var httpServer = http.createServer(app);

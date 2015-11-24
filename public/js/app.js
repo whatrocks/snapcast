@@ -71,6 +71,7 @@ App.init = function() {
           setButton(true);
         } else {
           console.log("screen sharing");
+          App.socket.emit('screen-share');
           setButton(false);
         }
       });

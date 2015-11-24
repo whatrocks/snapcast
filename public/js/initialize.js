@@ -5,7 +5,6 @@
 
 
 // Initialize the app.
-
 $(function() {
   // Set up all app properties listed in [app.js](../docs/app.html).
   App.init();
