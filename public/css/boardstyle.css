@@ -1,4 +1,7 @@
-/**** FLEX BOX/REMOTE VIDEOS ****/
+/*============================/
+==== REMOTE SPLIT PANE =======
+=============================*/
+
 .remote-vids {
   display: flex;
 }
@@ -18,7 +21,10 @@
   max-height: 130px;
 }
 
-/*** PAGE STYLING ***/
+
+/*============================/
+==== BASIC PAGE STYLING ======
+=============================*/
 html {
   width: 100%;
   height: 100%;
@@ -52,7 +58,10 @@ h1 {
   display: inline;
 }
 
-/***  CANVAS POSITIONING ***/
+
+/*============================/
+=== CANVAS LAYER POSITIONS ===
+=============================*/
 #bg {
   position: absolute;
 }
@@ -64,36 +73,55 @@ h1 {
 }
 
 /****NAV BUTTON STYLING*****/
-nav button {
-  background: #a2a2a2;
+#drawer button {
   border: none;
   color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
+  background: none;  
+  font-size: 12px;
+
 }
-nav button:hover {
+#drawer button:hover {
  /*border-top-color: #94a8b5;*/
  /*background: #94a8b5;*/
  color: #2e262e;
 }
 
-nav button:active {
+#drawer button:active {
  /*border-top-color: #05ab8f;*/
  /*background: #05ab8f;*/
 }
 
-nav button:focus {
+#drawer button:focus {
   outline: none;
 }
 
-/* SIDE DRAWER */
+#drawer ul {
+  margin: 10px 20px;
+}
+
+#drawer li {
+  display: block;
+  list-style: none;
+  padding-top: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+#drawer li button {
+  text-transform: uppercase;
+}
+
+
+/*============================/
+====== SIDE DRAWER MENU ======
+=============================*/
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box;
   box-sizing: border-box;
+
   /* adds animation for all transitions */
-  
   -webkit-transition: .25s ease-in-out;
   -moz-transition: .25s ease-in-out;
   -o-transition: .25s ease-in-out;
@@ -102,16 +130,14 @@ nav button:focus {
   padding: 0;
   -webkit-text-size-adjust: none;
 }
-/* Makes sure that everything is 100% height */
-
+/* Normalize height */
 html,
 body {
   height: 100%;
   overflow: hidden;
 }
-/* gets the actual input out of the way; 
-we're going to style the label instead */
 
+/* removes input from visibility */
 #drawer-toggle {
   position: absolute;
   opacity: 0;
@@ -127,13 +153,14 @@ we're going to style the label instead */
   right: 0px;
   height: 50px;
   width: 50px;
+  top: -10px;
   display: block;
   position: fixed;
-  background: rgba(255, 255, 255, 0);
-  z-index: 1;
+  background: rgba(0, 0, 0, 0);
+  z-index: -99;
 }
 
-/* adds our "hamburger" menu icon */
+/* Hamburger menu styling */
 #drawer-toggle-label:before {
   content: '';
   display: block;
@@ -146,43 +173,47 @@ we're going to style the label instead */
   box-shadow: 0 6px 0 #8d8d8d, 0 12px 0 #8d8d8d;
 }
 
-/* drawer menu pane - note the 0px width */
+/* Drawer menu pane */
 #drawer {
   position: fixed;
   top: 0;
-  right: -100px;
+  right: -150px;
   height: 100%;
-  width: 100px;
+  width: 150px;
+  /*background: url('../assets/polygon-7.jpg') 100px;*/
   background: #2f2f2f;
   overflow-x: hidden;
   overflow-y: scroll;
-  padding: 20px;
+  /*padding: 20px;*/
+  margin-top: 0;
+  margin-right: 0;
   -webkit-overflow-scrolling: touch;
 }
 
-/* checked styles (menu open state) */
+/* Grey overlay 
 #drawer-toggle:checked ~ #drawer-toggle-label {
-  height: 100%;
+  height: 110%;
   width: calc(100% - 100px);
-  background: rgba(255, 255, 255, 0.8);
-}
+  background: rgba(144, 144, 144, 0.6);
+}*/
 
+/* Menu Open State (checked) */
 #drawer-toggle:checked ~ #drawer-toggle-label,
 #drawer-toggle:checked ~ header {
-  right: 100px;
+  right: 150px;
 }
 
 #drawer-toggle:checked ~ #drawer {
   right: 0px;
 }
 
-#drawer-toggle:checked ~ #page-content {
-  margin-right: 100px;
-}
 
 
-/******** BUTTON STYLES ********/
-/* to be changed */
+/*============================/
+=== BUTTON/PALETTE STYLES ====
+=============================*/
+/* LEGACY CODE - TO BE CHANGED TO MATCH NEW LOOK */
+
 .btn-undo {
  border-top: 1px solid #b3b3b3;
  background: #bec2d4;
