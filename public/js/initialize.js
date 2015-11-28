@@ -9,10 +9,6 @@ $(function() {
   // Set up all app properties listed in [app.js](../docs/app.html).
   App.init();
 
-  // Set up video to be draggable.
-  // $('#localVideo').draggable();
-  // $('#remoteVideos').draggable();
-
   // **Mouse Events**
 
   // On mousedown detection, initialize drawing properties based on mouse coordinates. 

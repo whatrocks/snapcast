@@ -1,15 +1,4 @@
-/****** VIDEO CHAT ******/
-/*#localVideo {*/
-  /*height: 100%;*/
-/*  top: 200px;
-  left: 80%;*/
-  /*display: inline;*/
-  /*position: absolute;*/
-/*}*/
-
-
-/**** FLEX BOX ****/
-/*TODO : leave whiteboard/localvid as large left column, flex the rest*/
+/**** FLEX BOX/REMOTE VIDEOS ****/
 .remote-vids {
   display: flex;
 }
@@ -39,6 +28,8 @@ html {
 
 header {
   background: url('../assets/polygon-7.jpg') 100px;
+  /*position: absolute;*/
+  /*z-index: 201;*/
 }
 
 h1 {
@@ -53,16 +44,7 @@ h1 {
   display: inline;
 }
 
-/*.toolbar {
-  width: 100%;
-  margin: 0 auto;
-  position: absolute;
-  bottom: 0;
-}*/
-/*
-.board-frame {
-}*/
-
+/***  CANVAS POSITIONING ***/
 #bg {
   position: absolute;
 }
@@ -75,8 +57,8 @@ h1 {
 
 
 
-/********button styles********/
-
+/******** BUTTON STYLES ********/
+/* to be changed */
 .btn-undo {
  border-top: 1px solid #b3b3b3;
  background: #bec2d4;

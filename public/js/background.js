@@ -12,17 +12,18 @@ var clear = $('#clear');
 var bgContext = bgCanvas.getContext('2d');
 var drawContext = drawCanvas.getContext('2d');
 
-//TODO - undo hardcoding
+// on initialize, changes background image to default
+// TODO: undo hardcoding, emit events on changing to different backgrounds
 //create new Image
 var image = new Image();
-
 //blackboard image - to be changed - using this image for testing
-image.src = 'http://orig11.deviantart.net/41f8/f/2013/180/1/2/blackboard_texture_2_by_allthingsprecious-d6bab3c.jpg';
-
+// image.src = 'http://powerpictures.crystalgraphics.com/photo/seamlessly_repeatable_dusty_old_chalkboard_texture_cg5p7114845c_th.jpg';
+image.src = 'http://www.hyatts.com/eCom/images/F/F19996.jpg';
 //when image is loaded, draws it onto the canvas
 image.onload = function() {
   changeBackground(image);
 };
+
 
 //store the videotimeout to be cleared when done - globally accessible
 var timeout;
@@ -37,12 +38,12 @@ clear.click(function() {
 });
 
 function changeBackground(element) {
-//if it was a video, stop the video from running
+//Stops the rendering of video as background if needed
   if (timeout) { clearTimeout(timeout); }
-  //clear the bgCanvas
+  //Clears the background canvas
   bgContext.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
   
-  //checks if element is a video
+  //Renders according to type of element passed in
   if (element) {
    if (element.tagName === 'VIDEO') {
       //draws the element at 30fps
@@ -51,22 +52,20 @@ function changeBackground(element) {
           timeout = setTimeout(loop, 1000 / 30);
       })();
     } else if (element.tagName === 'IMG') {
-        bgContext.drawImage(image, 0, 0);
+      // Tiles the image for seamless texturing
+      var pattern = bgContext.createPattern(element, 'repeat');
+
+      bgContext.rect(0, 0, bgCanvas.width, bgCanvas.height);
+      bgContext.fillStyle = pattern;
+      bgContext.fill();
+
     }
+  } else {
+    // Defaults to whiteboard if no element specified
+    var image = new Image();
+    image.src = 'http://www.hyatts.com/eCom/images/F/F19996.jpg';
+    changeBackground(image);
   }
 
 }
-/*
-default background = white
-current background = current bg (sockets*)
 
-when a background is changed, 
-change image.src
-clear and redraw
-
-when someone screenshares,
-send a screenshare event to everyone
-append the screenshare video to a #screenshare element
-draw the element as the background
-
-*/
