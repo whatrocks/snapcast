@@ -111,6 +111,10 @@ h1 {
   text-transform: uppercase;
 }
 
+#drawer li button:disabled {
+  color: #3f3f3f;
+}
+
 
 /*============================/
 ====== SIDE DRAWER MENU ======
