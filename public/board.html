@@ -14,11 +14,21 @@
    <!-- <header ng-controller='toolbar'> -->
     <h1>Snapcast.</h1>
     <nav>
-    <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a>
-    <button id="screenShareButton"></button>
-    <button id="toggleBg">Toggle Background</button>
-    <button id="screenshot">Take Screenshot</button>
-    <button id="clear"> Clear!</button>
+      <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a>
+      <button id="screenShareButton"></button>
+      <button id="toggleBg">Toggle Background</button>
+      <button id="screenshot">Take Screenshot</button>
+      <button id="clear"> Clear!</button>
+      <input type="checkbox" id="drawer-toggle" name="drawer-toggle"/>
+      <label for="drawer-toggle" id="drawer-toggle-label"></label>
+      <nav id="drawer">
+            <ul>
+               <li><a href="#">Menu Item</a></li>
+               <li><a href="#">Menu Item</a></li>
+               <li><a href="#">Menu Item</a></li>
+               <li><a href="#">Menu Item</a></li>
+            </ul>
+         </nav>
     </nav>
    
    <!--  <div class='btn-erase' ng-click="changePen('eraser')">
@@ -78,5 +88,7 @@
 <script src='js/whiteboard.js'></script>
 <script src="js/initialize.js"></script>
 <script src="js/canvas.js"></script>
+<script>
 
+</script>
 </html>
