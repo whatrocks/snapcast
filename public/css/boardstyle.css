@@ -27,16 +27,24 @@ html {
 }
 
 header {
-  background: url('../assets/polygon-7.jpg') 100px;
-  /*position: absolute;*/
-  /*z-index: 201;*/
+  background: rgba(0,0,0,0);
+  /*background: url('../assets/polygon-7.jpg') 100px;*/
+  position: fixed;
+  width: 100%;
+  z-index: 201;
+}
+
+nav {
+  display: inline-block;
+  float: right;
+  margin: 5px 5px 0 0 ;
 }
 
 h1 {
   font-family: 'Open Sans';
   font-weight: 700;
   font-size: 2em;
-  color: white;
+  color: #000;
   margin-left: 1em;
   margin-top: 0;
   margin-bottom: 0;

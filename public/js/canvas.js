@@ -42,11 +42,17 @@ toggleBg.click(function () {
   if (App.background === 'light') {
     image.src = './images/dark.jpg';
     App.background = 'dark';
+    
+    // changes h1 color
+    $('h1').css('color','#fff;');
     changeBackground(image);
   } else {
     //changes to light background if current is dark
     image.src = './images/light.jpg';
     App.background = 'light';
+
+    // changes h1 color 
+    $('h1').css('color','#000;');
     changeBackground(image);
   }
 });
