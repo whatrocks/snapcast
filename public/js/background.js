@@ -3,35 +3,50 @@
 //selecting the bgCanvas and canvas
 var bgCanvas = document.getElementById('bg');
 var drawCanvas = document.getElementById('whiteboard');
-//select toggleBG button
-var changeBG = $('#changeBG');
+//select toggleBg button
+var toggleBg = $('#toggleBg');
 //select clear button
 var clear = $('#clear');
 
 //select canvas contexts
 var bgContext = bgCanvas.getContext('2d');
 var drawContext = drawCanvas.getContext('2d');
+App.background = 'light';
 
 // on initialize, changes background image to default
 // TODO: undo hardcoding, emit events on changing to different backgrounds
 //create new Image
 var image = new Image();
 //blackboard image - to be changed - using this image for testing
+
 // image.src = 'http://powerpictures.crystalgraphics.com/photo/seamlessly_repeatable_dusty_old_chalkboard_texture_cg5p7114845c_th.jpg';
 image.src = 'http://www.hyatts.com/eCom/images/F/F19996.jpg';
+
 //when image is loaded, draws it onto the canvas
 image.onload = function() {
   changeBackground(image);
 };
 
-
+//toggleBackground click handler - toggles Bg between light and dark
+toggleBg.click(function () {
+  //changes to dark background if current is light
+  if (App.background === 'light') {
+    image.src = 'http://powerpictures.crystalgraphics.com/photo/seamlessly_repeatable_dusty_old_chalkboard_texture_cg5p7114845c_th.jpg';
+    App.background = 'dark';
+    changeBackground(image);
+  } else {
+    //changes to light background if current is dark
+    image.src = 'http://www.hyatts.com/eCom/images/F/F19996.jpg';
+    App.background = 'light';
+    changeBackground(image);
+  }
+});
 //store the videotimeout to be cleared when done - globally accessible
 var timeout;
 
-//TODO: toggleBG click handler
 
 //clear board click handler
-clear.click(function() {
+clear.click(function () {
   
   drawContext.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 
