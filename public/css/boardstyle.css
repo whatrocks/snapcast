@@ -82,8 +82,9 @@ h1 {
 }
 #drawer button:hover {
  /*border-top-color: #94a8b5;*/
- /*background: #94a8b5;*/
- color: #2e262e;
+ text-decoration: underline;
+ font-size: 13px;
+ transition: 0.1s ease-in;
 }
 
 #drawer button:active {
