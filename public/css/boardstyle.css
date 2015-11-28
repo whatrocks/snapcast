@@ -80,7 +80,7 @@ h1 {
   font-size: 12px;
 
 }
-#drawer button:hover {
+#drawer button:hover, .kiColorSelector li:hover{
  /*border-top-color: #94a8b5;*/
  text-decoration: underline;
  transform: scale(1.1);
@@ -112,6 +112,10 @@ h1 {
 
 #drawer li button:disabled {
   color: #3f3f3f;
+}
+
+.kiColorSelector li{
+  margin: 2px 0;
 }
 
 

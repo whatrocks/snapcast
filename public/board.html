@@ -28,29 +28,10 @@
               <input type="range" min="1" max="50" ng-model="selectedLineWidth"  class="lineWidthSelector" orient="vertical"/>
               <li>{{selectedLineWidth}}</li>
               <li>Brush Size</li>
-
             </ul>
          </nav>
     </nav>
    
-   <!--  <div class='btn-erase' ng-click="changePen('eraser')">
-      <img src="images/pinkeraser.png">
-    <div class='pens'>
-
-      <div class='palette'>
-
-        <input type='checkbox' value='None' id='black' name='check' checked='checked' ng-click="changePen('black')"/>
-        <label for='black'></label>
-      </div>
-      <div class='palette'>
-        <input type="checkbox" value="None" id="red" name="check" ng-click="changePen('red')"/>
-        <label for="red"></label>
-      </div>
-      <div class='palette'>
-        <input type="checkbox" value="None" id="blue" name="check" ng-click="changePen('blue')"/>
-        <label for="blue"></label>
-      </div>
-    </div> -->
   </header>
 
   <div ki-canvas options="{color: selectedColor, lineWidth: selectedLineWidth}"></div>
