@@ -17,13 +17,16 @@
 .remote-vids video{
   width: 100%;
   flex: 1 0 0;
-  max-height: 200px;
+  margin-top: 7px;
+  max-height: 125px;
 }
 
 .videosContainer {
   position: fixed;
+  background: #000;
+  width: 100%;
   bottom: 0;
-  max-height: 200px;
+  max-height: 130px;
 }
 
 /*** PAGE STYLING ***/
@@ -60,11 +63,16 @@ h1 {
 .board-frame {
 }*/
 
+#bg {
+  position: absolute;
+}
+
 #whiteboard {
   position: absolute;
   /*put whiteboard in front*/
   z-index: 200;
 }
+
 
 
 /********button styles********/
