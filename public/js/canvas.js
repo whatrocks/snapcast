@@ -127,7 +127,7 @@ function download(canvas, filename) {
 }
 
 // on click handler for screenshot
-$('#screenshot').click(function() {
+$('#snapshot').click(function() {
   //creates offscreen canvas ('screenshot')
   var printCanvas=document.createElement('canvas');
   var printCtx=printCanvas.getContext('2d');
