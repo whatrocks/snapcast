@@ -120,7 +120,7 @@ App.init = function() {
       }
 
   });
-  
+/*  
   // **Whiteboard**
   // Set properties of the whiteboard.
   App.canvas = $('#whiteboard');
@@ -239,4 +239,5 @@ App.init = function() {
     App.isAnotherUserActive = false;
   });
 
+*/
 };
