@@ -25,6 +25,10 @@
               <li><button id="clear">Clear Board</button></li>
               <li><button href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;">Share Board</button></li>
               <div ki-color-selector="['#000', '#9CB199', '#CF3759', '#485247', '#E77547', '#D38E47', '#0A6A74', '#153974']" color="selectedColor"></div>
+              <input type="range" min="1" max="50" ng-model="selectedLineWidth"  class="lineWidthSelector" orient="vertical"/>
+              <li>{{selectedLineWidth}}</li>
+              <li>Brush Size</li>
+
             </ul>
          </nav>
     </nav>
@@ -49,7 +53,7 @@
     </div> -->
   </header>
 
-  <div ki-canvas options="{color: selectedColor}"></div>
+  <div ki-canvas options="{color: selectedColor, lineWidth: selectedLineWidth}"></div>
 
   <div class="videosContainer">
     
