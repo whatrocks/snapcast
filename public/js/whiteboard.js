@@ -11,6 +11,22 @@ angular.module('whiteboard', [])
   // .controller('canvas', function($rootScope, $scope, tools) {
   //   $rootScope.app = App;
   // })
+  .directive('kiColorSelector', function () {
+    return {
+      restrict: 'AE',
+      scope: {
+        colorList: '=kiColorSelector',
+        selectedColor: '=color'
+      },
+      templateUrl: '../templates/color-selector.html',
+      link: function(scope){
+        scope.setColor = function(col){
+          console.log('color selected');
+          scope.selectedColor = col;
+        };
+      }
+    };
+  })
   .directive('kiCanvas', function($window) {
     return {
       restrict: 'AE',
