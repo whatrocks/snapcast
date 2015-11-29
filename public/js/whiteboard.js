@@ -45,7 +45,7 @@ angular.module('snapcast.whiteboard', [])
 
         //set default options
         var options = scope.options || {};
-        options.canvasId = options.customCanvasId || 'drawingCanvas';
+        options.canvasId = options.customCanvasId || 'boardCanvas';
         options.tmpCanvasId = options.customCanvasId ? (options.canvasId + 'Tmp') : 'tmpCanvas';
         options.bgCanvasId = options.customCanvasId ? (options.canvasId + 'Bg') : 'bgCanvas';
         options.width = options.width || $window.innerWidth;
@@ -95,11 +95,15 @@ angular.module('snapcast.whiteboard', [])
 
         //create canvas and context
         var canvas = document.createElement('canvas');
+        scope.canvas = canvas;
         canvas.id = options.canvasId;
         var canvasTmp = document.createElement('canvas');
+        scope.canvasTmp = canvasTmp;
         canvasTmp.id = options.tmpCanvasId;
         var canvasBg = document.createElement('canvas');
         canvasBg.id = options.bgCanvasId;
+        scope.canvasBg = canvasBg;
+
 
         angular.element(canvasTmp).css({
           position: 'absolute',

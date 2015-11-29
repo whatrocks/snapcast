@@ -11,7 +11,4 @@ angular.module('snapcast', ['snapcast.whiteboard'])
         socket.emit(eventName, data);
       }
     };
-  }])
-  .controller('MainCtrl', function($scope, socket) {
-
-  });
+  }]);

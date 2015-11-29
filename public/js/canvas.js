@@ -3,7 +3,7 @@
 /* BACKGROUND SWAP FUNCTIONALITY */
 
 //selecting the bgCanvas and canvas
-var bgCanvas = document.getElementById('backgroundCanvas');
+var bgCanvas = document.getElementById('bgCanvas');
 var drawCanvas = document.getElementById('boardCanvas');
 //select toggleBg button
 var toggleBg = $('#toggleBg');
