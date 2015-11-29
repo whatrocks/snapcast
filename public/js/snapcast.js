@@ -1,4 +1,4 @@
-angular.module('snapcast', ['snapcast.whiteboard'])
+angular.module('snapcast', ['snapcast.whiteboard', 'snapcast.webrtc'])
   .factory('socket', ['$rootScope', '$window', function($rootScope, $window) {
     var ioRoom = $window.location.href;
     var socket = io.connect(ioRoom);
@@ -9,6 +9,7 @@ angular.module('snapcast', ['snapcast.whiteboard'])
       },
       emit: function(eventName, data) {
         socket.emit(eventName, data);
-      }
+      },
+      ioRoom: ioRoom
     };
   }]);
