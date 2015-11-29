@@ -2,10 +2,7 @@ angular.module('snapcast.webrtc', [])
 .directive('kiWebrtc', function(socket) {
    return {
       restrict: 'AE',
-      scope: {
-
-      },
-      link: function (scope) {
+      link: function () {
 
         // Initialize webrtc
         var webrtc = new SimpleWebRTC({
