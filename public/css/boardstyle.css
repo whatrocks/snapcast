@@ -116,6 +116,7 @@ h1 {
 
 .kiColorSelector li{
   margin: 2px 0;
+  height: 15px;
 }
 
 
@@ -174,7 +175,8 @@ body {
   position: absolute;
   height: 2px;
   width: 24px;
-  background: #8d8d8d;
+  /*background: #8d8d8d;*/
+  background: rgba(0,0,0,0.5);
   right: 13px;
   top: 18px;
   box-shadow: 0 6px 0 #8d8d8d, 0 12px 0 #8d8d8d;
@@ -214,214 +216,7 @@ body {
   right: 0px;
 }
 
-
-
-/*============================/
-=== BUTTON/PALETTE STYLES ====
-=============================*/
-/* LEGACY CODE - TO BE CHANGED TO MATCH NEW LOOK */
-
-.btn-undo {
- border-top: 1px solid #b3b3b3;
- background: #bec2d4;
- background: -webkit-gradient(linear, left top, left bottom, from(#0a5c58), to(#bec2d4));
- background: -webkit-linear-gradient(top, #0a5c58, #bec2d4);
- background: -moz-linear-gradient(top, #0a5c58, #bec2d4);
- background: -ms-linear-gradient(top, #0a5c58, #bec2d4);
- background: -o-linear-gradient(top, #0a5c58, #bec2d4);
- padding: 16.5px 33px;
- -webkit-border-radius: 20px;
- -moz-border-radius: 20px;
- border-radius: 20px;
- -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
- -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
- box-shadow: rgba(0,0,0,1) 0 1px 0;
- text-shadow: rgba(0,0,0,.4) 0 1px 0;
- color: white;
- font-size: 13px;
- text-decoration: none;
- vertical-align: middle;
-}
-
-div.btn-erase {
-  height: 60px;
-}
-
-.btn-erase img {
-  position: absolute;
-  height: 40px;
-  left: 40%;
-}
-
-
-.btn-tool:hover {
- border-top-color: #94a8b5;
- background: #94a8b5;
- color: #2e262e;
-}
-.btn-tool:active {
- border-top-color: #05ab8f;
- background: #05ab8f;
-}
-
-.new {
-  position: absolute;
-  right: 15px;
-  top: 32%;
-  width: 106px;
-  height: 37px;
-}
-
-
-.pens {
-  /*display: inline-block;*/
-  position: absolute;
-  left: 45%;
-  top: 0;
-  /*width: 100px;*/
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-input[type=checkbox] {
-  visibility: hidden;
-}
-.palette {
-  width: 28px;
-  height: 28px;
-  background: #fcfff4;
-  display: inline-block;
-  margin: 5px 5px;
-
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
-
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  position: relative;
-}
-
-.palette label {
-  cursor: pointer;
-  position: absolute;
-  width: 20px;
-  height: 20px;
-
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  left: 4px;
-  top: 4px;
-
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-  -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-}
-
-label[for=black] {
-  background: -webkit-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -moz-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -o-linear-gradient(top, #222 0%, #45484d 100%);
-  background: -ms-linear-gradient(top, #222 0%, #45484d 100%);
-  background: linear-gradient(top, #222 0%, #45484d 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#222', endColorstr='#45484d',GradientType=0 );
-}
-
-label[for=red] {
-  background: -webkit-linear-gradient(top, #FF0000 0%, #FB0707 100%);
-  background: -moz-linear-gradient(top, #FF0000 0%, #FB0707 100%);
-  background: -o-linear-gradient(top, #FF0000 0%, #FB0707 100%);
-  background: -ms-linear-gradient(top, #FF0000 0%, #FB0707 100%);
-  background: linear-gradient(top, #FF0000 0%, #FB0707 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF0000', endColorstr='#FB0707',GradientType=0 );
-}
-
-label[for=blue] {
-  background: -webkit-linear-gradient(top, #0021e1 0%, #0094e1 100%);
-  background: -moz-linear-gradient(top, #0021e1 0%, #0094e1 100%);
-  background: -o-linear-gradient(top, #0021e1 0%, #0094e1 100%);
-  background: -ms-linear-gradient(top, #0021e1 0%, #0094e1 100%);
-  background: linear-gradient(top, #0021e1 0%, #0094e1 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0021e1', endColorstr='#0094e1',GradientType=0 );
-}
-
-
-
-.palette label:after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: alpha(opacity=0);
-  opacity: 0;
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background: #00bf00;
-
-  background: -webkit-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -moz-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -o-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: -ms-linear-gradient(top, #00bf00 0%, #009400 100%);
-  background: linear-gradient(top, #00bf00 0%, #009400 100%);
-
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px;
-  top: 2px;
-  left: 2px;
-
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-}
-
-.palette label:hover::after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-  filter: alpha(opacity=30);
-  opacity: 0.3;
-}
-
-
-
-.palette input[type=checkbox]:not(:checked) + label:after {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: alpha(opacity=100);
-  opacity: 1;
-}
-
-.palette #black:not(:checked) + label:after {
-  background: black;
-}
-
-.palette #red:not(:checked) + label:after {
-  background: darkred;
-}
-
-.palette #blue:not(:checked) + label:after {
-  background: darkblue;
-}
-
-
+/* Brush slider */
 input[type=range][orient=vertical]
 {
     writing-mode: bt-lr; /* IE */

@@ -3,14 +3,13 @@
 // ##### [Back to Table of Contents](./tableofcontents.html)
 
 // Initialize the whiteboard module.
+
 // Angular directive altered from pwambach's Angular-Canvas-Painter: 
 // https://github.com/pwambach/angular-canvas-painter
 
-angular.module('whiteboard', [])
+angular.module('snapcast.whiteboard', [])
   // Set App to the root scope. 
-  // .controller('canvas', function($rootScope, $scope, tools) {
-  //   $rootScope.app = App;
-  // })
+// Directive for color selection
   .directive('kiColorSelector', function () {
     return {
       restrict: 'AE',
@@ -27,7 +26,8 @@ angular.module('whiteboard', [])
       }
     };
   })
-  .directive('kiCanvas', function($window) {
+// Directive for the drawing functionality
+  .directive('kiCanvas', function($window, socket) {
     return {
       restrict: 'AE',
       scope: {
@@ -45,8 +45,9 @@ angular.module('whiteboard', [])
 
         //set default options
         var options = scope.options || {};
-        options.canvasId = options.customCanvasId || 'backgroundCanvas';
-        options.tmpCanvasId = options.customCanvasId ? (options.canvasId + 'Tmp') : 'boardCanvas';
+        options.canvasId = options.customCanvasId || 'drawingCanvas';
+        options.tmpCanvasId = options.customCanvasId ? (options.canvasId + 'Tmp') : 'tmpCanvas';
+        options.bgCanvasId = options.customCanvasId ? (options.canvasId + 'Bg') : 'bgCanvas';
         options.width = options.width || $window.innerWidth;
         options.height = options.height || $window.innerHeight;
         options.backgroundColor = options.backgroundColor || '#fff';
@@ -61,11 +62,11 @@ angular.module('whiteboard', [])
         if (options.imageSrc) {
           var image = new Image();
           image.onload = function() {
-            var pattern = ctx.createPattern(this, 'repeat');
+            var pattern = ctxBg.createPattern(this, 'repeat');
 
-            ctx.rect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = pattern;
-            ctx.fill();
+            ctxBg.rect(0, 0, canvasBg.width, canvasBg.height);
+            ctxBg.fillStyle = pattern;
+            ctxBg.fill();
           };
           image.src = options.imageSrc;
         }
@@ -94,34 +95,46 @@ angular.module('whiteboard', [])
 
         //create canvas and context
         var canvas = document.createElement('canvas');
-        console.log('canvas created');
         canvas.id = options.canvasId;
         var canvasTmp = document.createElement('canvas');
         canvasTmp.id = options.tmpCanvasId;
+        var canvasBg = document.createElement('canvas');
+        canvasBg.id = options.bgCanvasId;
+
         angular.element(canvasTmp).css({
           position: 'absolute',
           top: 0,
           left: 0
         });
+        angular.element(canvasBg).css({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          'z-index': -1
+        });
+        
         elm.find('div').append(canvas);
+        elm.find('div').append(canvasBg);
         elm.find('div').append(canvasTmp);
         var ctx = canvas.getContext('2d');
         var ctxTmp = canvasTmp.getContext('2d');
+        var ctxBg = canvasBg.getContext('2d');
 
-        //inti variables
+        //init variables
         var point = {
           x: 0,
           y: 0
         };
+
         var ppts = [];
 
-        //set canvas size
-        canvas.width = canvasTmp.width = options.width;
-        canvas.height = canvasTmp.height = options.height;
+        //set canvas sizes
+        canvas.width = canvasBg.width = canvasTmp.width = options.width;
+        canvas.height = canvasBg.height = canvasTmp.height = options.height;
 
-        //set context style
-        ctx.fillStyle = options.backgroundColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //set context styles
+        // ctx.fillStyle = options.backgroundColor;
+        // ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctxTmp.globalAlpha = options.opacity;
         ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
         ctxTmp.lineWidth = 10;
@@ -179,16 +192,17 @@ angular.module('whiteboard', [])
 
 
         var paint = function(e) {
+
           if (e) {
             e.preventDefault();
             setPointFromEvent(point, e);
           }
-
           // Saving all the points in an array
           ppts.push({
             x: point.x,
             y: point.y
           });
+
 
           if (ppts.length === 3) {
             var b = ppts[0];
@@ -206,6 +220,7 @@ angular.module('whiteboard', [])
           ctxTmp.moveTo(ppts[0].x, ppts[0].y);
 
           for (var i = 1; i < ppts.length - 2; i++) {
+
             var c = (ppts[i].x + ppts[i + 1].x) / 2;
             var d = (ppts[i].y + ppts[i + 1].y) / 2;
             ctxTmp.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
@@ -213,12 +228,13 @@ angular.module('whiteboard', [])
 
           // For the last 2 points
           ctxTmp.quadraticCurveTo(
+            ppts[i - 1].x,
+            ppts[i - 1].y,
             ppts[i].x,
-            ppts[i].y,
-            ppts[i + 1].x,
-            ppts[i + 1].y
+            ppts[i].y
           );
           ctxTmp.stroke();
+
         };
 
         var copyTmpImage = function() {
@@ -236,8 +252,17 @@ angular.module('whiteboard', [])
           ppts = [];
         };
 
+        var copyRemoteImage = function(canvas) {
+          var image = new Image();
+          image.onload = function() {
+            ctx.drawImage(this, 0, 0);
+          };
+          image.src = canvas;
+        };
+
         var startTmpImage = function(e) {
           e.preventDefault();
+
           canvasTmp.addEventListener(PAINT_MOVE, paint, false);
 
           setPointFromEvent(point, e);
@@ -252,9 +277,15 @@ angular.module('whiteboard', [])
 
           paint();
         };
+        
+        var socketEvent = function() {
+          var canvas = canvasTmp.toDataURL('image/png', 0.8);
+          socket.emit('draw', canvas);
+        };
 
         var initListeners = function() {
           canvasTmp.addEventListener(PAINT_START, startTmpImage, false);
+          canvasTmp.addEventListener(PAINT_END, socketEvent, false);
           canvasTmp.addEventListener(PAINT_END, copyTmpImage, false);
 
           if (!isTouch) {
@@ -295,7 +326,10 @@ angular.module('whiteboard', [])
               copyTmpImage(e);
             }
           }
+
         };
+
+        socket.on('draw', copyRemoteImage);
 
         var undo = function(version) {
           if (undoCache.length > 0) {
@@ -305,6 +339,7 @@ angular.module('whiteboard', [])
         };
 
         initListeners();
+ 
       }
     };
   });
