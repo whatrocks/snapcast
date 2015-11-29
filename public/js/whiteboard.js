@@ -329,6 +329,7 @@ angular.module('snapcast.whiteboard', [])
 
         };
 
+      // copies remote images received over sockets
         socket.on('draw', copyRemoteImage);
 
         var undo = function(version) {
