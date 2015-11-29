@@ -56,6 +56,7 @@ angular.module('snapcast.webrtc', [])
             }
         });
 
+      // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
           console.log("screen share was added ");
           video.onclick = function () {
@@ -71,7 +72,7 @@ angular.module('snapcast.webrtc', [])
           // changeBackground(angular.element($('#background'));
         });
 
-        // a peer video has been added - adds to remoteVideos div
+        // Handles addition of peer/remote videos
         webrtc.on('videoAdded', function (video, peer) {
             //if someone is sharing their screen, change background to that video
             if (peer.type === 'screen') {
@@ -90,6 +91,23 @@ angular.module('snapcast.webrtc', [])
                   // suppress context menu
                   video.oncontextmenu = function () { return false; };
                   remotes.append(container);
+              }
+            }
+        });
+
+        // Handles removal of peer video
+        webrtc.on('videoRemoved', function (video, peer) {
+          //if a screenshare is being removed, change background to default
+            if (peer.type === 'screen') {
+             // changeBackground();
+             // re-enables share button now that sharing is done
+             shareButton.disabled = 0;
+
+            } else {
+              var remotes = angular.element($('#remoteVideos'));
+              var options = (function(){return peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer';})();
+              var el = angular.element($('#' + options));              if (remotes && el) {
+                  remotes.removeChild(el);
               }
             }
         });
