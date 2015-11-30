@@ -24,16 +24,13 @@ angular.module('snapcast.webrtc', [])
         };
 
         webrtc.on('localScreenRemoved', function() {
-          console.log('local screen removed');
+          scope.$broadcast('screenshare:removed');
           setButton(true);
         });
 
         setButton(true);
 
        // SCREEN SHARE FUNCTIONALITY 
-       shareButton.on('click', function() {
-       });
-      
        shareButton.on('click', function () {
            if ( webrtc.getLocalScreen() ) {
              //stops the stream
@@ -74,12 +71,15 @@ angular.module('snapcast.webrtc', [])
             if (peer.type === 'screen') {
              scope.$broadcast('remoteshare', video);
              // disable sharing button for others
-             $('#shareButton').attr('disabled', 'disabled');
+             scope.$apply(function() {
+              scope.shareDisabled = true;
+            });
+
+
             } else {
               var remotes = angular.element($('#remoteVideos'));
               if (remotes) {
                   var container = document.createElement('div');
-                  console.log(container);
                   container.className = 'videoContainer';
                   container.id = 'container_' + webrtc.getDomId(peer);
                   container.appendChild(video);
@@ -98,8 +98,10 @@ angular.module('snapcast.webrtc', [])
              // changeBackground();
              scope.$broadcast('remoteshare:removed', video);
              // re-enables share button now that sharing is done
-             shareButton.disabled = 0;
-
+              scope.$apply(function() {
+               scope.shareDisabled = false;
+             });
+              
             } else {
               var remotes = angular.element($('#remoteVideos'));
               var options = (function(){return peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer';})();

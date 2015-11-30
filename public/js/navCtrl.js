@@ -13,4 +13,6 @@ angular.module('snapcast')
     $scope.$broadcast('clear');
   };
 
+  $scope.shareDisabled = false;
+
 });
