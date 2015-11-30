@@ -65,7 +65,7 @@ angular.module('snapcast.webrtc', [])
           //add to invisible container div
           angular.element($('#shareContainer')).append(video);
           //change the canvas
-          scope.$broadcast('screenshare');
+          scope.$broadcast('screenshare', video);
         });
 
         // Handles addition of peer/remote videos
@@ -73,6 +73,7 @@ angular.module('snapcast.webrtc', [])
             //if someone is sharing their screen, change background to that video
             if (peer.type === 'screen') {
              // changeBackground(video);
+             scope.$broadcast('remoteshare', video);
              // console.log('do the thing');
              // disable sharing button for others
              shareButton.disabled = 'disabled';

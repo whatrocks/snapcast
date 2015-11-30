@@ -149,9 +149,14 @@ angular.module('snapcast.whiteboard', [])
 
        
         //Watch options
-        scope.$on('screenshare', function(e) {
-          changeBackground(document.getElementById('background'));
+        scope.$on('screenshare', function(e, data) {
+          changeBackground(data);
         });
+
+        scope.$on('remoteshare', function(e, data) {
+          changeBackground(data);
+        });
+
         scope.$on('toggleBg', function(e) {
           if (scope.imageSrc === './images/light.jpg') {
             scope.imageSrc = './images/dark.jpg';
