@@ -140,23 +140,29 @@ angular.module('snapcast.whiteboard', [])
         canvas.height = canvasBg.height = canvasTmp.height = options.height;
 
         //set context styles
-        // ctx.fillStyle = options.backgroundColor;
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctxTmp.globalAlpha = options.opacity;
         ctxTmp.lineJoin = ctxTmp.lineCap = 'round';
         ctxTmp.lineWidth = 10;
         ctxTmp.strokeStyle = options.color;
 
-       
         //Watch options
         scope.$on('screenshare', function(e, data) {
           changeBackground(data);
+        });
+
+        scope.$on('screenshare:removed', function(e) {
+          changeBackground();
         });
 
         scope.$on('remoteshare', function(e, data) {
           changeBackground(data);
         });
 
+        scope.$on('remoteshare:removed', function(e) {
+          changeBackground();
+        });
+
+       // toggle between backgronuds
         scope.$on('toggleBg', function(e) {
           if (scope.imageSrc === './images/light.jpg') {
             scope.imageSrc = './images/dark.jpg';

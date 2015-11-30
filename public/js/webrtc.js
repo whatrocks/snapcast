@@ -34,25 +34,25 @@ angular.module('snapcast.webrtc', [])
        shareButton.on('click', function() {
        });
       
-      shareButton.on('click', function () {
-          if ( webrtc.getLocalScreen() ) {
-            //stops the stream
-            webrtc.stopScreenShare();
-            //removes video element
-            document.getElementById('shareContainer').removeChild(document.getElementById('background'));
-            //clears the background
-            // changeBackground();
-            setButton(true);
-          } else {
-            webrtc.shareScreen(function (err,data) {
-              if (err) {
-                setButton(true);
-              } else {
-                setButton(false);
-              }
-            });
-          }
-        });
+       shareButton.on('click', function () {
+           if ( webrtc.getLocalScreen() ) {
+             //stops the stream
+             webrtc.stopScreenShare();
+             //removes video element
+             document.getElementById('shareContainer').removeChild(document.getElementById('background'));
+             //clears the background
+             scope.$broadcast('screenshare:removed');
+             setButton(true);
+           } else {
+             webrtc.shareScreen(function (err,data) {
+               if (err) {
+                 setButton(true);
+               } else {
+                 setButton(false);
+               }
+             });
+           }
+         });
 
       // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
@@ -72,11 +72,9 @@ angular.module('snapcast.webrtc', [])
         webrtc.on('videoAdded', function (video, peer) {
             //if someone is sharing their screen, change background to that video
             if (peer.type === 'screen') {
-             // changeBackground(video);
              scope.$broadcast('remoteshare', video);
-             // console.log('do the thing');
              // disable sharing button for others
-             shareButton.disabled = 'disabled';
+             $('#shareButton').attr('disabled', 'disabled');
             } else {
               var remotes = angular.element($('#remoteVideos'));
               if (remotes) {
@@ -98,6 +96,7 @@ angular.module('snapcast.webrtc', [])
           //if a screenshare is being removed, change background to default
             if (peer.type === 'screen') {
              // changeBackground();
+             scope.$broadcast('remoteshare:removed', video);
              // re-enables share button now that sharing is done
              shareButton.disabled = 0;
 
