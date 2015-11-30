@@ -4,6 +4,9 @@ angular.module('snapcast.webrtc', [])
       restrict: 'AE',
       link: function (scope) {
 
+        socket.on('faceshare', function(video) {
+          scope.$broadcast('screenshare', video);
+        });
         // Initialize webrtc
         var webrtc = new SimpleWebRTC({
           // LocalVideoElement id
@@ -52,11 +55,22 @@ angular.module('snapcast.webrtc', [])
              });
            }
          });
-       // SCREEN SHARE FUNCTIONALITY 
+
+       // FACE SHARE FUNCTIONALITY 
        faceShareButton.on('click', function() {
+        // gets the local video for local bg swap
           var video = document.getElementById('localVideo');
+        // exports the connection id for remote sharing
+          var id = webrtc.connection.connection.id;
+        // sends id to server
+          socket.emit('faceshare', id);
           scope.$broadcast('screenshare', video);
-          console.log(video);
+       });
+
+       socket.on('faceshare', function(peer) {
+        // select the peer according to id
+         var video = document.getElementById(peer + '_video_incoming');
+         scope.$broadcast('screenshare', video);
        });
        
       // Handles local video streaming
@@ -119,10 +133,7 @@ angular.module('snapcast.webrtc', [])
             }
         });
         
-        socket.on('faceshare', function(video) {
-          scope.$broadcast('screenshare', video);
-          console.log(video);
-        });
+
       }
     };
 });
