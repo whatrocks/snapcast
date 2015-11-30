@@ -1,4 +1,7 @@
-/**** FLEX BOX/REMOTE VIDEOS ****/
+/*============================/
+==== REMOTE SPLIT PANE =======
+=============================*/
+
 .remote-vids {
   display: flex;
 }
@@ -18,7 +21,10 @@
   max-height: 130px;
 }
 
-/*** PAGE STYLING ***/
+
+/*============================/
+==== BASIC PAGE STYLING ======
+=============================*/
 html {
   width: 100%;
   height: 100%;
@@ -27,7 +33,7 @@ html {
 }
 
 header {
-  background: rgba(0,0,0,0);
+  background: transparent;
   /*background: url('../assets/polygon-7.jpg') 100px;*/
   position: fixed;
   width: 100%;
@@ -52,7 +58,10 @@ h1 {
   display: inline;
 }
 
-/***  CANVAS POSITIONING ***/
+
+/*============================/
+=== CANVAS LAYER POSITIONS ===
+=============================*/
 #bg {
   position: absolute;
 }
@@ -63,10 +72,149 @@ h1 {
   z-index: 200;
 }
 
+/****NAV BUTTON STYLING*****/
+#drawer button {
+  border: none;
+  color: #fff;
+  background: none;  
+  font-size: 12px;
+
+}
+#drawer button:hover {
+ /*border-top-color: #94a8b5;*/
+ text-decoration: underline;
+ transform: scale(1.1);
+ transition: 0.05s ease-in;
+}
+
+#drawer button:focus {
+  outline: none;
+}
+
+#drawer ul {
+  margin: 10px 20px;
+}
+
+#drawer li {
+  display: block;
+  list-style: none;
+  padding-top: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+#drawer li button {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+#drawer li button:disabled {
+  color: #3f3f3f;
+}
 
 
-/******** BUTTON STYLES ********/
-/* to be changed */
+/*============================/
+====== SIDE DRAWER MENU ======
+=============================*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+
+  /* adds animation for all transitions */
+  -webkit-transition: .25s ease-in-out;
+  -moz-transition: .25s ease-in-out;
+  -o-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+}
+/* Normalize height */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* removes input from visibility */
+#drawer-toggle {
+  position: absolute;
+  opacity: 0;
+}
+
+#drawer-toggle-label {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  right: 0px;
+  height: 50px;
+  width: 50px;
+  top: -10px;
+  display: block;
+  position: fixed;
+  background: rgba(0, 0, 0, 0);
+  z-index: -99;
+}
+
+/* Hamburger menu styling */
+#drawer-toggle-label:before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 2px;
+  width: 24px;
+  background: #8d8d8d;
+  right: 13px;
+  top: 18px;
+  box-shadow: 0 6px 0 #8d8d8d, 0 12px 0 #8d8d8d;
+}
+
+/* Drawer menu pane */
+#drawer {
+  position: fixed;
+  top: 0;
+  right: -150px;
+  height: 100%;
+  width: 150px;
+  /*background: url('../assets/polygon-7.jpg') 100px;*/
+  background: #2f2f2f;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /*padding: 20px;*/
+  margin-top: 0;
+  margin-right: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Grey overlay 
+#drawer-toggle:checked ~ #drawer-toggle-label {
+  height: 110%;
+  width: calc(100% - 100px);
+  background: rgba(144, 144, 144, 0.6);
+}*/
+
+/* Menu Open State (checked) */
+#drawer-toggle:checked ~ #drawer-toggle-label,
+#drawer-toggle:checked ~ header {
+  right: 150px;
+}
+
+#drawer-toggle:checked ~ #drawer {
+  right: 0px;
+}
+
+
+
+/*============================/
+=== BUTTON/PALETTE STYLES ====
+=============================*/
+/* LEGACY CODE - TO BE CHANGED TO MATCH NEW LOOK */
+
 .btn-undo {
  border-top: 1px solid #b3b3b3;
  background: #bec2d4;
@@ -106,17 +254,6 @@ div.btn-erase {
  color: #2e262e;
 }
 .btn-tool:active {
- border-top-color: #05ab8f;
- background: #05ab8f;
-}
-
-
-.button:hover {
- border-top-color: #94a8b5;
- background: #94a8b5;
- color: #2e262e;
-}
-.button:active {
  border-top-color: #05ab8f;
  background: #05ab8f;
 }

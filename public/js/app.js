@@ -109,7 +109,7 @@ App.init = function() {
       if (peer.type === 'screen') {
        changeBackground();
        // re-enables share button now that sharing is done
-       shareButton.disabled = 'enabled';
+       shareButton.disabled = 0;
 
       } else {
         var remotes = document.getElementById('remoteVideos');
