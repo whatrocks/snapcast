@@ -32,6 +32,7 @@ angular.module('snapcast.webrtc', [])
 
        // SCREEN SHARE FUNCTIONALITY 
           scope.$on('screenshare', function (e) {
+            console.log('webrtc heard it')
               if ( webrtc.getLocalScreen() ) {
                 //stops the stream
                 webrtc.stopScreenShare();
@@ -55,7 +56,6 @@ angular.module('snapcast.webrtc', [])
 
       // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
-          console.log("screen share was added ");
           video.onclick = function () {
             video.style.width = video.videoWidth + 'px';
             video.style.height = video.videoHeight + 'px';

@@ -168,6 +168,7 @@ angular.module('snapcast.whiteboard', [])
         });
 
         scope.$on('screenshare', function(e) {
+          console.log('whiteboard heard it');
           changeBackground($('#background'));
         });
 
