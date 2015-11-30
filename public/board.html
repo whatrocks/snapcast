@@ -3,6 +3,7 @@
   <head>
   <link rel="stylesheet" href="css/bootstrap-button.css">
     <link rel='stylesheet' href='css/boardstyle.css'>
+    <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/mljllkckippdlghlikjakkhfblngjgcn">
     <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
@@ -20,6 +21,7 @@
       <nav id="drawer">
             <ul>
               <li class=".twitterAPI">twitter button</li>;
+              <li><button onclick="chrome.webstore.install()" id="install-button">Install Snapcast extension</button></li>
               <li><button id="screenShareButton" ng-disabled="shareDisabled"></button></li>
               <li><button id="toggleBg" ng-click="toggleBg()">Toggle Background</button></li>
               <li><button id="snapshot" ng-click="snapshot()">Snapshot</button></li>
@@ -64,6 +66,12 @@
 <script src='js/webrtc.js'></script>
 <script src='js/snapcast.js'></script>
 <script src='js/navCtrl.js'></script>
+
+<script>
+  if (document.getElementById('extension-is-installed')) {
+    document.getElementById('install-button').style.display = 'none';
+  }
+</script>
 
 </html>
 <!--       <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a> -->

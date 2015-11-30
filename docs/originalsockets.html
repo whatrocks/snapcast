@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>Main Server</title>
+  <title>Socket Connection Handler</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -99,7 +99,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="main-server">Main Server</h1>
+              <h1 id="socket-connection-handler">Socket Connection Handler</h1>
 
             </div>
             
@@ -125,19 +125,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <h2 id="dependencies">Dependencies</h2>
+              <p>Import board model from <a href="../documentation/board.html">board.js</a></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
-<span class="hljs-keyword">var</span> app = express();
-<span class="hljs-keyword">var</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
-<span class="hljs-keyword">var</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>);
-<span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
-<span class="hljs-keyword">var</span> Board = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./db/board'</span>);
-<span class="hljs-keyword">var</span> port = process.env.PORT || <span class="hljs-number">8080</span>;
-<span class="hljs-keyword">var</span> handleSocket = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./server/sockets'</span>);
-<span class="hljs-keyword">var</span> io;</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> Board = <span class="hljs-built_in">require</span>(<span class="hljs-string">'../db/board'</span>);</pre></div></div>
             
         </li>
         
@@ -148,13 +140,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <h2 id="https-configuration-for-local-testing">HTTPS Configuration for local testing</h2>
+              <p><strong>boardUrl:</strong> <em>String</em> <br>
+<strong>board:</strong> <em>Mongoose board model</em> <br>
+<strong>io:</strong> <em>Export of our Socket.io connection from <a href="../documentation/server.html">server.js</a></em></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> privateKey = fs.readFileSync(<span class="hljs-string">'./server/ssl/server.key'</span>, <span class="hljs-string">'utf8'</span>);
-<span class="hljs-keyword">var</span> certificate = fs.readFileSync(<span class="hljs-string">'./server/ssl/server.crt'</span>, <span class="hljs-string">'utf8'</span>);
-<span class="hljs-keyword">var</span> credentials = { key: privateKey, cert: certificate };</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> connect = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">boardUrl, board, io</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -165,9 +157,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <h2 id="routes">Routes</h2>
+              <p>Set the Socket.io namespace to the boardUrl.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> whiteboard = io.of(boardUrl);
+
+  whiteboard.on(<span class="hljs-string">'connection'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">socket</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -178,11 +174,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p><strong>Static folder for serving application assets</strong></p>
+              <p>Send the current state of the board to the client immediately on joining.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.use(<span class="hljs-string">'/'</span>, express.static(__dirname + <span class="hljs-string">'/public'</span>));</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    socket.emit(<span class="hljs-string">'join'</span>, board);
+
+    socket.on(<span class="hljs-string">'start'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">pen</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -193,11 +191,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p><strong>Static folder for serving documentation</strong></p>
+              <p><strong>A stroke is essentially a continous line drawn by the user.</strong></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.use(<span class="hljs-string">'/documentation'</span>, express.static(__dirname + <span class="hljs-string">'/docs'</span>));</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      socket.stroke = {
+        pen: pen,
+        path: []
+      };
+    });
+
+    socket.on(<span class="hljs-string">'drag'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">coords</span>) </span>{</pre></div></div>
             
         </li>
         
@@ -208,13 +212,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p><strong>Home Page</strong></p>
+              <p>Push coordinates into the stroke’s drawing path.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-  res.sendFile(__dirname + <span class="hljs-string">'/public/index.html'</span>);
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      socket.stroke.path.push(coords);</pre></div></div>
             
         </li>
         
@@ -225,13 +227,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p><strong>Documentation Page</strong></p>
+              <p>This payload will be sent back to all sockets <em>except the socket
+that initiated the draw event.</em></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/documentation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-  res.sendFile(__dirname + <span class="hljs-string">'/docs/tableofcontents.html'</span>);
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> payload = {
+        pen: socket.stroke.pen,
+        coords: coords
+      };</pre></div></div>
             
         </li>
         
@@ -242,11 +246,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p><strong>Get a new whiteboard</strong></p>
+              <p>Broadcast new line coords to everyone but the person who drew it.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/new'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      socket.broadcast.emit(<span class="hljs-string">'drag'</span>, payload);
+    });</pre></div></div>
             
         </li>
         
@@ -257,18 +262,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>Create a new mongoose board model.</p>
+              <p>When stroke is finished, add it to our db.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> board = <span class="hljs-keyword">new</span> Board.boardModel({strokes: []});
-  <span class="hljs-keyword">var</span> id = board._id.toString();
-  board.save(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, board</span>) </span>{
-    <span class="hljs-keyword">if</span> (err) { <span class="hljs-built_in">console</span>.error(err); }
-    <span class="hljs-keyword">else</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'board saved!'</span>);
-    }
-  });</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    socket.on(<span class="hljs-string">'end'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> finishedStroke = socket.stroke;</pre></div></div>
             
         </li>
         
@@ -279,12 +278,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>Redirect to the new board.</p>
+              <p>Get the board that the socket is connected to.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  res.redirect(<span class="hljs-string">'/'</span> + id);
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> id = socket.nsp.name.slice(<span class="hljs-number">1</span>);</pre></div></div>
             
         </li>
         
@@ -295,13 +293,16 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p><strong>Wildcard route &amp; board id handler.</strong></p>
+              <p>Update the board with the new stroke.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>app.get(<span class="hljs-string">'/*'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
-  <span class="hljs-keyword">var</span> id = req.url.slice(<span class="hljs-number">1</span>);
-  Board.boardModel.findOne({id: id}, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, board</span>) </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      Board.boardModel.update({id: id},{$push: {strokes: finishedStroke} },{upsert:<span class="hljs-literal">true</span>},<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, board</span>)</span>{
+        <span class="hljs-keyword">if</span>(err){ <span class="hljs-built_in">console</span>.log(err); }
+        <span class="hljs-keyword">else</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Successfully added"</span>);
+        }
+      });</pre></div></div>
             
         </li>
         
@@ -312,14 +313,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p>If the board doesn’t exist, or the route is invalid,
-then redirect to the home page.</p>
+              <p>Emit end event to everyone but the person who stopped drawing.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (err) {
-      res.redirect(<span class="hljs-string">'/'</span>);
-    } <span class="hljs-keyword">else</span> {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      socket.broadcast.emit(<span class="hljs-string">'end'</span>, <span class="hljs-literal">null</span>);</pre></div></div>
             
         </li>
         
@@ -330,12 +328,12 @@ then redirect to the home page.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>Invoke <a href="../documentation/sockets.html">request handler</a> for a new socket connection
-with board id as the Socket.io namespace.</p>
+              <p>Delete the stroke object to make room for the next stroke.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      handleSocket(req.url, board, io);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">delete</span> socket.stroke;
+    });</pre></div></div>
             
         </li>
         
@@ -346,14 +344,11 @@ with board id as the Socket.io namespace.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>Send back whiteboard html template.</p>
+              <p>When someone is sharing their screen</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      res.sendFile(__dirname + <span class="hljs-string">'/public/board.html'</span>);
-    }
-  });
-});</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    socket.on(<span class="hljs-string">'screen-share'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
             
         </li>
         
@@ -364,15 +359,15 @@ with board id as the Socket.io namespace.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p><strong>Start the server.</strong></p>
+              <p>broadcast to everyone but the person who emitted
+socket.broadcast.emit(‘’);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span> ( !process.env.PORT ) {
-  <span class="hljs-keyword">var</span> httpsServer = https.createServer(credentials, app);
-  httpsServer.listen(port, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"listening at port: "</span> + port);
-  });</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    });
+
+  });
+};</pre></div></div>
             
         </li>
         
@@ -383,20 +378,11 @@ with board id as the Socket.io namespace.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>setting sockets</p>
+              <p>Required by <a href="../documentation/server.html">server.js</a></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  io = <span class="hljs-built_in">require</span>(<span class="hljs-string">'socket.io'</span>)(httpsServer); 
-
-} <span class="hljs-keyword">else</span> {
-  <span class="hljs-keyword">var</span> httpServer = http.createServer(app);
-  httpServer.listen(port, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'server listening on'</span>, port, <span class="hljs-string">'at'</span>, <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>());
-  });
-  
-  io = <span class="hljs-built_in">require</span>(<span class="hljs-string">'socket.io'</span>)(httpServer);
-}</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span>.exports = connect;</pre></div></div>
             
         </li>
         
