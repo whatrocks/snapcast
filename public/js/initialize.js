@@ -5,14 +5,9 @@
 
 
 // Initialize the app.
-
 $(function() {
   // Set up all app properties listed in [app.js](../docs/app.html).
   App.init();
-
-  // Set up video to be draggable.
-  // $('#localVideo').draggable();
-  // $('#remoteVideos').draggable();
 
   // **Mouse Events**
 

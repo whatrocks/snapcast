@@ -14,10 +14,12 @@
   },
   "content_scripts": [ {
     "js": [ "content.js" ],
-    "matches": ["https://icicle-kindling.herokuapp.com/*" ]
+    "matches": ["https://localhost:8080/*", 
+    "https://icicle-kindling.herokuapp.com/*" ]
   }],
   "externally_connectable": {
       "matches": [
+        "https://localhost:8080/*",
           "https://icicle-kindling.herokuapp.com/*"
       ]
   }

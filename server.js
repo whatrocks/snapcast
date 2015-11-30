@@ -123,7 +123,6 @@ app.get('/documentation', function(req, res) {
   res.sendFile(__dirname + '/docs/tableofcontents.html');
 });
 
-
 // **Get a new whiteboard**
 app.get('/new', function(req, res) {
   // Create a new mongoose board model.
@@ -161,22 +160,13 @@ app.get('/*', function(req, res) {
 
 //for some reason https doesn't work with ngrok, need to fix it later
 // **Start the server.**
-// if ( !process.env.PORT ) {
-//   var httpsServer = https.createServer(credentials, app);
-//   httpsServer.listen(port, function() {
-//     console.log("listening at port: " + port);
-//   });
-//   //setting sockets
-//   io = require('socket.io')(httpsServer);  
-
-// } else {
-//   var httpServer = http.createServer(app);
-//   httpServer.listen(port, function() {
-//     console.log('server listening on', port, 'at', new Date());
-//   });
-  
-//   io = require('socket.io')(httpServer);
-// }
+if ( !process.env.PORT ) {
+  var httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(port, function() {
+    console.log("listening at port: " + port);
+  });
+  //setting sockets
+  io = require('socket.io')(httpsServer);
 
 var httpServer = http.createServer(app);
   httpServer.listen(port, function() {
