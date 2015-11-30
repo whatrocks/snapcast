@@ -239,4 +239,5 @@ App.init = function() {
     App.isAnotherUserActive = false;
   });
 
+
 };
