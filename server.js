@@ -167,6 +167,7 @@ if ( !process.env.PORT ) {
   });
   //setting sockets
   io = require('socket.io')(httpsServer);
+} else {
 
 var httpServer = http.createServer(app);
   httpServer.listen(port, function() {
@@ -175,3 +176,4 @@ var httpServer = http.createServer(app);
   
   io = require('socket.io')(httpServer);
 
+}
