@@ -19,6 +19,7 @@
       <label for="drawer-toggle" id="drawer-toggle-label"></label>
       <nav id="drawer">
             <ul>
+              <li class=".twitterAPI">twitter button</li>;
               <li><button id="screenShareButton" ng-disabled="shareDisabled"></button></li>
               <li><button id="toggleBg" ng-click="toggleBg()">Toggle Background</button></li>
               <li><button id="snapshot" ng-click="snapshot()">Snapshot</button></li>
@@ -35,6 +36,7 @@
   </header>
 
   <div ki-canvas options="{color: selectedColor, lineWidth: selectedLineWidth}"></div>
+
 
   <div ki-webrtc class="videosContainer">
     
@@ -57,6 +59,8 @@
 <script src="lib/jquery.event.drag-2.2.js"></script>
 
 <script src='js/whiteboard.js'></script>
+<!-- function to manage the invite button -->
+<script src = "js/twitterAPI.js"></script>
 <script src='js/webrtc.js'></script>
 <script src='js/snapcast.js'></script>
 <script src='js/navCtrl.js'></script>
