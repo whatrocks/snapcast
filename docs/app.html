@@ -35,8 +35,28 @@
                 </a>
               
                 
+                <a class="source" href="canvas.html">
+                  canvas.js
+                </a>
+              
+                
                 <a class="source" href="initialize.html">
                   initialize.js
+                </a>
+              
+                
+                <a class="source" href="navCtrl.html">
+                  navCtrl.js
+                </a>
+              
+                
+                <a class="source" href="snapcast.html">
+                  snapcast.js
+                </a>
+              
+                
+                <a class="source" href="webrtc.html">
+                  webrtc.js
                 </a>
               
                 
@@ -47,6 +67,11 @@
                 
                 <a class="source" href="server.html">
                   server.js
+                </a>
+              
+                
+                <a class="source" href="originalsockets.html">
+                  originalsockets.js
                 </a>
               
                 
@@ -208,89 +233,6 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>a peer video has been added - adds to remoteVideos div</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  webrtc.on(<span class="hljs-string">'videoAdded'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">video, peer</span>) </span>{
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'video added'</span>, peer);
-      <span class="hljs-keyword">var</span> remotes = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'remoteVideos'</span>);
-      <span class="hljs-keyword">if</span> (remotes) {
-          <span class="hljs-keyword">var</span> container = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'div'</span>);
-          container.className = <span class="hljs-string">'videoContainer'</span>;
-          container.id = <span class="hljs-string">'container_'</span> + webrtc.getDomId(peer);
-          container.appendChild(video);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-11">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
-              </div>
-              <p>suppress contextmenu</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>          video.oncontextmenu = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; };
-
-          remotes.appendChild(container);
-      }
-  });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-12">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
-              </div>
-              <p>a peer video was removed - remove element from DOM</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  webrtc.on(<span class="hljs-string">'videoRemoved'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">video, peer</span>) </span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-13">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
-              </div>
-              <p>Remove screen share video</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> ( video.id === <span class="hljs-string">'localScreen'</span> ) {
-      <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'localScreenContainer'</span>).removeChild(video);
-      $(<span class="hljs-string">'#localScreenContainer'</span>).hide();
-
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'video removed '</span>, peer);
-      <span class="hljs-keyword">var</span> remotes = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'remoteVideos'</span>);
-      <span class="hljs-keyword">var</span> el = <span class="hljs-built_in">document</span>.getElementById(peer ? <span class="hljs-string">'container_'</span> + webrtc.getDomId(peer) : <span class="hljs-string">'localScreenContainer'</span>);
-      <span class="hljs-keyword">if</span> (remotes &amp;&amp; el) {
-          remotes.removeChild(el);
-      }
-    }
-  });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-14">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
-              </div>
               <p>The room name is the same as our socket connection.</p>
 
             </div>
@@ -302,11 +244,11 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
         </li>
         
         
-        <li id="section-15">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p><strong>Screenshare Functionality</strong></p>
 
@@ -316,9 +258,22 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
   <span class="hljs-keyword">var</span> shareButton = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'screenShareButton'</span>),
     setButton = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">bool</span>) </span>{
       shareButton.innerText = bool ? <span class="hljs-string">'share screen'</span> : <span class="hljs-string">'stop sharing'</span>;
-    };
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>DOES THIS DO ANYTHING</p>
 
-  webrtc.on(<span class="hljs-string">'localScreenRemoved'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  webrtc.on(<span class="hljs-string">'localScreenRemoved'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'local screen removed'</span>);
     setButton(<span class="hljs-literal">true</span>);
   });
@@ -326,31 +281,70 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
   setButton(<span class="hljs-literal">true</span>);
 
   $(<span class="hljs-string">'#screenShareButton'</span>).on(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">if</span> ( webrtc.getLocalScreen() ) {
-      webrtc.stopScreenShare();
+    <span class="hljs-keyword">if</span> ( webrtc.getLocalScreen() ) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>stops the stream</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      webrtc.stopScreenShare();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>removes video element</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'shareContainer'</span>).removeChild(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'background'</span>));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>clears the background</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      changeBackground();
       setButton(<span class="hljs-literal">true</span>);
     } <span class="hljs-keyword">else</span> {
-      webrtc.shareScreen(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) </span>{
+      webrtc.shareScreen(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err,data</span>) </span>{
         <span class="hljs-keyword">if</span> (err) {
           setButton(<span class="hljs-literal">true</span>);
         } <span class="hljs-keyword">else</span> {
-          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"screen sharing"</span>);
           setButton(<span class="hljs-literal">false</span>);
         }
       });
     }
-
   });
 
   webrtc.on(<span class="hljs-string">'localScreenAdded'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">video</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">" local screen was added "</span>);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"screen share was added "</span>);
     video.onclick = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
       video.style.width = video.videoWidth + <span class="hljs-string">'px'</span>;
       video.style.height = video.videoHeight + <span class="hljs-string">'px'</span>;
-    };
-    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'localScreenContainer'</span>).appendChild(video);
-    $(<span class="hljs-string">'#localScreenContainer'</span>).show();
-  });</pre></div></div>
+    };</pre></div></div>
             
         </li>
         
@@ -361,9 +355,11 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p><strong>Whiteboard</strong></p>
+              <p>sets id to background for easy selection</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    video.setAttribute(<span class="hljs-string">'id'</span>, <span class="hljs-string">'background'</span>);</pre></div></div>
             
         </li>
         
@@ -374,14 +370,11 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p>Set properties of the whiteboard.</p>
+              <p>add to invisible container div</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  App.canvas = $(<span class="hljs-string">'#whiteboard'</span>);
-  App.canvas[<span class="hljs-number">0</span>].width = <span class="hljs-built_in">window</span>.innerWidth;
-  App.canvas[<span class="hljs-number">0</span>].height = <span class="hljs-built_in">window</span>.innerHeight;
-  App.context = App.canvas[<span class="hljs-number">0</span>].getContext(<span class="hljs-string">"2d"</span>);</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'shareContainer'</span>).appendChild(video);</pre></div></div>
             
         </li>
         
@@ -391,6 +384,188 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>change the canvas</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    changeBackground(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'background'</span>));
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>a peer video has been added - adds to remoteVideos div</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  webrtc.on(<span class="hljs-string">'videoAdded'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">video, peer</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>if someone is sharing their screen, change background to that video</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (peer.type === <span class="hljs-string">'screen'</span>) {
+       changeBackground(video);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>disable sharing button for others</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>       shareButton.disabled = <span class="hljs-string">'disabled'</span>;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">var</span> remotes = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'remoteVideos'</span>);
+        <span class="hljs-keyword">if</span> (remotes) {
+            <span class="hljs-keyword">var</span> container = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'div'</span>);
+            container.className = <span class="hljs-string">'videoContainer'</span>;
+            container.id = <span class="hljs-string">'container_'</span> + webrtc.getDomId(peer);
+            container.appendChild(video);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>suppress context menu</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            video.oncontextmenu = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{ <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; };
+
+            remotes.appendChild(container);
+        }
+      }
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>a peer video was removed - remove element from DOM</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  webrtc.on(<span class="hljs-string">'videoRemoved'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">video, peer</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>if a screenshare is being removed, change background to default</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (peer.type === <span class="hljs-string">'screen'</span>) {
+       changeBackground();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>re-enables share button now that sharing is done</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>       shareButton.disabled = <span class="hljs-number">0</span>;
+
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">var</span> remotes = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'remoteVideos'</span>);
+        <span class="hljs-keyword">var</span> el = <span class="hljs-built_in">document</span>.getElementById(peer ? <span class="hljs-string">'container_'</span> + webrtc.getDomId(peer) : <span class="hljs-string">'localScreenContainer'</span>);
+        <span class="hljs-keyword">if</span> (remotes &amp;&amp; el) {
+            remotes.removeChild(el);
+        }
+      }
+
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p><strong>Whiteboard</strong>
+Set properties of the whiteboard.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  App.canvas = $(<span class="hljs-string">'#whiteboard'</span>);
+  App.canvas[<span class="hljs-number">0</span>].width = <span class="hljs-built_in">window</span>.innerWidth;
+  App.canvas[<span class="hljs-number">0</span>].height = <span class="hljs-built_in">window</span>.innerHeight - <span class="hljs-number">130</span>;
+  App.context = App.canvas[<span class="hljs-number">0</span>].getContext(<span class="hljs-string">"2d"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Set properties of the background.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  App.bg = $(<span class="hljs-string">'#bg'</span>);
+  App.bg[<span class="hljs-number">0</span>].width = <span class="hljs-built_in">window</span>.innerWidth;
+  App.bg[<span class="hljs-number">0</span>].height = <span class="hljs-built_in">window</span>.innerHeight - <span class="hljs-number">130</span>;
+  App.bgcontext = App.bg[<span class="hljs-number">0</span>].getContext(<span class="hljs-string">"2d"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
               </div>
               <p>Set properties of the mouse click.</p>
 
@@ -406,11 +581,11 @@ App.init = <span class="hljs-function"><span class="hljs-keyword">function</span
         </li>
         
         
-        <li id="section-19">
+        <li id="section-29">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-29">&#182;</a>
               </div>
               <p>Initialize pen properties.
 To add more new drawing features, i.e. different colours, thickness, add them to the <code>App.pen</code> object.</p>
@@ -427,11 +602,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-20">
+        <li id="section-30">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-30">&#182;</a>
               </div>
               <p><code>App.isAnotherUserActive</code> is a Boolean that signals whether another user is currently drawing. The current implementation is such that only 1 user can draw at a time, i.e. simultaneous drawing is forbidden. To get rid of this functionality, remove  <code>App.isAnotherUserActive</code> and conditional loops that require it. </p>
 
@@ -442,11 +617,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-21">
+        <li id="section-31">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
               <p><code>App.stroke</code> is an array of [x,y] coordinates for one drawing element. They are stored here, emitted (<a href="../docs/initialize.html">in initialize.js</a>), and sent to <a href="../docs/sockets.html">sockets.js</a>. Once sent, <code>App.stroke</code> is emptied. </p>
 
@@ -457,11 +632,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-22">
+        <li id="section-32">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-32">&#182;</a>
               </div>
               <p><code>App.prevPixel</code> contains only 1 [x,y] coordinate pair - the coordinates of the previous pixel drawn. This is used in <code>App.socket.on(&#39;drag&#39;...</code> for smooth rendering of drawn elements by other users. </p>
 
@@ -472,11 +647,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-23">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
               <p><strong>Methods</strong></p>
 
@@ -485,11 +660,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-24">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
               <p>Draw according to coordinates.</p>
 
@@ -503,11 +678,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-25">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
               <p>Initialize before drawing: copy pen properties to <code>App.context</code>, beginPath and set the starting coordinates to <code>moveToX</code> and <code>moveToY</code>.</p>
 
@@ -518,11 +693,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-26">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
+                <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
               <p>Copy over current pen properties (e.g. fillStyle).</p>
 
@@ -535,11 +710,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-27">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
+                <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
               <p>Begin draw.</p>
 
@@ -552,11 +727,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-28">
+        <li id="section-38">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
+                <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
               <p><strong>Socket events</strong></p>
 
@@ -565,11 +740,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-29">
+        <li id="section-39">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
+                <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
               <p>Draw the board upon join.</p>
 
@@ -581,11 +756,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-30">
+        <li id="section-40">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
+                <a class="pilcrow" href="#section-40">&#182;</a>
               </div>
               <p>Check for null board data.</p>
 
@@ -597,11 +772,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-31">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
+                <a class="pilcrow" href="#section-41">&#182;</a>
               </div>
               <p>Check for null stroke data.</p>
 
@@ -612,11 +787,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-32">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
+                <a class="pilcrow" href="#section-42">&#182;</a>
               </div>
               <p>Set pen and draw path.</p>
 
@@ -629,11 +804,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-33">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
+                <a class="pilcrow" href="#section-43">&#182;</a>
               </div>
               <p>Draw the path according to the strokesArray (array of coordinate tuples).</p>
 
@@ -651,11 +826,11 @@ To add more new drawing features, i.e. different colours, thickness, add them to
         </li>
         
         
-        <li id="section-34">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
+                <a class="pilcrow" href="#section-44">&#182;</a>
               </div>
               <p>If another user is drawing, App.socket will receive a ‘drag’ event. App listens for the drag event and renders the drawing element created by the other user. 
 Note that App prevents the current user from drawing while the other user is still drawing. </p>
@@ -669,11 +844,11 @@ Note that App prevents the current user from drawing while the other user is sti
         </li>
         
         
-        <li id="section-35">
+        <li id="section-45">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p><code>App.prevPixel</code> is an array of the previous coordinates sent, so drawing is smoothly rendered across different browsers. 
 If the <code>App.prevPixel</code> array is empty (i.e., this is the first pixel of the drawn element), then prevPixel is set as the coordinates of the current mouseclick. </p>
@@ -687,11 +862,11 @@ If the <code>App.prevPixel</code> array is empty (i.e., this is the first pixel 
         </li>
         
         
-        <li id="section-36">
+        <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
+                <a class="pilcrow" href="#section-46">&#182;</a>
               </div>
               <p>Initialize beginning coordinates and drawing.</p>
 
@@ -703,11 +878,11 @@ If the <code>App.prevPixel</code> array is empty (i.e., this is the first pixel 
         </li>
         
         
-        <li id="section-37">
+        <li id="section-47">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
+                <a class="pilcrow" href="#section-47">&#182;</a>
               </div>
               <p>Set the current coordinates as App.prevPixel, so the next pixel rendered will be smoothly drawn from these coordinate points to the next ones. </p>
 
@@ -720,11 +895,11 @@ If the <code>App.prevPixel</code> array is empty (i.e., this is the first pixel 
         </li>
         
         
-        <li id="section-38">
+        <li id="section-48">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-38">&#182;</a>
+                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               <p>When the user has mouseup (and finished drawing) then <code>App.prevPixel</code> will be emptied.</p>
 
@@ -735,6 +910,7 @@ If the <code>App.prevPixel</code> array is empty (i.e., this is the first pixel 
     App.context.closePath();
     App.isAnotherUserActive = <span class="hljs-literal">false</span>;
   });
+
 
 };</pre></div></div>
             

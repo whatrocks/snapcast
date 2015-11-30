@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>MongoDB Database Configuration</title>
+  <title>snapcast.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -91,6 +91,12 @@
     
     <ul class="sections">
         
+          <li id="title">
+              <div class="annotation">
+                  <h1>snapcast.js</h1>
+              </div>
+          </li>
+        
         
         
         <li id="section-1">
@@ -99,61 +105,24 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="mongodb-database-configuration">MongoDB Database Configuration</h1>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
               
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <h5 id="-back-to-table-of-contents-tableofcontents-html-"><a href="./tableofcontents.html">Back to Table of Contents</a></h5>
-
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>connection to db</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>mongoose.connect(process.env.MONGOLAB_URI || <span class="hljs-string">'mongodb://127.0.0.1'</span> );
-
-<span class="hljs-keyword">var</span> db = mongoose.connection;
-
-db.on(<span class="hljs-string">'error'</span>, <span class="hljs-built_in">console</span>.error.bind(<span class="hljs-built_in">console</span>, <span class="hljs-string">'connection error:'</span>));
-db.once(<span class="hljs-string">'open'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">cb</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'connected to db'</span>);
-});</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Required by <a href="../documentation/board.html">Mongoose Board Model</a></p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-built_in">module</span>.exports = db;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>angular.module(<span class="hljs-string">'snapcast'</span>, [<span class="hljs-string">'snapcast.whiteboard'</span>, <span class="hljs-string">'snapcast.webrtc'</span>])
+  .factory(<span class="hljs-string">'socket'</span>, [<span class="hljs-string">'$rootScope'</span>, <span class="hljs-string">'$window'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$rootScope, $window</span>) </span>{
+    <span class="hljs-keyword">var</span> ioRoom = $<span class="hljs-built_in">window</span>.location.href;
+    <span class="hljs-keyword">var</span> socket = io.connect(ioRoom);
+    
+    <span class="hljs-keyword">return</span> {
+      on: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">eventName, callback</span>)</span>{
+        socket.on(eventName, callback);
+      },
+      emit: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">eventName, data</span>) </span>{
+        socket.emit(eventName, data);
+      },
+      ioRoom: ioRoom
+    };
+  }]);</pre></div></div>
             
         </li>
         

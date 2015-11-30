@@ -35,8 +35,28 @@
                 </a>
               
                 
+                <a class="source" href="canvas.html">
+                  canvas.js
+                </a>
+              
+                
                 <a class="source" href="initialize.html">
                   initialize.js
+                </a>
+              
+                
+                <a class="source" href="navCtrl.html">
+                  navCtrl.js
+                </a>
+              
+                
+                <a class="source" href="snapcast.html">
+                  snapcast.js
+                </a>
+              
+                
+                <a class="source" href="webrtc.html">
+                  webrtc.js
                 </a>
               
                 
@@ -47,6 +67,11 @@
                 
                 <a class="source" href="server.html">
                   server.js
+                </a>
+              
+                
+                <a class="source" href="originalsockets.html">
+                  originalsockets.js
                 </a>
               
                 
@@ -104,15 +129,6 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-angular.module(<span class="hljs-string">'whiteboard'</span>, [<span class="hljs-string">'ui.router'</span>])
-  .config(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$stateProvider</span>) </span>{
-    $stateProvider
-      .state(<span class="hljs-string">'eraser'</span>, {
-        controller: <span class="hljs-string">'toolbar'</span>
-      });
-  })</pre></div></div>
-            
         </li>
         
         
@@ -122,13 +138,13 @@ angular.module(<span class="hljs-string">'whiteboard'</span>, [<span class="hljs
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Set App to the root scope. </p>
+              <p>Angular directive altered from pwambach’s Angular-Canvas-Painter: 
+<a href="https://github.com/pwambach/angular-canvas-painter">https://github.com/pwambach/angular-canvas-painter</a></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  .controller(<span class="hljs-string">'canvas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$rootScope, $scope, tools</span>) </span>{
-    $rootScope.app = App;
-  })</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+angular.module(<span class="hljs-string">'snapcast.whiteboard'</span>, [])</pre></div></div>
             
         </li>
         
@@ -139,17 +155,27 @@ angular.module(<span class="hljs-string">'whiteboard'</span>, [<span class="hljs
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Set toolbar for colour palette and eraser. </p>
+              <p>Set App to the root scope. 
+Directive for color selection</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>.controller(<span class="hljs-string">'toolbar'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$scope, $element, tools</span>) </span>{
-  $scope.changePen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">option</span>) </span>{
-    tools.changePen(option);
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The user chose the tool"</span>, $element);
-    $(<span class="hljs-string">'input'</span>).not($(<span class="hljs-string">'#'</span> + option)).attr(<span class="hljs-string">'checked'</span>, <span class="hljs-literal">false</span>);
-  };
-})</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  .directive(<span class="hljs-string">'kiColorSelector'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> {
+      restrict: <span class="hljs-string">'AE'</span>,
+      scope: {
+        colorList: <span class="hljs-string">'=kiColorSelector'</span>,
+        selectedColor: <span class="hljs-string">'=color'</span>
+      },
+      templateUrl: <span class="hljs-string">'../templates/color-selector.html'</span>,
+      link: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">scope</span>)</span>{
+        scope.setColor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">col</span>)</span>{
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'color selected'</span>);
+          scope.selectedColor = col;
+        };
+      }
+    };
+  })</pre></div></div>
             
         </li>
         
@@ -160,29 +186,928 @@ angular.module(<span class="hljs-string">'whiteboard'</span>, [<span class="hljs
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>Set changePen method.
-Note that an eraser is simply a white pen, not actually erasing [x,y] tuples from the database. </p>
+              <p>Directive for the drawing functionality</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>.service(<span class="hljs-string">'tools'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$rootScope</span>) </span>{
-  <span class="hljs-keyword">var</span> changePen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">option</span>) </span>{
-    <span class="hljs-built_in">console</span>.log($rootScope.app.pen);
-    <span class="hljs-keyword">if</span> (option === <span class="hljs-string">'eraser'</span>) {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The user is using the eraser."</span>);
-      $rootScope.app.pen.lineWidth = <span class="hljs-number">50</span>;
-      $rootScope.app.pen.strokeStyle = <span class="hljs-string">'#fff'</span>;
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The user is using the pen."</span>);
-      $rootScope.app.pen.lineWidth = <span class="hljs-number">5</span>;
-      $rootScope.app.pen.strokeStyle = option;
-    }
-  };
-  <span class="hljs-keyword">return</span> {
-    changePen: changePen
-  };
+            <div class="content"><div class='highlight'><pre>  .directive(<span class="hljs-string">'kiCanvas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">$window, socket</span>) </span>{
+    <span class="hljs-keyword">return</span> {
+      restrict: <span class="hljs-string">'AE'</span>,
+      scope: {
+        options: <span class="hljs-string">'='</span>,
+        version: <span class="hljs-string">'='</span>
+      },
+      templateUrl: <span class="hljs-string">'../templates/canvas.html'</span>,
+      link: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">postLink</span>(<span class="hljs-params">scope, elm</span>) </span>{
 
-});</pre></div></div>
+        <span class="hljs-keyword">var</span> isTouch = !!(<span class="hljs-string">'ontouchstart'</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">window</span>);
+
+        <span class="hljs-keyword">var</span> PAINT_START = isTouch ? <span class="hljs-string">'touchstart'</span> : <span class="hljs-string">'mousedown'</span>;
+        <span class="hljs-keyword">var</span> PAINT_MOVE = isTouch ? <span class="hljs-string">'touchmove'</span> : <span class="hljs-string">'mousemove'</span>;
+        <span class="hljs-keyword">var</span> PAINT_END = isTouch ? <span class="hljs-string">'touchend'</span> : <span class="hljs-string">'mouseup'</span>;
+        
+        <span class="hljs-keyword">var</span> timeout;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>set default options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> options = scope.options || {};
+        options.canvasId = options.customCanvasId || <span class="hljs-string">'boardCanvas'</span>;
+        options.tmpCanvasId = options.customCanvasId ? (options.canvasId + <span class="hljs-string">'Tmp'</span>) : <span class="hljs-string">'tmpCanvas'</span>;
+        options.bgCanvasId = options.customCanvasId ? (options.canvasId + <span class="hljs-string">'Bg'</span>) : <span class="hljs-string">'bgCanvas'</span>;
+        options.width = options.width || $<span class="hljs-built_in">window</span>.innerWidth;
+        options.height = options.height || $<span class="hljs-built_in">window</span>.innerHeight;
+        options.backgroundColor = options.backgroundColor || <span class="hljs-string">'#fff'</span>;
+        options.color = options.color || <span class="hljs-string">'#000'</span>;
+        options.undoEnabled = options.undoEnabled || <span class="hljs-literal">false</span>;
+        options.opacity = options.opacity || <span class="hljs-number">0.9</span>;
+        options.lineWidth = options.lineWidth || <span class="hljs-number">1</span>;
+        options.undo = options.undo || <span class="hljs-literal">false</span>;
+        options.imageSrc = options.imageSrc || <span class="hljs-string">'./images/light.jpg'</span>;
+
+        <span class="hljs-keyword">var</span> loadImage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">imageSrc</span>) </span>{
+
+          <span class="hljs-keyword">var</span> image = <span class="hljs-keyword">new</span> Image();
+          image.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            options.background = image;
+            changeBackground(image);
+          };
+          image.src = imageSrc;
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>loads default image</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (options.imageSrc) {
+          loadImage(options.imageSrc);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>undo</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (options.undo) {
+          <span class="hljs-keyword">var</span> undoCache = [];
+          scope.$watch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">return</span> undoCache.length;
+          }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newVal</span>) </span>{
+            scope.version = newVal;
+          });
+
+          scope.$watch(<span class="hljs-string">'version'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newVal</span>) </span>{
+            <span class="hljs-keyword">if</span> (newVal &lt; <span class="hljs-number">0</span>) {
+              scope.version = <span class="hljs-number">0</span>;
+              <span class="hljs-keyword">return</span>;
+            }
+            <span class="hljs-keyword">if</span> (newVal &gt;= undoCache.length) {
+              scope.version = undoCache.length;
+              <span class="hljs-keyword">return</span>;
+            }
+            undo(newVal);
+          });
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>create canvas and context</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'canvas'</span>);
+        scope.canvas = canvas;
+        canvas.id = options.canvasId;
+        <span class="hljs-keyword">var</span> canvasTmp = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'canvas'</span>);
+        scope.canvasTmp = canvasTmp;
+        canvasTmp.id = options.tmpCanvasId;
+        <span class="hljs-keyword">var</span> canvasBg = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'canvas'</span>);
+        canvasBg.id = options.bgCanvasId;
+        scope.canvasBg = canvasBg;
+
+
+        angular.element(canvasTmp).css({
+          position: <span class="hljs-string">'absolute'</span>,
+          top: <span class="hljs-number">0</span>,
+          left: <span class="hljs-number">0</span>
+        });
+        angular.element(canvasBg).css({
+          position: <span class="hljs-string">'absolute'</span>,
+          top: <span class="hljs-number">0</span>,
+          left: <span class="hljs-number">0</span>,
+          <span class="hljs-string">'z-index'</span>: -<span class="hljs-number">1</span>
+        });
+        
+        elm.find(<span class="hljs-string">'div'</span>).append(canvas);
+        elm.find(<span class="hljs-string">'div'</span>).append(canvasBg);
+        elm.find(<span class="hljs-string">'div'</span>).append(canvasTmp);
+        <span class="hljs-keyword">var</span> ctx = canvas.getContext(<span class="hljs-string">'2d'</span>);
+        <span class="hljs-keyword">var</span> ctxTmp = canvasTmp.getContext(<span class="hljs-string">'2d'</span>);
+        <span class="hljs-keyword">var</span> ctxBg = canvasBg.getContext(<span class="hljs-string">'2d'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>init variables</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> point = {
+          x: <span class="hljs-number">0</span>,
+          y: <span class="hljs-number">0</span>
+        };
+
+        <span class="hljs-keyword">var</span> ppts = [];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>set canvas sizes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        canvas.width = canvasBg.width = canvasTmp.width = options.width;
+        canvas.height = canvasBg.height = canvasTmp.height = options.height;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>set context styles</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        ctxTmp.globalAlpha = options.opacity;
+        ctxTmp.lineJoin = ctxTmp.lineCap = <span class="hljs-string">'round'</span>;
+        ctxTmp.lineWidth = <span class="hljs-number">10</span>;
+        ctxTmp.strokeStyle = options.color;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Watch options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        scope.$on(<span class="hljs-string">'screenshare'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e, data</span>) </span>{
+          changeBackground(data);
+        });
+
+        scope.$on(<span class="hljs-string">'screenshare:removed'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+          changeBackground();
+        });
+
+        scope.$on(<span class="hljs-string">'remoteshare'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e, data</span>) </span>{
+          changeBackground(data);
+        });
+
+        scope.$on(<span class="hljs-string">'remoteshare:removed'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+          changeBackground();
+        });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>toggle between backgronuds</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        scope.$on(<span class="hljs-string">'toggleBg'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+          <span class="hljs-keyword">if</span> (scope.imageSrc === <span class="hljs-string">'./images/light.jpg'</span>) {
+            scope.imageSrc = <span class="hljs-string">'./images/dark.jpg'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>changes h1 color</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            $(<span class="hljs-string">'h1'</span>).css(<span class="hljs-string">'color'</span>,<span class="hljs-string">'#fff'</span>);
+          } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>changes to light background if current is dark</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            scope.imageSrc = <span class="hljs-string">'./images/light.jpg'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>changes h1 color </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            $(<span class="hljs-string">'h1'</span>).css(<span class="hljs-string">'color'</span>,<span class="hljs-string">'#000'</span>);
+          }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>loads the new image</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            loadImage(scope.imageSrc);
+        });
+
+        scope.$on(<span class="hljs-string">'snapshot'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'snap!'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>creates offscreen canvas (‘screenshot’)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">var</span> printCanvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'canvas'</span>);
+          <span class="hljs-keyword">var</span> printCtx = printCanvas.getContext(<span class="hljs-string">'2d'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>set to canvas width/height</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          printCanvas.width = canvasBg.width;
+          printCanvas.height = canvasBg.height;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>recreate seamless pattern</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">var</span> pattern = printCtx.createPattern(canvasBg, <span class="hljs-string">'repeat'</span>);
+
+          printCtx.rect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasBg.width, canvasBg.height);
+          printCtx.fillStyle = pattern;
+          printCtx.fill();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>draw the whiteboard marks over it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          printCtx.drawImage(canvas, <span class="hljs-number">0</span>,<span class="hljs-number">0</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>creating new image for download</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="hljs-keyword">var</span> img = <span class="hljs-keyword">new</span> Image();
+          img.onload=<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+          };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>format</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          img.src = printCanvas.toDataURL(<span class="hljs-string">"image/jpeg"</span>, <span class="hljs-number">0.9</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>download</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          download(img.src, <span class="hljs-string">'untitled.jpg'</span>);
+        });
+
+        scope.$on(<span class="hljs-string">'clear'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+           socket.emit(<span class="hljs-string">'clear'</span>);
+           clearBoard();
+        });
+
+        scope.$watch(<span class="hljs-string">'options.lineWidth'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newValue</span>) </span>{
+          <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> newValue === <span class="hljs-string">'string'</span>) {
+            newValue = <span class="hljs-built_in">parseInt</span>(newValue, <span class="hljs-number">10</span>);
+          }
+          <span class="hljs-keyword">if</span> (newValue &amp;&amp; <span class="hljs-keyword">typeof</span> newValue === <span class="hljs-string">'number'</span>) {
+            ctxTmp.lineWidth = options.lineWidth = newValue;
+          }
+        });
+
+        scope.$watch(<span class="hljs-string">'options.color'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newValue</span>) </span>{
+          <span class="hljs-keyword">if</span> (newValue) {
+            ctxTmp.strokeStyle = ctxTmp.fillStyle = newValue;
+          }
+        });
+
+        scope.$watch(<span class="hljs-string">'options.opacity'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newValue</span>) </span>{
+          <span class="hljs-keyword">if</span> (newValue) {
+            ctxTmp.globalAlpha = newValue;
+          }
+        });
+
+        <span class="hljs-keyword">var</span> getOffset = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">elem</span>) </span>{
+          <span class="hljs-keyword">var</span> offsetTop = <span class="hljs-number">0</span>;
+          <span class="hljs-keyword">var</span> offsetLeft = <span class="hljs-number">0</span>;
+          <span class="hljs-keyword">do</span> {
+            <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">isNaN</span>(elem.offsetLeft)) {
+              offsetTop += elem.offsetTop;
+              offsetLeft += elem.offsetLeft;
+            }
+            elem = elem.offsetParent;
+          } <span class="hljs-keyword">while</span> (elem);
+          <span class="hljs-keyword">return</span> {
+            left: offsetLeft,
+            top: offsetTop
+          };
+        };
+
+        <span class="hljs-keyword">var</span> setPointFromEvent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">point, e</span>) </span>{
+          <span class="hljs-keyword">if</span> (isTouch) {
+            point.x = e.changedTouches[<span class="hljs-number">0</span>].pageX - getOffset(e.target).left;
+            point.y = e.changedTouches[<span class="hljs-number">0</span>].pageY - getOffset(e.target).top;
+          } <span class="hljs-keyword">else</span> {
+            point.x = e.offsetX !== <span class="hljs-literal">undefined</span> ? e.offsetX : e.layerX;
+            point.y = e.offsetY !== <span class="hljs-literal">undefined</span> ? e.offsetY : e.layerY;
+          }
+        };
+
+        
+        <span class="hljs-keyword">var</span> paint = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+
+          <span class="hljs-keyword">if</span> (e) {
+            e.preventDefault();
+            setPointFromEvent(point, e);
+          }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Saving all the points in an array</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          ppts.push({
+            x: point.x,
+            y: point.y
+          });
+
+
+          <span class="hljs-keyword">if</span> (ppts.length === <span class="hljs-number">3</span>) {
+            <span class="hljs-keyword">var</span> b = ppts[<span class="hljs-number">0</span>];
+            ctxTmp.beginPath();
+            ctxTmp.arc(b.x, b.y, ctxTmp.lineWidth / <span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.PI * <span class="hljs-number">2</span>, !<span class="hljs-number">0</span>);
+            ctxTmp.fill();
+            ctxTmp.closePath();
+            <span class="hljs-keyword">return</span>;
+          }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Tmp canvas is always cleared up before drawing.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          ctxTmp.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasTmp.width, canvasTmp.height);
+
+          ctxTmp.beginPath();
+          ctxTmp.moveTo(ppts[<span class="hljs-number">0</span>].x, ppts[<span class="hljs-number">0</span>].y);
+
+          <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>; i &lt; ppts.length - <span class="hljs-number">2</span>; i++) {
+
+            <span class="hljs-keyword">var</span> c = (ppts[i].x + ppts[i + <span class="hljs-number">1</span>].x) / <span class="hljs-number">2</span>;
+            <span class="hljs-keyword">var</span> d = (ppts[i].y + ppts[i + <span class="hljs-number">1</span>].y) / <span class="hljs-number">2</span>;
+            ctxTmp.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
+          }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>For the last 2 points</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          ctxTmp.quadraticCurveTo(
+            ppts[i - <span class="hljs-number">1</span>].x,
+            ppts[i - <span class="hljs-number">1</span>].y,
+            ppts[i].x,
+            ppts[i].y
+          );
+          ctxTmp.stroke();
+
+        };
+
+        <span class="hljs-keyword">var</span> copyTmpImage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          <span class="hljs-keyword">if</span> (options.undo) {
+            scope.$apply(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+              undoCache.push(ctx.getImageData(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasTmp.width, canvasTmp.height));
+              <span class="hljs-keyword">if</span> (angular.isNumber(options.undo) &amp;&amp; options.undo &gt; <span class="hljs-number">0</span>) {
+                undoCache = undoCache.slice(-<span class="hljs-number">1</span> * options.undo);
+              }
+            });
+          }
+          canvasTmp.removeEventListener(PAINT_MOVE, paint, <span class="hljs-literal">false</span>);
+          ctx.drawImage(canvasTmp, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+          ctxTmp.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasTmp.width, canvasTmp.height);
+          ppts = [];
+        };
+
+        <span class="hljs-keyword">var</span> copyRemoteImage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">canvas</span>) </span>{
+          <span class="hljs-keyword">var</span> image = <span class="hljs-keyword">new</span> Image();
+          image.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            ctx.drawImage(<span class="hljs-keyword">this</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+          };
+          image.src = canvas;
+        };
+
+        <span class="hljs-keyword">var</span> startTmpImage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+          e.preventDefault();
+
+          canvasTmp.addEventListener(PAINT_MOVE, paint, <span class="hljs-literal">false</span>);
+
+          setPointFromEvent(point, e);
+          ppts.push({
+            x: point.x,
+            y: point.y
+          });
+          ppts.push({
+            x: point.x,
+            y: point.y
+          });
+
+          paint();
+        };
+        
+        <span class="hljs-keyword">var</span> socketEvent = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          <span class="hljs-keyword">var</span> canvas = canvasTmp.toDataURL(<span class="hljs-string">'image/png'</span>, <span class="hljs-number">0.8</span>);
+          socket.emit(<span class="hljs-string">'draw'</span>, canvas);
+        };
+
+        <span class="hljs-keyword">var</span> initListeners = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          canvasTmp.addEventListener(PAINT_START, startTmpImage, <span class="hljs-literal">false</span>);
+          canvasTmp.addEventListener(PAINT_END, socketEvent, <span class="hljs-literal">false</span>);
+          canvasTmp.addEventListener(PAINT_END, copyTmpImage, <span class="hljs-literal">false</span>);
+
+          <span class="hljs-keyword">if</span> (!isTouch) {
+            <span class="hljs-keyword">var</span> MOUSE_DOWN;
+
+            <span class="hljs-built_in">document</span>.body.addEventListener(<span class="hljs-string">'mousedown'</span>, mousedown);
+            <span class="hljs-built_in">document</span>.body.addEventListener(<span class="hljs-string">'mouseup'</span>, mouseup);
+
+            scope.$on(<span class="hljs-string">'$destroy'</span>, removeEventListeners);
+
+            canvasTmp.addEventListener(<span class="hljs-string">'mouseenter'</span>, mouseenter);
+            canvasTmp.addEventListener(<span class="hljs-string">'mouseleave'</span>, mouseleave);
+          }
+
+          <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mousedown</span>(<span class="hljs-params"></span>) </span>{
+            MOUSE_DOWN = <span class="hljs-literal">true</span>;
+          }
+
+          <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseup</span>(<span class="hljs-params"></span>) </span>{
+            MOUSE_DOWN = <span class="hljs-literal">false</span>;
+          }
+
+          <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeEventListeners</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-built_in">document</span>.body.removeEventListener(<span class="hljs-string">'mousedown'</span>, mousedown);
+            <span class="hljs-built_in">document</span>.body.removeEventListener(<span class="hljs-string">'mouseup'</span>, mouseup);
+          }
+
+          <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseenter</span>(<span class="hljs-params">e</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>If the mouse is down when it enters the canvas, start a path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (MOUSE_DOWN) {
+              startTmpImage(e);
+            }
+          }
+
+          <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseleave</span>(<span class="hljs-params">e</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>If the mouse is down when it leaves the canvas, end the path</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (MOUSE_DOWN) {
+              copyTmpImage(e);
+            }
+          }
+
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>copies remote images received over sockets</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        socket.on(<span class="hljs-string">'draw'</span>, copyRemoteImage);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>clears the board when someone clears it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        socket.on(<span class="hljs-string">'clear'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          scope.$apply(clearBoard);
+        });
+
+        <span class="hljs-keyword">var</span> undo = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">version</span>) </span>{
+          <span class="hljs-keyword">if</span> (undoCache.length &gt; <span class="hljs-number">0</span>) {
+            ctx.putImageData(undoCache[version], <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+            undoCache = undoCache.slice(<span class="hljs-number">0</span>, version);
+          }
+        };
+
+        <span class="hljs-keyword">var</span> changeBackground = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">newValue</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Stops the rendering of video as background if needed</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>           <span class="hljs-keyword">if</span> (timeout) { clearTimeout(timeout); }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p>Clears the background canvas</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>           ctxBg.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasBg.width, canvasBg.height);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Renders according to type of element passed in</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>           <span class="hljs-keyword">if</span> (newValue) {
+            <span class="hljs-keyword">if</span> (newValue.tagName === <span class="hljs-string">'VIDEO'</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>draws the element at 30fps</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">loop</span>(<span class="hljs-params"></span>) </span>{
+                   ctxBg.drawImage(newValue, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+                   timeout = setTimeout(loop, <span class="hljs-number">1000</span> / <span class="hljs-number">30</span>);
+               })();
+             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (newValue.tagName === <span class="hljs-string">'IMG'</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>Tiles the image for seamless texturing</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>               <span class="hljs-keyword">var</span> pattern = ctxBg.createPattern(newValue, <span class="hljs-string">'repeat'</span>);
+
+               ctxBg.rect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvasBg.width, canvasBg.height);
+               ctxBg.fillStyle = pattern;
+               ctxBg.fill();
+
+             }
+           } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>Defaults to whiteboard if no element specified</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>             <span class="hljs-keyword">var</span> image = <span class="hljs-keyword">new</span> Image();
+             image.src = <span class="hljs-string">'./images/light.jpg'</span>;
+             changeBackground(image);
+           }
+
+        };
+        
+        <span class="hljs-keyword">var</span> clearBoard = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+          ctx.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvas.width, canvas.height);
+        };
+
+        <span class="hljs-keyword">var</span> download = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">canvas, filename</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>/ create an “off-screen” anchor tag</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">var</span> downloadLink = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'a'</span>),
+                e;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>/ the key here is to set the download attribute of the a tag</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            downloadLink.download = filename;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>/ convert canvas content to data-uri for link. When download
+/ attribute is set the content pointed to by link will be
+/ pushed as “download” in HTML5 capable browsers</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            downloadLink.href = canvas;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>/ create a “fake” click-event to trigger the download</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">document</span>.createEvent) {
+
+                e = <span class="hljs-built_in">document</span>.createEvent(<span class="hljs-string">"MouseEvents"</span>);
+                e.initMouseEvent(<span class="hljs-string">"click"</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>, <span class="hljs-built_in">window</span>,
+                                 <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>,
+                                 <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);
+
+                downloadLink.dispatchEvent(e);
+
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (downloadLink.fireEvent) {
+
+                downloadLink.fireEvent(<span class="hljs-string">"onclick"</span>);
+            }
+        };
+
+        initListeners();
+ 
+      }
+    };
+  });</pre></div></div>
             
         </li>
         
