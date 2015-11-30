@@ -4,4 +4,9 @@ angular.module('snapcast')
   $scope.toggleBg = function() {
     $scope.$broadcast('toggleBg');
   };
+
+  $scope.snapshot = function() {
+    $scope.$broadcast('snapshot');
+  };
+  
 });

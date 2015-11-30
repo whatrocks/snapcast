@@ -59,8 +59,6 @@ angular.module('snapcast.whiteboard', [])
         options.undo = options.undo || false;
         options.imageSrc = options.imageSrc || './images/light.jpg';
 
-        // loads default image
-        // if (options.imageSrc) {
         var loadImage = function(imageSrc) {
 
           var image = new Image();
@@ -70,6 +68,11 @@ angular.module('snapcast.whiteboard', [])
           };
           image.src = imageSrc;
         };
+        
+        // loads default image
+        if (options.imageSrc) {
+          loadImage(options.imageSrc);
+        }
 
         //undo
         if (options.undo) {
@@ -162,6 +165,38 @@ angular.module('snapcast.whiteboard', [])
 
             //loads the new image
             loadImage(scope.imageSrc);
+        });
+
+        scope.$on('snapshot', function(e) {
+          console.log('snap!');
+          //creates offscreen canvas ('screenshot')
+          var printCanvas = document.createElement('canvas');
+          var printCtx = printCanvas.getContext('2d');
+
+          // set to canvas width/height
+          printCanvas.width = canvasBg.width;
+          printCanvas.height = canvasBg.height;
+
+          // recreate seamless pattern
+          var pattern = printCtx.createPattern(canvasBg, 'repeat');
+
+          printCtx.rect(0, 0, canvasBg.width, canvasBg.height);
+          printCtx.fillStyle = pattern;
+          printCtx.fill();
+
+          // draw the whiteboard marks over it
+          printCtx.drawImage(canvas, 0,0);
+
+          // creating new image for download
+          var img = new Image();
+          img.onload=function(){
+          };
+
+          // format
+          img.src = printCanvas.toDataURL("image/jpeg", 0.9);
+
+          // download
+          download(img.src, 'untitled.jpg');
         });
 
         scope.$watch('options.lineWidth', function(newValue) {
@@ -390,6 +425,36 @@ angular.module('snapcast.whiteboard', [])
              changeBackground(image);
            }
 
+        };
+
+        var download = function (canvas, filename) {
+
+            /// create an "off-screen" anchor tag
+            var downloadLink = document.createElement('a'),
+                e;
+
+            /// the key here is to set the download attribute of the a tag
+            downloadLink.download = filename;
+
+            /// convert canvas content to data-uri for link. When download
+            /// attribute is set the content pointed to by link will be
+            /// pushed as "download" in HTML5 capable browsers
+            downloadLink.href = canvas;
+
+            /// create a "fake" click-event to trigger the download
+            if (document.createEvent) {
+
+                e = document.createEvent("MouseEvents");
+                e.initMouseEvent("click", true, true, window,
+                                 0, 0, 0, 0, 0, false, false, false,
+                                 false, 0, null);
+
+                downloadLink.dispatchEvent(e);
+
+            } else if (downloadLink.fireEvent) {
+
+                downloadLink.fireEvent("onclick");
+            }
         };
 
         initListeners();
