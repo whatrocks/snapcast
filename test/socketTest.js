@@ -88,7 +88,7 @@ describe("Server side socket handler", function() {
     });
   });
 
-  it('Should emit and respond to "drag" events', function(done) {
+  xit('Should emit and respond to "drag" events', function(done) {
     client2.on('join', function() {
       var pen = {
         fillStyle: 'solid',
@@ -108,7 +108,7 @@ describe("Server side socket handler", function() {
     });
   });
 
-  it('Should respond to "end" events', function(done) {
+  xit('Should respond to "end" events', function(done) {
     client2.on('join', function() {
       client2.emit('end');
     });
