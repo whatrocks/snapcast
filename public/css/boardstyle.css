@@ -73,14 +73,14 @@ h1 {
 }
 
 /****NAV BUTTON STYLING*****/
-#drawer button {
+#drawer button, #drawer a{
   border: none;
   color: #fff;
   background: none;  
   font-size: 12px;
 
 }
-#drawer button:hover, .kiColorSelector li:hover{
+#drawer button:hover, .kiColorSelector li:hover, #drawer a:hover{
  /*border-top-color: #94a8b5;*/
  text-decoration: underline;
  transform: scale(1.1);
@@ -105,7 +105,7 @@ h1 {
   color: #fff;
 }
 
-#drawer li button {
+#drawer li button, #drawer li a {
   color: #fff;
   text-transform: uppercase;
 }
