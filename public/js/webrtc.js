@@ -4,6 +4,9 @@ angular.module('snapcast.webrtc', [])
       restrict: 'AE',
       link: function (scope) {
 
+        socket.on('faceshare', function(video) {
+          scope.$broadcast('screenshare', video);
+        });
         // Initialize webrtc
         var webrtc = new SimpleWebRTC({
           // LocalVideoElement id
@@ -19,9 +22,15 @@ angular.module('snapcast.webrtc', [])
         });
 
         var shareButton = angular.element($('#screenShareButton')),
+        faceShareButton = angular.element($('#faceShareButton')),
+
         setButton = function (bool) {
           shareButton.text((function() {return bool ? 'share screen' : 'stop sharing';})());
-        };
+        },
+        setFaceShareButton = function (bool) {
+          faceShareButton.text((function() {return bool ? 'share face' : 'stop sharing';})());
+        },
+        faceSharing = false;
 
         webrtc.on('localScreenRemoved', function() {
           scope.$broadcast('screenshare:removed');
@@ -29,6 +38,7 @@ angular.module('snapcast.webrtc', [])
         });
 
         setButton(true);
+        setFaceShareButton(true);
 
        // SCREEN SHARE FUNCTIONALITY 
        shareButton.on('click', function () {
@@ -51,6 +61,50 @@ angular.module('snapcast.webrtc', [])
            }
          });
 
+       // FACE SHARE FUNCTIONALITY 
+       faceShareButton.on('click', function() {
+         if (!faceSharing) {
+          // gets the local video for local bg swap
+            var video = document.getElementById('localVideo');
+          // exports the connection id for remote sharing
+            var id = webrtc.connection.connection.id;
+          // sends id to server
+            socket.emit('faceshare', id);
+            scope.$broadcast('screenshare', video);
+            faceSharing = true;
+         } else {
+            faceSharing = false;
+            socket.emit('faceshare');
+            scope.$broadcast('screenshare:removed');
+         }
+         
+         setFaceShareButton(!faceSharing);
+
+       });
+
+       socket.on('faceshare', function(peer) {
+        // select the peer according to id
+        if (faceSharing) {
+          
+          scope.$apply(function() {
+             scope.shareDisabled = false;
+          });
+
+          faceSharing = false;
+          scope.$broadcast('screenshare:removed');
+        } else {
+          var video = document.getElementById(peer + '_video_incoming');
+           
+           scope.$apply(function() {
+             scope.shareDisabled = true;
+          });
+          
+          faceSharing = true;
+          scope.$broadcast('screenshare', video);
+        }
+
+       });
+       
       // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
           video.onclick = function () {
@@ -99,7 +153,7 @@ angular.module('snapcast.webrtc', [])
              scope.$broadcast('remoteshare:removed', video);
              // re-enables share button now that sharing is done
               scope.$apply(function() {
-               scope.shareDisabled = false;
+                scope.shareDisabled = false;
              });
               
             } else {
@@ -110,6 +164,7 @@ angular.module('snapcast.webrtc', [])
               }
             }
         });
+        
 
       }
     };

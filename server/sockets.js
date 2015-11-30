@@ -14,7 +14,7 @@ var connect = function(boardUrl, board, io) {
 
   whiteboard.on('connection', function(socket) {
     // Send the current state of the board to the client immediately on joining.
-    socket.emit('join', board);
+    // socket.emit('join', board);
 
     socket.on('draw', function(canvas) {
        socket.broadcast.emit('draw', canvas);
@@ -23,6 +23,11 @@ var connect = function(boardUrl, board, io) {
     socket.on('clear', function(data) {
        socket.broadcast.emit('clear', data);
     });
+  
+    socket.on('faceshare', function(peer) {
+       socket.broadcast.emit('faceshare', peer);
+    });
+
   });
 
   // NOTE: Instead of storing coordinates in Mongo, we can now store the most recent canvas

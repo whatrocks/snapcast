@@ -412,6 +412,7 @@ angular.module('snapcast.whiteboard', [])
           scope.$apply(clearBoard);
         });
 
+
         var undo = function(version) {
           if (undoCache.length > 0) {
             ctx.putImageData(undoCache[version], 0, 0);
