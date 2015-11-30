@@ -43,4 +43,3 @@ var checkUserOAuth = function () {
 };
 
 checkUserOAuth();
-

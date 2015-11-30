@@ -36,7 +36,7 @@ var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 passport.use(new TwitterStrategy({
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
-    callbackURL: "https://icicle-kindling.herokuapp.com/twitter/callback"
+    callbackURL: "http://icicle-kindling.herokuapp.com/twitter/callback"
   },
 
   function(token, tokenSecret, profile, done) {
