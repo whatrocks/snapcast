@@ -19,6 +19,10 @@ var connect = function(boardUrl, board, io) {
     socket.on('draw', function(canvas) {
        socket.broadcast.emit('draw', canvas);
     });
+
+    socket.on('clear', function(data) {
+       socket.broadcast.emit('clear', data);
+    });
   });
 
   // NOTE: Instead of storing coordinates in Mongo, we can now store the most recent canvas

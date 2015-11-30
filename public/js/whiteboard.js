@@ -68,7 +68,7 @@ angular.module('snapcast.whiteboard', [])
           };
           image.src = imageSrc;
         };
-        
+
         // loads default image
         if (options.imageSrc) {
           loadImage(options.imageSrc);
@@ -197,6 +197,11 @@ angular.module('snapcast.whiteboard', [])
 
           // download
           download(img.src, 'untitled.jpg');
+        });
+
+        scope.$on('clear', function() {
+           socket.emit('clear');
+           clearBoard();
         });
 
         scope.$watch('options.lineWidth', function(newValue) {
@@ -387,6 +392,11 @@ angular.module('snapcast.whiteboard', [])
 
       // copies remote images received over sockets
         socket.on('draw', copyRemoteImage);
+      
+      //clears the board when someone clears it
+        socket.on('clear', function() {
+          scope.$apply(clearBoard);
+        });
 
         var undo = function(version) {
           if (undoCache.length > 0) {
@@ -425,6 +435,10 @@ angular.module('snapcast.whiteboard', [])
              changeBackground(image);
            }
 
+        };
+        
+        var clearBoard = function() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
         };
 
         var download = function (canvas, filename) {

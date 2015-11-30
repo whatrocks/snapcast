@@ -22,7 +22,7 @@
               <li><button id="screenShareButton"></button></li>
               <li><button id="toggleBg" ng-click="toggleBg()">Toggle Background</button></li>
               <li><button id="snapshot" ng-click="snapshot()">Snapshot</button></li>
-              <li><button id="clear">Clear Board</button></li>
+              <li><button id="clear" ng-click="clear()">Clear Board</button></li>
               <li><button href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;">Share Board</button></li>
               <div ki-color-selector="['#000', '#D8E9F0', '#CF304F', '#563761', '#E77547', '#FFCD3C', '#0A6A74', '#153974']" color="selectedColor"></div>
               <input type="range" min="1" max="50" ng-model="selectedLineWidth"  class="lineWidthSelector" orient="vertical"/>
