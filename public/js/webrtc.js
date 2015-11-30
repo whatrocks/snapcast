@@ -18,7 +18,6 @@ angular.module('snapcast.webrtc', [])
           webrtc.joinRoom(socket.ioRoom);
         });
 
-        console.log(webrtc);
         var shareButton = angular.element($('#screenShareButton')),
         setButton = function (bool) {
           shareButton.text((function() {return bool ? 'share screen' : 'stop sharing';})());

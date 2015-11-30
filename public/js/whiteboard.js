@@ -42,7 +42,8 @@ angular.module('snapcast.whiteboard', [])
         var PAINT_START = isTouch ? 'touchstart' : 'mousedown';
         var PAINT_MOVE = isTouch ? 'touchmove' : 'mousemove';
         var PAINT_END = isTouch ? 'touchend' : 'mouseup';
-
+        
+        var timeout;
         //set default options
         var options = scope.options || {};
         options.canvasId = options.customCanvasId || 'boardCanvas';
@@ -56,20 +57,19 @@ angular.module('snapcast.whiteboard', [])
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
-        options.imageSrc = options.imageSrc || '../images/light.jpg';
+        options.imageSrc = options.imageSrc || './images/light.jpg';
 
-        // background image - seamless pattern
-        if (options.imageSrc) {
+        // loads default image
+        // if (options.imageSrc) {
+        var loadImage = function(imageSrc) {
+
           var image = new Image();
           image.onload = function() {
-            var pattern = ctxBg.createPattern(this, 'repeat');
-
-            ctxBg.rect(0, 0, canvasBg.width, canvasBg.height);
-            ctxBg.fillStyle = pattern;
-            ctxBg.fill();
+            options.background = image;
+            changeBackground(image);
           };
-          image.src = options.imageSrc;
-        }
+          image.src = imageSrc;
+        };
 
         //undo
         if (options.undo) {
@@ -144,8 +144,26 @@ angular.module('snapcast.whiteboard', [])
         ctxTmp.lineWidth = 10;
         ctxTmp.strokeStyle = options.color;
 
-
+       
         //Watch options
+        scope.$on('toggleBg', function(e) {
+          if (scope.imageSrc === './images/light.jpg') {
+            scope.imageSrc = './images/dark.jpg';
+
+            // changes h1 color
+            $('h1').css('color','#fff');
+          } else {
+            //changes to light background if current is dark
+            scope.imageSrc = './images/light.jpg';
+
+            // changes h1 color 
+            $('h1').css('color','#000');
+          }
+
+            //loads the new image
+            loadImage(scope.imageSrc);
+        });
+
         scope.$watch('options.lineWidth', function(newValue) {
           if (typeof newValue === 'string') {
             newValue = parseInt(newValue, 10);
@@ -157,7 +175,6 @@ angular.module('snapcast.whiteboard', [])
 
         scope.$watch('options.color', function(newValue) {
           if (newValue) {
-            //ctx.fillStyle = newValue;
             ctxTmp.strokeStyle = ctxTmp.fillStyle = newValue;
           }
         });
@@ -194,7 +211,7 @@ angular.module('snapcast.whiteboard', [])
           }
         };
 
-
+        
         var paint = function(e) {
 
           if (e) {
@@ -341,6 +358,38 @@ angular.module('snapcast.whiteboard', [])
             ctx.putImageData(undoCache[version], 0, 0);
             undoCache = undoCache.slice(0, version);
           }
+        };
+
+        var changeBackground = function(newValue) {
+         //Stops the rendering of video as background if needed
+           if (timeout) { clearTimeout(timeout); }
+           //Clears the background canvas
+           ctxBg.clearRect(0, 0, canvasBg.width, canvasBg.height);
+           
+           //Renders according to type of element passed in
+           if (newValue) {
+            if (newValue.tagName === 'VIDEO') {
+               //draws the element at 30fps
+               (function loop() {
+                   ctxBg.drawImage(canvasBg, 0, 0);
+                   timeout = setTimeout(loop, 1000 / 30);
+               })();
+             } else if (newValue.tagName === 'IMG') {
+               // Tiles the image for seamless texturing
+               var pattern = ctxBg.createPattern(newValue, 'repeat');
+
+               ctxBg.rect(0, 0, canvasBg.width, canvasBg.height);
+               ctxBg.fillStyle = pattern;
+               ctxBg.fill();
+
+             }
+           } else {
+             // Defaults to whiteboard if no element specified
+             var image = new Image();
+             image.src = './images/light.jpg';
+             changeBackground(image);
+           }
+
         };
 
         initListeners();

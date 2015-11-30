@@ -10,17 +10,17 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:700' rel='stylesheet' type='text/css'>
 
   </head>
-  <body>
+  <body ng-controller='navCtrl'>
    <header>
     <h1>Snapcast.</h1>
-    <nav>
+    <nav >
 
       <input type="checkbox" id="drawer-toggle" name="drawer-toggle"/>
       <label for="drawer-toggle" id="drawer-toggle-label"></label>
       <nav id="drawer">
             <ul>
               <li><button id="screenShareButton"></button></li>
-              <li><button id="toggleBg">Toggle Background</button></li>
+              <li><button id="toggleBg" ng-click="toggleBg()">Toggle Background</button></li>
               <li><button id="snapshot">Snapshot</button></li>
               <li><button id="clear">Clear Board</button></li>
               <li><button href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;">Share Board</button></li>
@@ -60,6 +60,7 @@
 <script src='js/whiteboard.js'></script>
 <script src='js/webrtc.js'></script>
 <script src='js/snapcast.js'></script>
+<script src='js/navCtrl.js'></script>
 <!-- <script src="js/canvas.js"></script> -->
 </html>
 <!--       <a href="https://twitter.com/share?text=Come visit our page!" onclick="window.open(this.href);return false;"><img src='https://g.twimg.com/about/feature-corporate/image/tweetbutton.png' style="width: 50px;"></a> -->
