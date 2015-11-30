@@ -13,6 +13,10 @@ angular.module('snapcast')
     $scope.$broadcast('clear');
   };
 
+  $scope.faceshare = function() {
+    $scope.$broadcast('faceshare');
+  };
+
   $scope.shareDisabled = false;
 
 });

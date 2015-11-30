@@ -19,6 +19,8 @@ angular.module('snapcast.webrtc', [])
         });
 
         var shareButton = angular.element($('#screenShareButton')),
+        faceShareButton = angular.element($('#faceShareButton')),
+
         setButton = function (bool) {
           shareButton.text((function() {return bool ? 'share screen' : 'stop sharing';})());
         };
@@ -50,7 +52,13 @@ angular.module('snapcast.webrtc', [])
              });
            }
          });
-
+       // SCREEN SHARE FUNCTIONALITY 
+       faceShareButton.on('click', function() {
+          var video = document.getElementById('localVideo');
+          scope.$broadcast('screenshare', video);
+          console.log(video);
+       });
+       
       // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
           video.onclick = function () {
@@ -110,7 +118,11 @@ angular.module('snapcast.webrtc', [])
               }
             }
         });
-
+        
+        socket.on('faceshare', function(video) {
+          scope.$broadcast('screenshare', video);
+          console.log(video);
+        });
       }
     };
 });
