@@ -13,4 +13,8 @@ angular.module('snapcast')
     $scope.$broadcast('clear');
   };
 
+  $scope.screenshare = function() {
+    console.log('broacast');
+    $scope.$broadcast('screenshare');
+  };
 });

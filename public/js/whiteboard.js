@@ -167,6 +167,10 @@ angular.module('snapcast.whiteboard', [])
             loadImage(scope.imageSrc);
         });
 
+        scope.$on('screenshare', function(e) {
+          changeBackground($('#background'));
+        });
+
         scope.$on('snapshot', function(e) {
           console.log('snap!');
           //creates offscreen canvas ('screenshot')
