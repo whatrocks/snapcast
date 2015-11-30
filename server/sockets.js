@@ -60,6 +60,13 @@ var connect = function(boardUrl, board, io) {
       //Delete the stroke object to make room for the next stroke.
       delete socket.stroke;
     });
+
+    // When someone is sharing their screen
+    socket.on('screen-share', function() {
+      //broadcast to everyone but the person who emitted
+      // socket.broadcast.emit('');
+    });
+
   });
 };
 

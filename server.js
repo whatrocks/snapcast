@@ -37,7 +37,6 @@ app.get('/documentation', function(req, res) {
   res.sendFile(__dirname + '/docs/tableofcontents.html');
 });
 
-
 // **Get a new whiteboard**
 app.get('/new', function(req, res) {
   // Create a new mongoose board model.
@@ -79,7 +78,7 @@ if ( !process.env.PORT ) {
     console.log("listening at port: " + port);
   });
   //setting sockets
-  io = require('socket.io')(httpsServer);  
+  io = require('socket.io')(httpsServer); 
 
 } else {
   var httpServer = http.createServer(app);

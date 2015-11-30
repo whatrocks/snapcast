@@ -25,23 +25,7 @@ App.init = function() {
     autoRequestMedia: true
   });
 
-  // a peer video has been added - adds to remoteVideos div
-  webrtc.on('videoAdded', function (video, peer) {
-      console.log('video added', peer);
-      var remotes = document.getElementById('remoteVideos');
-      if (remotes) {
-          var container = document.createElement('div');
-          container.className = 'videoContainer';
-          container.id = 'container_' + webrtc.getDomId(peer);
-          container.appendChild(video);
-
-          // suppress contextmenu
-          video.oncontextmenu = function () { return false; };
-
-          remotes.appendChild(container);
-      }
-  });
-
+ 
   // The room name is the same as our socket connection.
   webrtc.on('readyToCall', function() {
     webrtc.joinRoom(ioRoom);
@@ -54,6 +38,7 @@ App.init = function() {
       shareButton.innerText = bool ? 'share screen' : 'stop sharing';
     };
 
+    // DOES THIS DO ANYTHING
   webrtc.on('localScreenRemoved', function() {
     console.log('local screen removed');
     setButton(true);
@@ -63,14 +48,18 @@ App.init = function() {
 
   $('#screenShareButton').on('click', function () {
     if ( webrtc.getLocalScreen() ) {
+      //stops the stream
       webrtc.stopScreenShare();
+      //removes video element
+      document.getElementById('shareContainer').removeChild(document.getElementById('background'));
+      //clears the background
+      changeBackground();
       setButton(true);
     } else {
-      webrtc.shareScreen(function (err) {
+      webrtc.shareScreen(function (err,data) {
         if (err) {
           setButton(true);
         } else {
-          console.log("screen sharing");
           setButton(false);
         }
       });
@@ -78,40 +67,72 @@ App.init = function() {
   });
 
   webrtc.on('localScreenAdded', function (video) {
-    console.log("local screen was added ");
+    console.log("screen share was added ");
     video.onclick = function () {
       video.style.width = video.videoWidth + 'px';
       video.style.height = video.videoHeight + 'px';
     };
+    //sets id to background for easy selection
+    video.setAttribute('id', 'background');
+    //add to invisible container div
     document.getElementById('shareContainer').appendChild(video);
-    $('#shareContainer').show();
+    //change the canvas
+    changeBackground(document.getElementById('background'));
   });
 
+  // a peer video has been added - adds to remoteVideos div
+  webrtc.on('videoAdded', function (video, peer) {
+      //if someone is sharing their screen, change background to that video
+      if (peer.type === 'screen') {
+       changeBackground(video);
+       // disable sharing button for others
+       shareButton.disabled = 'disabled';
+      } else {
+        var remotes = document.getElementById('remoteVideos');
+        if (remotes) {
+            var container = document.createElement('div');
+            container.className = 'videoContainer';
+            container.id = 'container_' + webrtc.getDomId(peer);
+            container.appendChild(video);
+
+            // suppress context menu
+            video.oncontextmenu = function () { return false; };
+
+            remotes.appendChild(container);
+        }
+      }
+  });
 
   // a peer video was removed - remove element from DOM
   webrtc.on('videoRemoved', function (video, peer) {
-    
-    // Remove screen share video
-    if ( video.id === 'localScreen' ) {
-      document.getElementById('shareContainer').removeChild(video);
-      $('#shareContainer').css({'z-index': 199});
+    //if a screenshare is being removed, change background to default
+      if (peer.type === 'screen') {
+       changeBackground();
+       // re-enables share button now that sharing is done
+       shareButton.disabled = 'enabled';
 
-    } else {
-      console.log('video removed ', peer);
-      var remotes = document.getElementById('remoteVideos');
-      var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
-      if (remotes && el) {
-          remotes.removeChild(el);
+      } else {
+        var remotes = document.getElementById('remoteVideos');
+        var el = document.getElementById(peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer');
+        if (remotes && el) {
+            remotes.removeChild(el);
+        }
       }
-    }
-  });
-  // **Whiteboard**
 
+  });
+  
+  // **Whiteboard**
   // Set properties of the whiteboard.
   App.canvas = $('#whiteboard');
   App.canvas[0].width = window.innerWidth;
-  App.canvas[0].height = window.innerHeight;
+  App.canvas[0].height = window.innerHeight - 130;
   App.context = App.canvas[0].getContext("2d");
+
+  // Set properties of the background.
+  App.bg = $('#bg');
+  App.bg[0].width = window.innerWidth;
+  App.bg[0].height = window.innerHeight - 130;
+  App.bgcontext = App.bg[0].getContext("2d");
 
   // Set properties of the mouse click.
   App.mouse = {

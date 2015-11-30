@@ -1,15 +1,4 @@
-/****** VIDEO CHAT ******/
-/*#localVideo {*/
-  /*height: 100%;*/
-/*  top: 200px;
-  left: 80%;*/
-  /*display: inline;*/
-  /*position: absolute;*/
-/*}*/
-
-
-/**** FLEX BOX ****/
-/*TODO : leave whiteboard/localvid as large left column, flex the rest*/
+/**** FLEX BOX/REMOTE VIDEOS ****/
 .remote-vids {
   display: flex;
 }
@@ -17,13 +6,16 @@
 .remote-vids video{
   width: 100%;
   flex: 1 0 0;
-  max-height: 200px;
+  margin-top: 7px;
+  max-height: 125px;
 }
 
 .videosContainer {
   position: fixed;
+  background: #000;
+  width: 100%;
   bottom: 0;
-  max-height: 200px;
+  max-height: 130px;
 }
 
 /*** PAGE STYLING ***/
@@ -35,14 +27,24 @@ html {
 }
 
 header {
-  background: url('../assets/polygon-7.jpg') 100px;
+  background: rgba(0,0,0,0);
+  /*background: url('../assets/polygon-7.jpg') 100px;*/
+  position: fixed;
+  width: 100%;
+  z-index: 201;
+}
+
+nav {
+  display: inline-block;
+  float: right;
+  margin: 5px 5px 0 0 ;
 }
 
 h1 {
   font-family: 'Open Sans';
   font-weight: 700;
   font-size: 2em;
-  color: white;
+  color: #000;
   margin-left: 1em;
   margin-top: 0;
   margin-bottom: 0;
@@ -50,15 +52,10 @@ h1 {
   display: inline;
 }
 
-.toolbar {
-  width: 100%;
-  margin: 0 auto;
+/***  CANVAS POSITIONING ***/
+#bg {
   position: absolute;
-  bottom: 0;
 }
-/*
-.board-frame {
-}*/
 
 #whiteboard {
   position: absolute;
@@ -67,8 +64,9 @@ h1 {
 }
 
 
-/********button styles********/
 
+/******** BUTTON STYLES ********/
+/* to be changed */
 .btn-undo {
  border-top: 1px solid #b3b3b3;
  background: #bec2d4;
@@ -93,13 +91,12 @@ h1 {
 
 div.btn-erase {
   height: 60px;
-  margin-left: 3%;
-  margin-top: 0.5%;
 }
 
 .btn-erase img {
   position: absolute;
-  height: 80%;
+  height: 40px;
+  left: 40%;
 }
 
 
@@ -136,8 +133,8 @@ div.btn-erase {
 .pens {
   /*display: inline-block;*/
   position: absolute;
-  left: 50%;
-  top: 5%;
+  left: 45%;
+  top: 0;
   /*width: 100px;*/
 }
 
@@ -163,7 +160,7 @@ input[type=checkbox] {
   height: 28px;
   background: #fcfff4;
   display: inline-block;
-  margin: 20px 5px;
+  margin: 5px 5px;
 
   background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
   background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
@@ -280,8 +277,5 @@ label[for=blue] {
 .palette #blue:not(:checked) + label:after {
   background: darkblue;
 }
-
-
-
 
 
