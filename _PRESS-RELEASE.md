@@ -1,4 +1,4 @@
-# Project Name #
+# Snapcast #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -18,36 +18,36 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
-  Coderboard is a realtime collaborative whiteboarding tool for coding interviews.
+  Snapcast is the easiest way to share your screen and face with friends and coworkers.
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-  Coderboard is better way to conduct remote programming interviews than realtime text editors.
+  Snacast is for anyone who ever wanted to share their screen with someone else, and then let those people draw all over that screen.
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
-  Coderboard is the best tool for remote whiteboarding. As an interviewer, you want to understand how candidates think -- and we all know the best way to do that is by whiteboarding problems. Learn how your candidates diagram architecture and how they explain their thought process before the on-site interview.
+  Snapcast is the easiest way to share your screen or face with friends and coworkers.
 
 ## Problem ##
   > Describe the problem your product solves.
-  The problem is that most remote programming interview tools don't take advantage of whiteboarding interview techniques, which is the preferred method of assessing candidates in an in-person setting.
+  Sometimes you really need to share your screen with someone - a friend, a coworker, a potential client - and it's not always easy to do so.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
-  We solve this problem by creating a realtime whiteboarding solution that can be used from anywhere.
+  We solve this problem with an app that lets you cast your screen or face instantly with anyone.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
-  Coderboard is built using the latest JavaScript technologies including: Web Sockets and WebRTC built on top of AngularJS, NodeJS, ExpressJS, and MongoDB.
+  Snapcast is built using the latest JavaScript technologies including: Web Sockets and WebRTC built on top of AngularJS, NodeJS, ExpressJS, and MongoDB.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
-  Go to http://hidden-castle-8290.herokuapp.com/ and start whiteboarding in one click!
+  Go to http://icicle-kindling.herokuapp.com/ and start screencasting in one click!
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
-  "I use Coderboard to conduct all my programming interviews because I want to learn about a candidate's thought process rather than how quickly they can type code."
+  "I use Snapcast to share those little moments of zen or inanity at work with my friends."
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
-  Go to http://hidden-castle-8290.herokuapp.com/ to start a new whiteboarding session in just one click -- no sign up required!
+  Go to http://icicle-kindling.herokuapp.com/ to start screencasting in one click -- no sign up required!
