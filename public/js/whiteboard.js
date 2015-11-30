@@ -149,6 +149,9 @@ angular.module('snapcast.whiteboard', [])
 
        
         //Watch options
+        scope.$on('screenshare', function(e) {
+          changeBackground(document.getElementById('background'));
+        });
         scope.$on('toggleBg', function(e) {
           if (scope.imageSrc === './images/light.jpg') {
             scope.imageSrc = './images/dark.jpg';
@@ -165,11 +168,6 @@ angular.module('snapcast.whiteboard', [])
 
             //loads the new image
             loadImage(scope.imageSrc);
-        });
-
-        scope.$on('screenshare', function(e) {
-          console.log('whiteboard heard it');
-          changeBackground($('#background'));
         });
 
         scope.$on('snapshot', function(e) {
@@ -421,7 +419,7 @@ angular.module('snapcast.whiteboard', [])
             if (newValue.tagName === 'VIDEO') {
                //draws the element at 30fps
                (function loop() {
-                   ctxBg.drawImage(canvasBg, 0, 0);
+                   ctxBg.drawImage(newValue, 0, 0);
                    timeout = setTimeout(loop, 1000 / 30);
                })();
              } else if (newValue.tagName === 'IMG') {

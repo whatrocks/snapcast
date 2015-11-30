@@ -31,28 +31,28 @@ angular.module('snapcast.webrtc', [])
         setButton(true);
 
        // SCREEN SHARE FUNCTIONALITY 
-          scope.$on('screenshare', function (e) {
-            console.log('webrtc heard it')
-              if ( webrtc.getLocalScreen() ) {
-                //stops the stream
-                webrtc.stopScreenShare();
-                //removes video element
-                $('#shareContainer').removeChild($('#background'));
-              // document.getElementById('shareContainer').removeChild(document.getElementById('background'));
-                //clears the background
-                // changeBackground();
+       shareButton.on('click', function() {
+       });
+      
+      shareButton.on('click', function () {
+          if ( webrtc.getLocalScreen() ) {
+            //stops the stream
+            webrtc.stopScreenShare();
+            //removes video element
+            document.getElementById('shareContainer').removeChild(document.getElementById('background'));
+            //clears the background
+            // changeBackground();
+            setButton(true);
+          } else {
+            webrtc.shareScreen(function (err,data) {
+              if (err) {
                 setButton(true);
               } else {
-                webrtc.shareScreen(function (err,data) {
-                  if (err) {
-                    console.error(err);
-                    setButton(true);
-                  } else {
-                    setButton(false);
-                  }
-                });
+                setButton(false);
               }
-          });
+            });
+          }
+        });
 
       // Handles local video streaming
         webrtc.on('localScreenAdded', function (video) {
@@ -73,7 +73,7 @@ angular.module('snapcast.webrtc', [])
             //if someone is sharing their screen, change background to that video
             if (peer.type === 'screen') {
              // changeBackground(video);
-             console.log('do the thing');
+             // console.log('do the thing');
              // disable sharing button for others
              shareButton.disabled = 'disabled';
             } else {
