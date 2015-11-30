@@ -27,6 +27,7 @@ var connect = function(boardUrl, board, io) {
     socket.on('faceshare', function(peer) {
        socket.broadcast.emit('faceshare', peer);
     });
+
   });
 
   // NOTE: Instead of storing coordinates in Mongo, we can now store the most recent canvas
