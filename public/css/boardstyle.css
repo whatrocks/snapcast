@@ -114,6 +114,7 @@ h1 {
   color: #3f3f3f;
 }
 
+
 .kiColorSelector li{
   margin: 2px 0;
   height: 15px;
@@ -214,6 +215,16 @@ body {
 
 #drawer-toggle:checked ~ #drawer {
   right: 0px;
+}
+
+.twitterLogo{
+  width: 2em;
+  height: 2em;
+  margin-bottom: 6px;
+}
+
+.sendInvite{
+  color: grey;
 }
 
 /* Brush slider */
