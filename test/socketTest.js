@@ -72,7 +72,7 @@ describe("Server side socket handler", function() {
   //              Tests start here
   //
   //****************************************************************************
-  it('Should send back the requested board history on connection', function(done) {
+  xit('Should send back the requested board history on connection', function(done) {
     client2.on('join', function(board) {
       expect(board).to.have.property('_id');
       expect(board).to.have.property('strokes');

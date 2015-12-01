@@ -4,8 +4,11 @@
 		<meta charset="UTF-8">
 		<title>.snapcast</title>
 
+		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/mljllkckippdlghlikjakkhfblngjgcn">
 		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/style.css">
+
+		<meta name="google-site-verification" content="lrlYxzKrcP0sMQpLZa_vQ649gvl_o8ODf3m43CUt7oI" />
 		
 	</head>
 	<body>
@@ -23,6 +26,11 @@
 					<button>Documentation</button>
 				</a>
 			</div>
+			
+			<div class="buttons">
+					<button onclick="chrome.webstore.install('https://chrome.google.com/webstore/detail/mljllkckippdlghlikjakkhfblngjgcn', function(err) {console.log(err);})" id="install-button">Chrome Extension</button>
+			</div>
+
 			<div class="buttons">
 				<a href="/twitterSignIn">
 					<button>Sign Into Twitter</button>
@@ -30,5 +38,10 @@
 			</div>
 		</header>
 		<script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+		<script>
+		  if (document.getElementById('extension-is-installed')) {
+    		document.getElementById('install-button').style.display = 'none';
+  		}
+		</script>
 	</body>
 </html>

@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:700' rel='stylesheet' type='text/css'>
+    <meta name="google-site-verification" content="lrlYxzKrcP0sMQpLZa_vQ649gvl_o8ODf3m43CUt7oI" />
 
   </head>
   <body ng-controller='navCtrl'>
@@ -21,6 +22,7 @@
             <ul>
               <li><button id="twitterAPI"></button></li>
               <li><button id="screenShareButton" ng-disabled="shareDisabled"></button></li>
+              <li><button id="faceShareButton" ng-disabled="shareDisabled"></button></li>
               <li><button id="toggleBg" ng-click="toggleBg()">Toggle Background</button></li>
               <li><button id="snapshot" ng-click="snapshot()">Snapshot</button></li>
               <li><button id="clear" ng-click="clear()">Clear Board</button></li>
@@ -53,7 +55,7 @@
 
 </body>
 
-<script src="https://simplewebrtc.com/latest.js"></script>
+<script src="https://simplewebrtc.com/latest-v2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
 <script src="lib/jquery.event.drag-2.2.js"></script>
