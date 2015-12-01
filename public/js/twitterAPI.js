@@ -28,7 +28,9 @@ var userInput = $('<form style = "display: inline" ><input class = "sendInvite" 
 
 var makeLoginButton = function () {
   
-  var loginButton = $('<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><button>Twitter Login</button></form>');
+  // var loginButton = $('<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><button>Twitter Login</button></form>');
+
+  var loginButton = $('<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "invite someone!" size = 15 ></form>');
   $('#twitterAPI').empty().append(loginButton);
   
 };
