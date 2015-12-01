@@ -57,7 +57,7 @@ angular.module('snapcast.whiteboard', [])
         options.opacity = options.opacity || 0.9;
         options.lineWidth = options.lineWidth || 1;
         options.undo = options.undo || false;
-        options.imageSrc = options.imageSrc || './images/light.jpg';
+        options.imageSrc = options.imageSrc || './images/dot.png';
 
         var loadImage = function(imageSrc) {
 
@@ -164,14 +164,14 @@ angular.module('snapcast.whiteboard', [])
 
        // toggle between backgronuds
         scope.$on('toggleBg', function(e) {
-          if (scope.imageSrc === './images/light.jpg') {
+          if (scope.imageSrc === './images/dot.png') {
             scope.imageSrc = './images/dark.jpg';
 
             // changes h1 color
             $('h1').css('color','#fff');
           } else {
             //changes to light background if current is dark
-            scope.imageSrc = './images/light.jpg';
+            scope.imageSrc = './images/dot.png';
 
             // changes h1 color 
             $('h1').css('color','#000');
@@ -446,7 +446,7 @@ angular.module('snapcast.whiteboard', [])
            } else {
              // Defaults to whiteboard if no element specified
              var image = new Image();
-             image.src = './images/light.jpg';
+             image.src = './images/dot.png';
              changeBackground(image);
            }
 
