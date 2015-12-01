@@ -126,23 +126,40 @@ app.get('/documentation', function(req, res) {
 // **Get a new whiteboard**
 app.get('/new', function(req, res) {
   // Create a new mongoose board model.
-  var board = new Board.boardModel({strokes: []});
-  var id = board._id.toString();
-  board.save(function(err, board) {
-    if (err) { console.error(err); }
-    else {
-      console.log('board saved!');
+  
+  //KI - added new id schema, instead of long hash 
+  var newId = 0;
+
+  //KI - counts the number of boards and creates a property that increments the count
+  Board.boardModel.count({}, function(err, counter) {
+    if (err){
+      console.log('error counting');
+    } else {
+      newId += counter;
+      console.log('writing board id', newId);
+      
+      //newId property added to board
+      var board = new Board.boardModel({strokes: [], newId: ++newId});
+      // var id = board._id.toString(); - KI - removed old id schema
+      
+      //KI - logged board name to console
+      board.save(function(err, board) {
+        if (err) { console.error(err); }
+        else {
+          console.log('board saved!', newId);
+        }
+      });
+      // Redirect to the new board.
+      res.redirect('/' + newId);
     }
   });
-  // Redirect to the new board.
-  res.redirect('/' + id);
-});
 
+});
 
 // **Wildcard route & board id handler.**
 app.get('/*', function(req, res) {
   var id = req.url.slice(1);
-  Board.boardModel.findOne({id: id}, function(err, board) {
+  Board.boardModel.findOne({newId: id}, function(err, board) {
     // If the board doesn't exist, or the route is invalid,
     // then redirect to the home page.
     if (err) {
