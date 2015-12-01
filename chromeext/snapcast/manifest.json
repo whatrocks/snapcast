@@ -1,7 +1,7 @@
 {
   "name": "Snapcast",
   "description": "Screensharing utility Snapcast",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "manifest_version": 2,
   "minimum_chrome_version": "34",
   "icons": {
@@ -14,7 +14,8 @@
   },
   "content_scripts": [ {
     "js": [ "content.js" ],
-    "matches": ["https://icicle-kindling.herokuapp.com/*", "https://www.snapcast.xyz/*" ]
+    "matches": ["https://icicle-kindling.herokuapp.com/*", "https://www.snapcast.xyz/*" ],
+    "runs_at": "document_start"
   }],
   "externally_connectable": {
       "matches": [
