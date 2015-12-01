@@ -1,8 +1,8 @@
 var makeUserInput = function () {
 
-var userInput = $('<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "invite someone!" size = 15 ></form>');
+var userInput = '<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "invite someone!" size = 15 ></form>';
 
-  $('#twitterAPI').empty().append(userInput);
+  $('.twitterAPI').empty().html(userInput);
 
   $('.sendInvite').on("keypress", function(event){
     if(event.keyCode === 13){
@@ -28,10 +28,9 @@ var userInput = $('<form style = "display: inline" ><input class = "sendInvite" 
 
 var makeLoginButton = function () {
   
-  // var loginButton = '<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><button>Twitter Login</button></form>';
+  var loginButton = '<form style = "display: inline" action="/twitterSignIn" target="_top" method="get"><button>Twitter Login</button></form>';
 
-  var loginButton = 'invite by twitter name:<form style = "display: inline" ><input class = "sendInvite" type = "text" placeholder = "invite someone!" size = 15 ></form>';
-  $('#twitterAPI').empty().html(loginButton);
+  $('.twitterAPI').empty().html(loginButton);
   
 };
 
