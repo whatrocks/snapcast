@@ -4,9 +4,6 @@ angular.module('snapcast.webrtc', [])
       restrict: 'AE',
       link: function (scope) {
 
-        socket.on('faceshare', function(video) {
-          scope.$broadcast('screenshare', video);
-        });
         // Initialize webrtc
         var webrtc = new SimpleWebRTC({
           // LocalVideoElement id
@@ -71,38 +68,37 @@ angular.module('snapcast.webrtc', [])
           // sends id to server
             socket.emit('faceshare', id);
             scope.$broadcast('screenshare', video);
-            faceSharing = true;
          } else {
-            faceSharing = false;
             socket.emit('faceshare');
             scope.$broadcast('screenshare:removed');
          }
-         
-         setFaceShareButton(!faceSharing);
+         setFaceShareButton(faceSharing);
+         faceSharing = !faceSharing;
 
        });
 
        socket.on('faceshare', function(peer) {
         // select the peer according to id
-        if (faceSharing) {
+        // console.log('faceSharing:', faceSharing);
+        if (faceSharing && !peer) {
           
           scope.$apply(function() {
              scope.shareDisabled = false;
           });
 
-          faceSharing = false;
-          scope.$broadcast('screenshare:removed');
+          // console.log('disabling');
+          scope.$broadcast('remoteshare:removed');
         } else {
           var video = document.getElementById(peer + '_video_incoming');
            
+          // console.log('enabling');
            scope.$apply(function() {
              scope.shareDisabled = true;
           });
-          
-          faceSharing = true;
-          scope.$broadcast('screenshare', video);
+          scope.$broadcast('remoteshare', video);
         }
-
+         faceSharing = !faceSharing;
+         // console.log('changing to', faceSharing);
        });
        
       // Handles local video streaming
@@ -157,9 +153,10 @@ angular.module('snapcast.webrtc', [])
              });
               
             } else {
-              var remotes = angular.element($('#remoteVideos'));
+              var remotes = document.getElementById('remoteVideos');
               var options = (function(){return peer ? 'container_' + webrtc.getDomId(peer) : 'localScreenContainer';})();
-              var el = angular.element($('#' + options));              if (remotes && el) {
+              var el = document.getElementById(options);            
+              if (remotes && el) {
                   remotes.removeChild(el);
               }
             }

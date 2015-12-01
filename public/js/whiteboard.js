@@ -430,6 +430,7 @@ angular.module('snapcast.whiteboard', [])
            if (newValue) {
             if (newValue.tagName === 'VIDEO') {
                //draws the element at 30fps
+               console.log(newValue);
                (function loop() {
                    ctxBg.drawImage(newValue, 0, 0);
                    timeout = setTimeout(loop, 1000 / 30);
