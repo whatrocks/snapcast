@@ -28,3 +28,7 @@ node_modules
 
 # Super secret information
 db/mongokeys.js
+
+
+www_snapcast_xyz.pem
+www_snapcast_xyz.key
