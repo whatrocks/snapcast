@@ -121,7 +121,7 @@ app.get('/documentation', function(req, res) {
 app.get('/new', function(req, res) {
   //create a new mongoose board model
   
-  //added new id schema, instead of long hash 
+  //use counter to get new boards  
   var newId = 0;
 
   //counts the number of boards and creates a property that increments the count
@@ -153,14 +153,13 @@ app.get('/new', function(req, res) {
 app.get('/*', function(req, res) {
   var id = req.url.slice(1);
   Board.boardModel.findOne({newId: id}, function(err, board) {
-    // If the board doesn't exist, or the route is invalid,
-    // then redirect to the home page.
+    // If the board doesn't exist, or the route is invalid, then redirect to the home page.
     if (err) {
       res.redirect('/');
     } else {
-      // with board id as the Socket.io namespace.
+      // use board id as the Socket.io namespace
       handleSocket(req.url, board, io);
-      // Send back whiteboard html template.
+      // Send back whiteboard html template
       res.sendFile(__dirname + '/public/board.html');
     }
   });
