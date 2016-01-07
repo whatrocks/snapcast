@@ -1,36 +1,17 @@
 # Snapcast [![Build Status](https://travis-ci.org/KindlingIcicle/spazzinglicorice.svg?branch=master)](https://travis-ci.org/KindlingIcicle/spazzinglicorice)
-[Cast your screen in a snap!](https://icicle-kindling.herokuapp.com)
+[Cast your screen in a snap!](http://snapcast.xyz/)
 
 ## Table of Contents
 
-1. [Documentation](#Documentation)
-2. [Usage](#Usage)
-3. [Requirements](#Requirements)
-4. [Development](#development)
+1. [Usage](#Usage)
+2. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     2. [Packaging Documentation](#packaging-documentation)
-5. [Team](#team)
-6. [Contributing](#contributing)
-
-## Documentation
-
-View the documentation [here](http://hidden-castle-8290.herokuapp.com/documentation)
+3. [Team](#team)
 
 ## Usage
 
-> Screencast with friends. Snapcast is a simple-to-use, responsive screencast app.
-
-## Requirements
-
-- Node 0.12.0
-- Express 4.13.3
-- Angular 1.4.7
-- Mongoose 4.2.5
-- Socket.io 1.3.7
-- Grunt-Docco 0.4.0
-- Body-Parser 1.14.1
-- GetScreenMedia: 1.5.3
-- GetUserMedia: 1.3.5
+Screencast with friends. Snapcast is a simple-to-use, responsive screencast app.
 
 ## Development
 
@@ -54,9 +35,4 @@ grunt docco
 
   - __Product Owner__: [Charlie Harrington](https://github.com/whatrocks)
   - __Scrum Master__: [Huiqiang (Way) Huang](https://github.com/way0750)
-  - __Development Team Members__: [Banun Idris](https://github.com/banunatina), [Jason Matsui](https://github.com/gh-jason)
-
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+  - __Development Team Members__: [Banun Idris](https://github.com/banunatina), [Jason Matsui](https://github.com/gh-jason), [Charlie Harrington](https://github.com/whatrocks), [Huiqiang (Way) Huang](https://github.com/way0750)
