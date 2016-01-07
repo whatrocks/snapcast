@@ -1,7 +1,4 @@
 // # Main Server
-// 
-//warning!!! must change callbackURL when deploy!!!!! other wise twitter would not be able to send tokens back!!
-
 // ##### [Back to Table of Contents](./tableofcontents.html)
 
 // ## Dependencies
@@ -23,7 +20,6 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var Twitter = require('twitter');
 
 //------------passport authentication with twitter-------------//
-//all of these just for using OAuth with passport:
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({ secret: 'what is going on' }));
@@ -32,7 +28,7 @@ app.use(passport.session());
 var consumerKey = "mExebuSVx9OXrCHMWfGu8ZcqH";
 var consumerSecret = "KgGnTXOHTCd9vDV4yV7pPsabqgGW92gt5lw7ZGWZvofVEjwKPQ";
 
-//configuring the strategy:
+//configuring twitter connection
 passport.use(new TwitterStrategy({
     consumerKey: consumerKey,
     consumerSecret: consumerSecret,
@@ -47,7 +43,6 @@ passport.use(new TwitterStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  //user is from the strategy;
   done(null, user);
 });
 
@@ -63,8 +58,7 @@ app.all("/twitter/callback", passport.authenticate('twitter', {
 }));
 
 app.get('/checkUserAuthSession', function (req, res, next) {
-    //should return false for not having session on the server
-    //or send the profile info back
+//returns false if you have no session on the server, else send a profile back
     if (req.session.passport){
       res.status(200).send(req.session.passport);
     } else {
@@ -125,12 +119,12 @@ app.get('/documentation', function(req, res) {
 
 // **Get a new whiteboard**
 app.get('/new', function(req, res) {
-  // Create a new mongoose board model.
+  //create a new mongoose board model
   
-  //KI - added new id schema, instead of long hash 
+  //added new id schema, instead of long hash 
   var newId = 0;
 
-  //KI - counts the number of boards and creates a property that increments the count
+  //counts the number of boards and creates a property that increments the count
   Board.boardModel.count({}, function(err, counter) {
     if (err){
       console.log('error counting');
@@ -140,23 +134,22 @@ app.get('/new', function(req, res) {
       
       //newId property added to board
       var board = new Board.boardModel({strokes: [], newId: ++newId});
-      // var id = board._id.toString(); - KI - removed old id schema
-      
-      //KI - logged board name to console
+
+      //logged board name to console
       board.save(function(err, board) {
         if (err) { console.error(err); }
         else {
           console.log('board saved!', newId);
         }
       });
-      // Redirect to the new board.
+      //redirect to the new board
       res.redirect('/' + newId);
     }
   });
 
 });
 
-// **Wildcard route & board id handler.**
+// **Wildcard route & board id handler**
 app.get('/*', function(req, res) {
   var id = req.url.slice(1);
   Board.boardModel.findOne({newId: id}, function(err, board) {
@@ -165,7 +158,6 @@ app.get('/*', function(req, res) {
     if (err) {
       res.redirect('/');
     } else {
-      // Invoke [request handler](../documentation/sockets.html) for a new socket connection
       // with board id as the Socket.io namespace.
       handleSocket(req.url, board, io);
       // Send back whiteboard html template.
@@ -175,8 +167,7 @@ app.get('/*', function(req, res) {
 });
 
 
-//for some reason https doesn't work with ngrok, need to fix it later
-// **Start the server.**
+// **Start the server**
 if ( !process.env.PORT ) {
   var httpsServer = https.createServer(credentials, app);
   httpsServer.listen(port, function() {
